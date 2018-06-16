@@ -1,0 +1,65 @@
+#  falab - free algorithm lab 
+#  Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
+#
+#  This program is free software: you can redistribute it and/or modify
+#  it under the terms of the GNU General Public License as published by
+#  the Free Software Foundation, either version 3 of the License, or
+#  (at your option) any later version.
+#
+#  This program is distributed in the hope that it will be useful,
+#  but WITHOUT ANY WARRANTY; without even the implied warranty of
+#  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+#  GNU General Public License for more details.
+#
+#  You should have received a copy of the GNU General Public License
+#  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+#
+#
+#  filename: Makefile.include
+#  version : v1.0.0
+#  time    : 2012/07/07 18:42 
+#  author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
+#  code URL: http://code.google.com/p/falab/
+#
+#  comment : this file is the simple template which will be used in falab,
+#            it will be changed according to the project
+#
+
+
+ARCH =
+
+DEBUG =  
+
+CROSS = 
+
+STRIP = 
+
+ifeq ($(ARCH), ARM)
+CROSS = arm-linux-
+endif
+
+CC = $(CROSS)gcc
+
+CFLAGS = -I. 
+
+ifeq ($(ARCH), ARM)
+	CFLAGS += -D__ARM__ -mcpu=arm9tdmi
+endif
+
+ifeq ($(DEBUG), Y)
+	CFLAGS += -g -D__DEBUG__
+	CFLAGS += -Wall
+	STRIP = file
+else
+	CFLAGS += -O3	
+#	CFLAGS += -O2	
+	#CFLAGS += -Wall
+	STRIP = strip
+endif
+
+
+AR = $(CROSS)ar
+RANLIB = $(CROSS)ranlib
+
+.PHONY : all install clean 
+

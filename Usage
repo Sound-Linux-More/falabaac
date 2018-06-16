@@ -1,0 +1,99 @@
+Normal User:
+
+*  Linux OS
+shortcut:  make --> sudo make install  -->OK --> run "falabaac --help" command   (WARN: check gcc manually by yourself)
+
+1. Under falabaac folder(main folder, first level folder), type "make", and falabaac file will be generated;
+2. type "sudo make install", and the falabaac will be installed
+
+
+
+*  Windows OS
+shortcut:  open FALABAAC.DSW  -->select libfalabaac and falabaac project and rebuild  -->run
+
+1. Open the frontend/win/FALABAAC.DSW project workspace
+2. Project->Set Active Project->libfalabaac 
+   Rebuild the libfalabaac project , the libfalabaac.lib will be generated in the libfalabaac/win/ folder
+3. Project->Set Active Project->falabaac 
+   Rebuild the falabaac project , the falabaac will be generated in the Debug or Release folder for you choice
+4, Run
+
+
+
+
+
+
+Developer:
+
+I. Install and Build the developement enviroment
+*  Linux OS
+1. Under falabaac folder, type "make", and falabaac file will be generate;
+   You can also find libfalabaac.a and libfalabaac.so file under libfalabaac folder, you can use this 
+   2 lib to develope, and the .h file you can find under ./include
+   Besides, you can also type "make DEBUG=Y" to generate falabaac_g which is debug version, and you can use 
+   gdb to debug and trace it.
+2. type "sudo make install", and the falabaac will be installed, moreover, the libfalabaac.a and libfalabaac.so
+   will be installed under /usr/local/lib, the fa_aacapi.h will be installed under /usr/local/include/. 
+
+*  Windows OS
+   I already created the libfalabaac and falabaac project and workspace, but if you want to create by yourself and 
+   do other developement, you can follow the steps below(just for your reference):
+1. create the libfalabaac static library in VC6.0
+   1) New->Projects->Win32 Static Library->
+      select the folder you want to located(my folder position can be your reference)->
+      Finish the project create
+   2) you'd better to set some project parameters for you static library, I did below for your reference:
+      Project->Settings->C/C++->Category: Code Generation->
+      Use run-time library->Multithreaded
+      (change to multithreaded, you can use this library for multithread programming)
+
+      Project->Settings->
+      hit the '>' to go to the last tab "Post-build step"->
+      Input: copy ..\fa_aacapi.h ..\..\include
+             copy ..\fa_inttypes.h ..\..\include 
+             copy ..\Release\libfalabaac.lib .\      or      copy ..\Debug\libfalabaac.lib .\
+             (WARN: in VC the path use "\", different from in Linux "/")
+   3) Then build your project, libfalabaac.lib will be generated if success
+3. create the falabaac project in VC6.0, below is the steps 
+   1) New->Projects->Win32 Console Application (MUST select Console Application, NOT select the Win32 Application)->
+      select the folder you want to located->Finish
+   2) you'd better to set some project parameters for you debuging and running link to the static library libfalabaac.lib
+      Project->Settings->C/C++/Category: Preprocessor->
+      Input below in the third edit empty blank(Addtional Include directory:)
+      ..\..\include  (NOTE: then the falabaac project can find the header in the include folder)
+
+      Project->Settings->Link->
+      add the libfalabaac.lib in the Object/library module blank:   ..\..\libfalabaac\win\libfalabaac.lib
+   3) Then build your project , falabaac will be generated if success
+
+II. 3 API functions 
+    There are 3 functions in fa_aacapi.h, it is very easy to learn and detail description in the fa_aacapi.h, also you can 
+    study it from main.c under the frontend folder.
+
+    API functions:
+    uintptr_t fa_aacenc_init(int sample_rate, int bit_rate, int chn_num, float quality, int vbr_flag,
+                             int mpeg_version, int aac_objtype, int lfe_enable,
+                             float band_width,
+                             int speed_level,
+                             int time_resolution_first);
+    void fa_aacenc_uninit(uintptr_t handle);
+    void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsigned char *buf_out, int *outlen);
+
+III. Others
+1.  This software was designed to be high moduled structure, many modules can be reused for other smiliar project such as fa_fft,
+    fa_mdct, fa_psychomodle2, fa_lpc, fa_levinson, fa_fir, fa_corr, fa_fastmath, fa_bitbuffer, fa_bitstream, fa_mdctquant....
+    only the files fa_aac*** maybe only be used in aac encoder and decoder. you can extract any module you need. 
+2.  There are no any global variables in the code(except the rom constant global table), it is good for multithread enviroment, 
+    and any module follow the malloc handle and free handle rule. In the process, there are no any malloc and free code, 
+    it is safe for long time running!!
+3.  The complicated mathmatic functions like pow,sin,cos,log are can replaced by the fast funtion in fa_fastmath.h, can speed up
+    the to different platform and enviroment.
+4.  I try use arm-linux-gcc to compile it, it can be compiled successfully, but I didn't test on ARM platform, you can try it.
+5.  The encoder sound quality I tested is good(I think!), I test scan frequency and many audio, it is stable and good! you can 
+    do the sound quality test and experiment.
+    you can download the EBU test audio file frome the web site below to do sound quality test:
+    http://tech.ebu.ch/public-cations/sqamcd
+
+
+Note:
+    If you have any problems, you can email to me (luolongzhi@gmail.com), and I will reply to you in my spare time.
