@@ -30,58 +30,62 @@ include Makefile.include
 INCLUDEDIR = ./include
 
 ifeq ($(ARCH),ARCH_ARM)
-LDFLAGS += -L./libfalabaac -static -lfalabaac -lm -lpthread -lrt 
+LDFLAGS += -L./$(PLIB) -static -l$(PNAME) -lm -lpthread -lrt
 else
 ifeq ($(DEBUG), Y)
 LDFLAGS += -lm -lpthread -lrt 
-else 
-LDFLAGS += -L./libfalabaac -static -lfalabaac -lm -lpthread -lrt 
+else
+ifeq ($(SOLIB), Y)
+LDFLAGS += $(PLIB).so.$(VERSION_MAJOR) -lm -lpthread -lrt
+else
+LDFLAGS += -L./$(PLIB) -static -l$(PNAME) -lm -lpthread -lrt
+endif
 endif
 endif
 
 ifeq ($(DEBUG), Y)
-TARGET      =  falabaac_g 
+TARGET      =  $(PNAME)_g
 CSRCFILES =  $(shell ls ./frontend/*.c)
-CSRCFILES += $(shell ls ./libfalabaac/*.c)
+CSRCFILES += $(shell ls ./$(PLIB)/*.c)
 COBJFILES =  $(patsubst %.c,%.o,$(CSRCFILES))
 else 
-TARGET      =  falabaac 
+TARGET      =  $(PNAME)
 CSRCFILES   =  $(shell ls ./frontend/*.c)
 COBJFILES   =  $(patsubst %.c,%.o,$(CSRCFILES))
 endif
 
 
-SRCFILES    =  $(CSRCFILES) 
-OBJFILES    =  $(COBJFILES) 
+SRCFILES    =  $(CSRCFILES)
+OBJFILES    =  $(COBJFILES)
 
 CFLAGS      += -I.  -I$(INCLUDEDIR)
 
-all: clean preaction $(OBJFILES) 
-	@rm $(TARGET) -f 
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJFILES) $(LDFLAGS)	 
+all: clean preaction $(OBJFILES)
+	@rm $(TARGET) -f
+	$(CC) $(CFLAGS) -o $(TARGET) $(OBJFILES) $(LDFLAGS)
 
 preaction:
 ifeq ($(DEBUG), Y)
-	cd ./libfalabaac
+	cd ./$(PLIB)
 	@rm *.o -f
 else 
-	cd ./libfalabaac && $(MAKE) 
+	cd ./$(PLIB) && $(MAKE) 
 endif
 	cd ..
 
 clean : 
-	@rm ./libfalabaac/*.o -f
-	@rm ./libfalabaac/libfalabaac.a -f
-	@rm ./libfalabaac/libfalabaac.so -f
+	@rm ./$(PLIB)/*.o -f
+	@rm ./$(PLIB)/$(PLIB).* -f
 	@rm ./frontend/*.o -f
 	@rm *.out -f	
-	@rm falabaac -f	
-	@rm falabaac_g -f	
+	@rm $(PLIB).* -f	
+	@rm $(PNAME) -f	
+	@rm $(PNAME)_g -f	
 
 install :
-	sudo cp ./libfalabaac/libfalabaac.a /usr/local/lib/
-	sudo cp ./libfalabaac/libfalabaac.so /usr/local/lib/
-	sudo cp ./include/fa_aacapi.h /usr/local/include/
-	sudo cp ./include/fa_inttypes.h /usr/local/include/
-	sudo cp ./falabaac /usr/local/bin/
+	sudo cp ./$(PLIB)/$(PLIB).a $(PREFIX)/lib/
+	sudo cp ./$(PLIB)/$(PLIB).so.$(VERSION_MAJOR) $(PREFIX)/lib/
+	sudo cp ./include/fa_aacapi.h $(PREFIX)/include/
+	sudo cp ./include/fa_inttypes.h $(PREFIX)/include/
+	sudo cp ./$(PNAME) $(PREFIX)/bin/
 

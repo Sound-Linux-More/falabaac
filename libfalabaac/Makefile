@@ -26,7 +26,7 @@
 #
 
 
-include Makefile.include
+include ../Makefile.include
 
 SHAREFLAG   = -fPIC -shared
 DESTINCLUDE = ../include
@@ -39,8 +39,8 @@ else
 LDFLAGS += -lm -lpthread -lrt 
 endif
 
-TARGET1   =  libfalabaac.a 
-TARGET2   =  libfalabaac.so
+TARGET1   =  $(PLIB).a
+TARGET2   =  $(PLIB).so.$(VERSION_MAJOR)
 CSRCFILES =  $(shell ls *.c)
 COBJFILES =  $(patsubst %.c,%.o,$(CSRCFILES))
 
@@ -55,7 +55,9 @@ all: $(OBJFILES)
 	@rm $(TARGET2) -f 
 	$(CC) $(CFLAGS) -c $(OBJFILES) 	 
 	$(AR) $(ARFLAG) $(TARGET1) $(OBJFILES)
-	$(CC) $(SHAREFLAG) -o $(TARGET2) $(OBJFILES) 	 
+	cp $(TARGET1) ..
+	$(CC) $(SHAREFLAG) -Wl,-soname,$(TARGET2) -o $(TARGET2) $(OBJFILES)
+	cp $(TARGET2) ..
 	cp fa_aacapi.h $(DESTINCLUDE)
 	cp fa_inttypes.h $(DESTINCLUDE)
 

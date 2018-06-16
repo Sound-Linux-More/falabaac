@@ -1,7 +1,7 @@
 Normal User:
 
 *  Linux OS
-shortcut:  make --> sudo make install  -->OK --> run "falabaac --help" command   (WARN: check gcc manually by yourself)
+shortcut:  make (or make SOLIB=Y) --> sudo make install  -->OK --> run "falabaac --help" command   (WARN: check gcc manually by yourself)
 
 1. Under falabaac folder(main folder, first level folder), type "make", and falabaac file will be generated;
 2. type "sudo make install", and the falabaac will be installed

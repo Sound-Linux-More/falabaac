@@ -25,14 +25,20 @@
 #            it will be changed according to the project
 #
 
+PNAME = falabaac
+PLIB = lib$(PNAME)
+VERSION_MAJOR = 2
+VERSION_MINOR = 1
+VERSION_RELEASE = 0
+PREFIX = /usr/local
 
 ARCH =
 
-DEBUG =  
+DEBUG =
 
-CROSS = 
+CROSS =
 
-STRIP = 
+STRIP =
 
 ifeq ($(ARCH), ARM)
 CROSS = arm-linux-
@@ -40,7 +46,7 @@ endif
 
 CC = $(CROSS)gcc
 
-CFLAGS = -I. 
+CFLAGS = -I.
 
 ifeq ($(ARCH), ARM)
 	CFLAGS += -D__ARM__ -mcpu=arm9tdmi
@@ -51,15 +57,14 @@ ifeq ($(DEBUG), Y)
 	CFLAGS += -Wall
 	STRIP = file
 else
-	CFLAGS += -O3	
-#	CFLAGS += -O2	
+	CFLAGS += -O3
 	#CFLAGS += -Wall
 	STRIP = strip
 endif
 
-
 AR = $(CROSS)ar
+ARFLAG = rcs
 RANLIB = $(CROSS)ranlib
 
-.PHONY : all install clean 
+.PHONY : all install clean
 
