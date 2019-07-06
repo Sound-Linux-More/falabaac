@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_timeprofile.h 
+  filename: fa_timeprofile.h
   version : v1.0.0
-  time    : 2012/10/20 
+  time    : 2012/10/20
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -43,45 +43,15 @@ void fa_prt_time_cost(int index);
 #define FA_CLOCK_START(index)      fa_clock_start(index)
 #define FA_CLOCK_END(index)        fa_clock_end(index)
 #define FA_CLOCK_COST(index)       fa_clock_cost(index)
-#define FA_GET_TIME_COST(index)    fa_prt_time_cost(index) 
+#define FA_GET_TIME_COST(index)    fa_prt_time_cost(index)
 
 #else
-	
-#define FA_CLOCK_START(index) 
-#define FA_CLOCK_END(index) 
-#define FA_CLOCK_COST(index) 
+
+#define FA_CLOCK_START(index)
+#define FA_CLOCK_END(index)
+#define FA_CLOCK_COST(index)
 #define FA_GET_TIME_COST(index)
 
 #endif
 
-#endif
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+#endif //_FA_TIMEPROFILE_H//

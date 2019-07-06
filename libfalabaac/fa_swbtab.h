@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_swbtab.h 
+  filename: fa_swbtab.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -28,10 +28,10 @@
 #ifndef _FA_SWBTAB_H
 #define _FA_SWBTAB_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 
 #define FA_SWB_NUM_MAX       51
@@ -39,10 +39,10 @@ extern "C"
 #define FA_SWB_32k_LONG_NUM  51
 #define FA_SWB_32k_SHORT_NUM 14
 
-#define FA_SWB_44k_LONG_NUM  49 
+#define FA_SWB_44k_LONG_NUM  49
 #define FA_SWB_44k_SHORT_NUM 14
 
-#define FA_SWB_48k_LONG_NUM  49 
+#define FA_SWB_48k_LONG_NUM  49
 #define FA_SWB_48k_SHORT_NUM 14
 
 extern int  fa_swb_32k_long_offset[FA_SWB_32k_LONG_NUM+1];
@@ -52,9 +52,8 @@ extern int  fa_swb_44k_short_offset[FA_SWB_44k_SHORT_NUM+1];
 extern int  fa_swb_48k_long_offset[FA_SWB_48k_LONG_NUM+1];
 extern int  fa_swb_48k_short_offset[FA_SWB_48k_SHORT_NUM+1];
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_SWBTAB_H//

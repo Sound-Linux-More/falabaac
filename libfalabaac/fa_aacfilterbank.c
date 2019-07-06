@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacfilterbank.c 
+  filename: fa_aacfilterbank.c
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -38,7 +38,7 @@ uintptr_t fa_aacfilterbank_init()
 {
     int   i;
     float *sin_win_long;
-    float *kbd_win_long; 
+    float *kbd_win_long;
     float *sin_win_short;
     float *kbd_win_short;
 
@@ -104,9 +104,9 @@ void fa_aacfilterbank_uninit(uintptr_t handle)
     }
 }
 
-#if  0 
+#if  0
 /*used in encode, kbd is used for short block, sine is used for long block*/
-void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_shape, 
+void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_shape,
                                float *x, float *mdct_line)
 {
     int i,k;
@@ -116,7 +116,7 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
     float *win_left, *win_right;
 
     /*update x_buf, 50% overlap, copy the remain half data to the beginning position*/
-    for (i = 0; i < AAC_FRAME_LEN; i++) 
+    for (i = 0; i < AAC_FRAME_LEN; i++)
         f->x_buf[i] = f->x_buf[i+AAC_FRAME_LEN];
     for (i = 0; i < AAC_FRAME_LEN; i++)
         f->x_buf[i+AAC_FRAME_LEN] = x[i];
@@ -126,13 +126,13 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
         case SINE_WINDOW:
             if (block_type == ONLY_LONG_BLOCK || block_type == LONG_START_BLOCK)
                 win_left = f->sin_win_long_left;
-            else 
+            else
                 win_left = f->sin_win_short_left;
             break;
         case KBD_WINDOW:
             if (block_type == ONLY_LONG_BLOCK || block_type == LONG_START_BLOCK)
                 win_left = f->kbd_win_long_left;
-            else 
+            else
                 win_left = f->kbd_win_short_left;
             break;
     }
@@ -166,7 +166,7 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
             fa_mdct(f->h_mdct_long, f->mdct_long_buf, mdct_line);
             break;
         case LONG_START_BLOCK:
-            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++) 
+            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++)
                 f->mdct_long_buf[i] = f->x_buf[i] * win_left[i];
             offset = AAC_BLOCK_LONG_LEN;
             for (i = 0; i < AAC_BLOCK_TRANS_LEN; i++)
@@ -208,10 +208,10 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
 
 }
 
-#else 
+#else
 
 /*used in encode, kbd is used for long block, sine is used for short block*/
-void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_shape, 
+void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_shape,
                                float *x, float *mdct_line)
 {
     int i,k;
@@ -221,7 +221,7 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
     float *win_left, *win_right;
 
     /*update x_buf, 50% overlap, copy the remain half data to the beginning position*/
-    for (i = 0; i < AAC_FRAME_LEN; i++) 
+    for (i = 0; i < AAC_FRAME_LEN; i++)
         f->x_buf[i] = f->x_buf[i+AAC_FRAME_LEN];
     for (i = 0; i < AAC_FRAME_LEN; i++)
         f->x_buf[i+AAC_FRAME_LEN] = x[i];
@@ -231,13 +231,13 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
         case SINE_WINDOW:
             if (block_type == ONLY_LONG_BLOCK || block_type == LONG_START_BLOCK)
                 win_left = f->sin_win_long_left;
-            else 
+            else
                 win_left = f->sin_win_short_left;
             break;
         case KBD_WINDOW:
             if (block_type == ONLY_LONG_BLOCK || block_type == LONG_START_BLOCK)
                 win_left = f->kbd_win_long_left;
-            else 
+            else
                 win_left = f->kbd_win_short_left;
             break;
     }
@@ -271,7 +271,7 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
             fa_mdct(f->h_mdct_long, f->mdct_long_buf, mdct_line);
             break;
         case LONG_START_BLOCK:
-            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++) 
+            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++)
                 f->mdct_long_buf[i] = f->x_buf[i] * win_left[i];
             offset = AAC_BLOCK_LONG_LEN;
             for (i = 0; i < AAC_BLOCK_TRANS_LEN; i++)
@@ -341,7 +341,7 @@ void fa_aacfilterbank_synthesis(uintptr_t handle, int block_type,
 
             for (i = 0; i < AAC_FRAME_LEN; i++)
                 x[i] = f->x_buf[i];
-            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++) 
+            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++)
                 f->x_buf[i] = f->x_buf[i+AAC_BLOCK_LONG_LEN];
             for (i = 0; i < AAC_BLOCK_LONG_LEN; i++)
                 f->x_buf[i+AAC_BLOCK_LONG_LEN] = 0;
@@ -388,7 +388,7 @@ void fa_aacfilterbank_synthesis(uintptr_t handle, int block_type,
 
             for (i = 0; i < AAC_FRAME_LEN; i++)
                 x[i] = f->x_buf[i];
-            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++) 
+            for (i = 0; i < AAC_BLOCK_LONG_LEN; i++)
                 f->x_buf[i] = f->x_buf[i+AAC_BLOCK_LONG_LEN];
             for (i = 0; i < AAC_BLOCK_LONG_LEN; i++)
                 f->x_buf[i+AAC_BLOCK_LONG_LEN] = 0;

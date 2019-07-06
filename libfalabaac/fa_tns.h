@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,24 +16,23 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_tns.h 
+  filename: fa_tns.h
   version : v1.0.0
-  time    : 2012/11/20 
+  time    : 2012/11/20
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
-#ifndef _FA_TNS_H 
-#define _FA_TNS_H 
+#ifndef _FA_TNS_H
+#define _FA_TNS_H
 
 #include "fa_aacenc.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 #define TNS_MAX_ORDER        20
 //#define DEF_TNS_GAIN_THRESH  45 //1.4 //18 //4 //1.8 //1.4 //10 //15 //1.4
@@ -43,7 +42,6 @@ extern "C"
 #define DEF_TNS_RES_OFFSET   3
 #define LEN_TNS_NFILTL       2
 #define LEN_TNS_NFILTS       1
-
 
 typedef struct _tns_flt_t{
     int order;                           /* Filter order */
@@ -79,7 +77,6 @@ typedef struct _tns_info_t{
 
 } tns_info_t;
 
- 
 uintptr_t fa_tns_init(int mpeg_version, int objtype, int sr_index);
 
 void fa_tns_uninit(uintptr_t handle);
@@ -88,8 +85,8 @@ void fa_tns_encode_frame(aacenc_ctx_t *f);
 
 int fa_tnssync(fa_aacenc_ctx_t *f);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
 #endif
+
+#endif //_FA_TNS_H//

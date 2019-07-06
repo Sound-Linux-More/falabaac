@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_huffman.c 
+  filename: fa_huffman.c
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -61,7 +61,7 @@ void fa_huffman_rom_init()
 */
 static int calculate_esc_sequence(int input, int *len_esc_sequence)
 {
-#if 0//1 
+#if 0//1
     float x, y;
     int   output;
     int   N;
@@ -79,7 +79,7 @@ static int calculate_esc_sequence(int input, int *len_esc_sequence)
 
     output = (int)((pow(2,N) - 1)*pow(2,N+5) + y - pow(2,N+4));
 
-#else 
+#else
     int   x, y;
     int   output;
     int   N;
@@ -130,7 +130,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
                 index =  27*FA_ABS(x_quant[i]) + 9*FA_ABS(x_quant[i+1]) + 3*FA_ABS(x_quant[i+2]) + FA_ABS(x_quant[i+3]);
                 bits  += fa_hufftab3[index][0];
                 for (j = 0; j < 4; j++) {
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
             }
@@ -140,7 +140,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
                 index =  27*FA_ABS(x_quant[i]) + 9*FA_ABS(x_quant[i+1]) + 3*FA_ABS(x_quant[i+2]) + FA_ABS(x_quant[i+3]);
                 bits  += fa_hufftab4[index][0];
                 for (j = 0; j < 4; j++){
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
             }
@@ -162,7 +162,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
                 index =  8*FA_ABS(x_quant[i]) + FA_ABS(x_quant[i+1]);
                 bits  += fa_hufftab7[index][0];
                 for (j = 0; j < 2; j++){
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
             }
@@ -172,7 +172,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
                 index =  8*FA_ABS(x_quant[i]) + FA_ABS(x_quant[i+1]);
                 bits  += fa_hufftab8[index][0];
                 for (j = 0; j < 2; j++){
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
             }
@@ -182,7 +182,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
                 index =  13*FA_ABS(x_quant[i]) + FA_ABS(x_quant[i+1]);
                 bits  += fa_hufftab9[index][0];
                 for (j = 0; j < 2; j++){
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
             }
@@ -192,7 +192,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
                 index =  13*FA_ABS(x_quant[i]) + FA_ABS(x_quant[i+1]);
                 bits  += fa_hufftab10[index][0];
                 for (j = 0; j < 2; j++){
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
             }
@@ -217,7 +217,7 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
 
                 /* Take care of the sign bits */
                 for (j=0;j<2;j++){
-                    if (x_quant[i+j] != 0) 
+                    if (x_quant[i+j] != 0)
                         bits += 1; /* only for non-zero spectral coefficients */
                 }
 
@@ -267,8 +267,8 @@ int fa_noiseless_huffman_bitcount(int *x_quant, int sfb_num,  int *sfb_offset,
         max_sfb_quant = 0;
         for (j = sfb_offset[i]; j < sfb_offset[i+1]; j++) {
             tmp_quant = FA_ABS(x_quant[j]);
-            if (tmp_quant > max_sfb_quant) 
-                max_sfb_quant = tmp_quant; 
+            if (tmp_quant > max_sfb_quant)
+                max_sfb_quant = tmp_quant;
         }
 
         /*using max_sfb_quant to decide which huffman table will be used*/
@@ -301,7 +301,7 @@ int fa_noiseless_huffman_bitcount(int *x_quant, int sfb_num,  int *sfb_offset,
             quant_bits_best = FA_MIN(quant_bits1, quant_bits2);
             if (quant_bits_best == quant_bits1)
                 quant_hufftab_best = quant_hufftab_no1;
-            else 
+            else
                 quant_hufftab_best = quant_hufftab_no2;
         }
 
@@ -350,7 +350,7 @@ int fa_huffman_encode_mdctline(int *x_quant, int sfb_num, int *sfb_offset, int *
         } else {
             hufftab_no_zero_cnt++;
         }
-#else 
+#else
         if (hufftab_no) {
             *max_sfb = sfb+1;
         }
@@ -572,7 +572,7 @@ int fa_huffman_encode_mdctline(int *x_quant, int sfb_num, int *sfb_offset, int *
                     }
                 }
         }
-         
+
     }
 #if 0
     if (hufftab_no_zero_cnt)

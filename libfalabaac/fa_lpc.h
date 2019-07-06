@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_lpc.h 
+  filename: fa_lpc.h
   version : v1.0.0
   time    : 2012/11/17 23:52
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
@@ -25,32 +25,28 @@
 */
 
 #ifndef _FA_LPC_H
-#define _FA_LPC_H 
+#define _FA_LPC_H
 
 #include "fa_inttypes.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 //#define USE_LPC_HP
-
 
 uintptr_t fa_lpc_init(int p);
 void      fa_lpc_uninit(uintptr_t handle);
 
-#ifdef USE_LPC_HP 
+#ifdef USE_LPC_HP
 double fa_lpc(uintptr_t handle, double *x, int x_len, double *lpc_cof, double *kcof, double *err);
-#else 
+#else
 float fa_lpc(uintptr_t handle, float *x, int x_len, float *lpc_cof, float *kcof, float *err);
 #endif
- 
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_LPC_H//

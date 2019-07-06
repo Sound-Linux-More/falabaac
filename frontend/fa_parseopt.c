@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_getopt.c 
+  filename: fa_getopt.c
   version : v1.0.0
-  time    : 2012/07/08 18:42 
+  time    : 2012/07/08 18:42
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -28,7 +28,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#ifdef __GNUC__ 
+#ifdef __GNUC__
 #include <getopt.h>
 #else
 #include "getopt.h"
@@ -37,7 +37,7 @@
 #include "fa_parseopt.h"
 
 /*#define BW_MAXS  20*/
-#define BW_MAXS  22.0
+#define BW_MAXS  24.0
 
 /*global option vaule*/
 char  opt_inputfile[256]  = "";
@@ -86,7 +86,7 @@ const char *short_help =
 "    -i <inputfile>             Set input filename                               [eg: test.wav]\n"
 "    -o <outputfile>            Set output filename                              [eg: test_out.aac]\n"
 "    -b <bitrate>               Set bitrate(kbps)                                [eg: -b 128]\n"
-"    -q <quality>               Set quality(0.1~1.0)                             [eg: -q 0.5]\n"
+"    -q <quality>               Set quality(0.1~1.5)                             [eg: -q 0.5]\n"
 "    -v <vbr>                   Set vbr mode(recommend)                          [eg: -v 1]\n"
 "    -l <speedlevel>            Set speed level(1~6)                             [eg: -l 2]\n"
 "    -w <bandwidth>             Set band width(kHz, 5~22kHz valid)               [eg: -w 15]\n"
@@ -104,7 +104,7 @@ const char *long_help =
 "    -i <inputfile>             Set input filename                               [eg: test.wav]\n"
 "    -o <outputfile>            Set output filename                              [eg: test_out.aac]\n"
 "    -b <bitrate>               Set bitrate(kbps)                                [eg: -b 128]\n"
-"    -q <quality>               Set quality(0.1~1.0)                             [eg: -q 0.7]\n"
+"    -q <quality>               Set quality(0.1~1.5)                             [eg: -q 0.7]\n"
 "    -v <vbr>                   Set vbr mode(recommend)                          [eg: -v 1]\n"
 "    -l <speedlevel>            Set speed level(1~6)                             [eg: -l 2]\n"
 "    -w <bandwidth>             Set band width(kHz, 5~22kHz valid)               [eg: -w 15]\n"
@@ -116,7 +116,7 @@ const char *long_help =
 "    --input <inputfile>        Set input filename, must be wav file, now support 32kHz, 44.1kHz and 48kHz, 16bits/sample \n"
 "    --output <outputfile>      Set output filename, aac file, format is MPEG2-ADTS\n"
 "    --bitrate <bitrate>        Set average bitrate, 16~160kbps per channel, default is 128kbps. 96kbps is also good quality\n"
-"    --quality <quality>        Set quality, 0.1~1.0\n"
+"    --quality <quality>        Set quality, 0.1~1.5\n"
 "    --vbr <vbr>                Set vbr mode, strongly recommend, it has good quality and fast speed\n"
 "    --speedlevel <l>           Set the speed level(1 is slow but good quality, 6 is fastest but less quality)\n"
 "    --bandwidth  <w>           Set band width, only 5-20 (kHz) valid. 20kHz when bitrate >=96kbps\n"
@@ -134,13 +134,13 @@ const char *all_help =
 "       falabaac -i test.wav -q 1                                                                           \n"
 "                                                                                                           \n"
 "Options:                                                                                                   \n"
-"    -i <inputfile> , --input  <inputfile>                                                                  \n"          
-"          Set input filename , must be wav file, now support 32kHz, 44.1kHz and 48kHz, 16bits/sample       \n"              
-"          Example:  -i test.wav                                                                            \n" 
+"    -i <inputfile> , --input  <inputfile>                                                                  \n"
+"          Set input filename , must be wav file, now support 32kHz, 44.1kHz and 48kHz, 16bits/sample       \n"
+"          Example:  -i test.wav                                                                            \n"
 "                    --input test.wav                                                                       \n"
 "                                                                                                           \n"
-"    -o <outputfile> , --output <outputfile>                                                                \n"        
-"          Set output filename , aac file, format is MPEG2-ADTS                                             \n"             
+"    -o <outputfile> , --output <outputfile>                                                                \n"
+"          Set output filename , aac file, format is MPEG2-ADTS                                             \n"
 "          Example:  -o test_out.aac                                                                        \n"
 "                    --output test_out.aac                                                                  \n"
 "                                                                                                           \n"
@@ -149,18 +149,18 @@ const char *all_help =
 "          Example:  -b 128                                                                                 \n"
 "                    --bitrate 128                                                                          \n"
 "                                                                                                           \n"
-"    -q <quality> , --quality <quality>                                                                     \n"               
+"    -q <quality> , --quality <quality>                                                                     \n"
 "          Set encoding quality level (0.1~1.0), default is 0.7, roughly bitrate is 110kbps for 44.1kHz     \n"
 "          Example:  -q 0.7                                                                                 \n"
 "                    --quality 0.7                                                                          \n"
 "          WARN: when -b use, -q item is invalid                                                            \n"
 "                                                                                                           \n"
-"    -v <vbr> , --vbr <vbr>                                                                                 \n"                   
+"    -v <vbr> , --vbr <vbr>                                                                                 \n"
 "          Set vbr mode (0,1), recommend use this mode, default is 1                                        \n"
 "          Example:  -v 1                                                                                   \n"
 "                    --vbr 1                                                                                \n"
 "                                                                                                           \n"
-"    -l <speedlevel> , --speedlevel <speedlevel>                                                            \n"           
+"    -l <speedlevel> , --speedlevel <speedlevel>                                                            \n"
 "          Set speed level(1~6), default is 1, it has good quality                                          \n"
 "          Want fast mode, -l 3 is a good choice                                                            \n"
 "          Example:  -l 1                                                                                   \n"
@@ -171,12 +171,12 @@ const char *all_help =
 "          Example:  -w 17                                                                                  \n"
 "                    --bandwidth 17                                                                         \n"
 "                                                                                                           \n"
-"    -e <lfeenable> , --lfeenable <lfeenable>                                                               \n"            
+"    -e <lfeenable> , --lfeenable <lfeenable>                                                               \n"
 "          Set the LFE encode enable(0 or 1)                                                                \n"
 "          Example:  -e 1                                                                                   \n"
 "                    --lfeenable 1                                                                          \n"
 "                                                                                                           \n"
-"    -t <time_resolution> , --time_resolution <time_resolution>                                             \n"      
+"    -t <time_resolution> , --time_resolution <time_resolution>                                             \n"
 "          Set the encoder time resolution mode (0 or 1), will use only short block when encodingh          \n"
 "          Example:  -t 1                                                                                   \n"
 "                    --time_resolution 1                                                                    \n"
@@ -196,7 +196,7 @@ const char *license =
 "*    Please note that the use of this software may require the payment of patent        *\n"
 "*    royalties. You need to consider this issue before you start building derivative    *\n"
 "*    works. We are not warranting or indemnifying you in any way for patent royalities! *\n"
-"*                                                                                       *\n" 
+"*                                                                                       *\n"
 "*                YOU ARE SOLELY RESPONSIBLE FOR YOUR OWN ACTIONS!                       *\n"
 "*****************************************************************************************\n"
 "\n"
@@ -233,7 +233,7 @@ static void fa_printopt()
     FA_PRINT("NOTE: vbr switch= %d \n", opt_vbrflag);
     if (opt_vbrflag)
         FA_PRINT("NOTE: quality   = %f \n", opt_quality);
-    else 
+    else
         FA_PRINT("NOTE: bitrate   = %d kbps\n", opt_bitrate);
     FA_PRINT("NOTE: speed lev = %d\n", opt_speedlevel);
     /*FA_PRINT("NOTE: timers    = %d\n", opt_time_resolution_first);*/
@@ -279,15 +279,15 @@ static int fa_checkopt(int argc)
         FA_PRINT_ERR("FAIL: out of range, should be in [1,6]\n");
         return -1;
     }
- 
+
     if (opt_bandwidth > (float)BW_MAXS || opt_bandwidth < 5.)  {
         /*FA_PRINT_ERR("FAIL: out of range, should be in [5,20] kHz\n");*/
         FA_PRINT_ERR("FAIL: out of range, should be in [5,22] kHz\n");
         return -1;
     }
 
-    if (opt_quality > 1 || opt_quality < 0.1) {
-        FA_PRINT_ERR("FAIL: out of range, should be in [0.1,1]\n");
+    if (opt_quality > 1.5 || opt_quality < 0.1) {
+        FA_PRINT_ERR("FAIL: out of range, should be in [0.1,1.5]\n");
         return -1;
     }
 
@@ -311,26 +311,26 @@ int fa_parseopt(int argc, char *argv[])
     const char *die_msg = NULL;
 
     while (1) {
-        static char * const     short_options = "hLi:o:b:q:v:l:w:e:t:";  
-        static struct option    long_options[] = 
+        static char * const     short_options = "hLi:o:b:q:v:l:w:e:t:";
+        static struct option    long_options[] =
                                 {
-                                    { "help"       , 0, 0, 'h'}, 
+                                    { "help"       , 0, 0, 'h'},
                                     { "license"    , 0, 0, 'L'},
-                                    { "input"      , 1, 0, 'i'},                 
-                                    { "output"     , 1, 0, 'o'},                 
-                                    { "bitrate"    , 1, 0, 'b'},        
-                                    { "quality"    , 1, 0, 'q'},        
-                                    { "vbr"        , 1, 0, 'v'},        
-                                    { "speedlevel" , 1, 0, 'l'},        
-                                    { "bandwidth"  , 1, 0, 'w'},        
-                                    { "lfeenable"  , 1, 0, 'e'},        
-                                    { "time_resolution"  , 1, 0, 't'},        
+                                    { "input"      , 1, 0, 'i'},
+                                    { "output"     , 1, 0, 'o'},
+                                    { "bitrate"    , 1, 0, 'b'},
+                                    { "quality"    , 1, 0, 'q'},
+                                    { "vbr"        , 1, 0, 'v'},
+                                    { "speedlevel" , 1, 0, 'l'},
+                                    { "bandwidth"  , 1, 0, 'w'},
+                                    { "lfeenable"  , 1, 0, 'e'},
+                                    { "time_resolution"  , 1, 0, 't'},
                                     {0             , 0, 0,  0},
                                 };
         int c = -1;
         int option_index = 0;
 
-        c = getopt_long(argc, argv, 
+        c = getopt_long(argc, argv,
                         short_options, long_options, &option_index);
 
         if (c == -1) {

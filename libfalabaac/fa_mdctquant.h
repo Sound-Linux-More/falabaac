@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_mdctquant.h 
+  filename: fa_mdctquant.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -31,10 +31,10 @@
 #include "fa_inttypes.h"
 #include "fa_swbtab.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 
 #define NUM_WINDOW_GROUPS_MAX 8
@@ -87,24 +87,24 @@ void fa_mdctline_pow34(uintptr_t handle);
 void fa_mdctline_scaled(uintptr_t handle,
                         int num_window_groups, int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX]);
 
-void fa_mdctline_quant(uintptr_t handle, 
+void fa_mdctline_quant(uintptr_t handle,
                        int common_scalefac, int *x_quant);
 
-void fa_mdctline_quantdirect(uintptr_t handle, 
+void fa_mdctline_quantdirect(uintptr_t handle,
                              int common_scalefac,
                              int num_window_groups, int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                              int *x_quant);
 
 int fa_mdctline_get_sfbnum(uintptr_t handle);
 
-int fa_mdctline_iquantize(uintptr_t handle, 
+int fa_mdctline_iquantize(uintptr_t handle,
                           int num_window_groups, int *window_group_length,
-                          int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX], 
+                          int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                           int *x_quant);
 void fa_xmin_sfb_arrange(uintptr_t handle, float xmin_swb[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                          int num_window_groups, int *window_group_length);
 
-void fa_mdctline_sfb_arrange(uintptr_t handle, float *mdct_line_swb, 
+void fa_mdctline_sfb_arrange(uintptr_t handle, float *mdct_line_swb,
                              int num_window_groups, int *window_group_length);
 
 void fa_mdctline_sfb_iarrange(uintptr_t handle, float *mdct_line_swb, int *mdct_line_sig,
@@ -112,24 +112,24 @@ void fa_mdctline_sfb_iarrange(uintptr_t handle, float *mdct_line_swb, int *mdct_
 
 void fa_calculate_quant_noise(uintptr_t handle,
                              int num_window_groups, int *window_group_length,
-                             int common_scalefac, int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX], 
+                             int common_scalefac, int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                              int *x_quant);
 
-int  fa_fix_quant_noise_single(uintptr_t handle, 
+int  fa_fix_quant_noise_single(uintptr_t handle,
                                int outer_loop_count, int outer_loop_count_max,
                                int num_window_groups, int *window_group_length,
-                               int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX], 
+                               int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                                int *x_quant);
 
-int  fa_fix_quant_noise_couple(uintptr_t handle1, uintptr_t handle2, 
+int  fa_fix_quant_noise_couple(uintptr_t handle1, uintptr_t handle2,
                                int outer_loop_count, int outer_loop_count_max,
                                int num_window_groups, int *window_group_length,
-                               int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX], 
-                               int scalefactor1[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX], 
+                               int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
+                               int scalefactor1[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                                int *x_quant);
 
-int  fa_mdctline_encode(uintptr_t handle, int *x_quant, int num_window_groups, int *window_group_length, 
-                        int quant_hufftab_no[8][FA_SWB_NUM_MAX], 
+int  fa_mdctline_encode(uintptr_t handle, int *x_quant, int num_window_groups, int *window_group_length,
+                        int quant_hufftab_no[8][FA_SWB_NUM_MAX],
                         int *max_sfb, int *x_quant_code, int *x_quant_bits);
 
 void fa_mdctline_ms_encode(uintptr_t hl, uintptr_t hr, int num_window_groups,
@@ -137,12 +137,11 @@ void fa_mdctline_ms_encode(uintptr_t hl, uintptr_t hr, int num_window_groups,
 
 void fa_balance_energe(uintptr_t handle,
                        int num_window_groups, int *window_group_length,
-                       int common_scalefac, int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX], 
+                       int common_scalefac, int scalefactor[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                        int *x_quant);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_MDCTQUANT_H//

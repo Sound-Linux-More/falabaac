@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_fft.c 
+  filename: fa_fft.c
   version : v1.0.0
-  time    : 2012/07/15 14:14 
+  time    : 2012/07/15 14:14
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -52,7 +52,7 @@ static int bit_reverse(int *buf_rvs, int size)
     int i  = 0;
 
     do {
-        buf_rvs[i++] = s; 
+        buf_rvs[i++] = s;
         r += 2;
         s ^= size - (size / (r&-r));
     }
@@ -66,7 +66,7 @@ static int bit_reverse(int *buf_rvs, int size)
     decimation-in-freq radix-2 in-place butterfly
     data:   (array of float, order below)
     re(0),im(0),re(1),im(1),...,re(size-1),im(size-1)
-    means size=array_length/2 
+    means size=array_length/2
 
     useage:
     intput in normal order
@@ -106,7 +106,7 @@ static void dif_butterfly(float *data, long size, float *cos_ang, float *sin_ang
     decimation-in-time radix-2 in-place inverse butterfly
     data:   (array of float, below order)
     re(0),im(0),re(1),im(1),...,re(size-1),im(size-1)
-    means size=array_length/2 
+    means size=array_length/2
 
     useage:
     intput in bit-reversed order

@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacstream.c 
+  filename: fa_aacstream.c
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -46,7 +46,7 @@
 
 
 static int write_adtsheader(uintptr_t h_bs, aaccfg_t *c, int used_bytes, int write_flag);
-static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag, 
+static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
                         int objtype,
                         int common_window);
 static int write_ics(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
@@ -182,7 +182,7 @@ int fa_write_bitstream_onechn(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aace
 
     /* Now byte align the bitstream */
     /*bits += write_bits_for_bytealign(h_bs, s, bits, 1);*/
-#else 
+#else
 /*
     if (s->bits_res_size == s->bits_res_maxsize) {
         if (bits < s->bits_average) {
@@ -192,7 +192,7 @@ int fa_write_bitstream_onechn(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aace
         }
     }
 */
-#endif 
+#endif
 
     s->used_bits = bits; //bit2byte(bits);
 
@@ -232,7 +232,7 @@ int fa_write_bitstream(fa_aacenc_ctx_t *f)
         }
 
         i += chn;
-    } 
+    }
 
     total_bits += LEN_SE_ID;
     total_bits += write_bits_for_bytealign(f->h_bitstream, s, total_bits, 0);
@@ -260,7 +260,7 @@ int fa_write_bitstream(fa_aacenc_ctx_t *f)
         }
 
         i += chn;
-    } 
+    }
 
     write_bits += fa_bitstream_putbits(f->h_bitstream, ID_END, LEN_SE_ID);
     write_bits += write_bits_for_bytealign(f->h_bitstream, s, write_bits, 1);
@@ -280,7 +280,7 @@ int fa_bits_sideinfo_est(int chn_num)
     end_bits  = 3;
     bytsalign_bits = 5;
 */
-    bits = 64/chn_num; 
+    bits = 64/chn_num;
 
     return bits;
 }
@@ -330,7 +330,7 @@ int fa_bits_count(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aacenc_ctx_t *sr
 
     /* Now byte align the bitstream */
     /*bits += write_bits_for_bytealign(h_bs, s, bits, 0);*/
-#else 
+#else
 /*
     if (s->bits_res_size == s->bits_res_maxsize) {
         if (bits < s->bits_average) {
@@ -341,7 +341,7 @@ int fa_bits_count(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aacenc_ctx_t *sr
     }
 
 */
-#endif 
+#endif
 
     s->used_bits = bits; //bit2byte(bits);
 
@@ -380,7 +380,7 @@ static int write_adtsheader(uintptr_t h_bs, aaccfg_t *c, int used_bytes, int wri
     return bits;
 }
 
-static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag, 
+static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
                         int objtype,
                         int common_window)
 {
@@ -413,7 +413,7 @@ static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
             fa_bitstream_putbits(h_bs, s->max_sfb, LEN_MAX_SFBL);
         }
         bits += LEN_MAX_SFBL;
-#if 0 
+#if 0
         if (objtype == LTP) {
             bits++;
             if (write_flag)
@@ -429,7 +429,7 @@ static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
 
             bits += write_predictor_data(h_bs, s, write_flag);
         }
-#else 
+#else
         if (objtype != LTP) {
             bits++;
             if (write_flag)
@@ -975,7 +975,7 @@ static int write_hufftab_no(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 
 
 
-static int write_scalefactor(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag) 
+static int write_scalefactor(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 {
     /* this function takes care of counting the number of bits necessary */
     /* to encode the scalefactors.  In addition, if the writeFlag == 1, */
@@ -1011,7 +1011,7 @@ static int write_scalefactor(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
                 diff = s->scalefactor[gr][sfb] - previous_is_factor;
                 if ((diff < 60)&&(diff >= -60))
                     length = fa_hufftab12[diff+60][0];
-                else 
+                else
                     length = 0;
                 bit_count += length;
                 previous_is_factor = s->scalefactor[gr][sfb];
@@ -1024,7 +1024,7 @@ static int write_scalefactor(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
                 diff = s->scalefactor[gr][sfb] - previous_scale_factor;
                 if ((diff < 60)&&(diff >= -60))
                     length = fa_hufftab12[diff+60][0];
-                else 
+                else
                     length = 0;
                 bit_count+=length;
                 previous_scale_factor = s->scalefactor[gr][sfb];

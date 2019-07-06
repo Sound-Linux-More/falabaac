@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacenc.c 
+  filename: fa_aacenc.c
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -42,37 +42,36 @@
 #include "fa_aacquant.h"
 #include "fa_huffman.h"
 #include "fa_tns.h"
+#include "fa_fastmath.h"
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-#define GAIN_ADJUST   4 //5  
+#define GAIN_ADJUST   4 //5
 
-#define BW_MAX        22000.
+#define BW_MAX        24000.
 
 /* Returns the sample rate index */
 int get_samplerate_index(int sample_rate)
 {
-    if (92017 <= sample_rate) return 0;
-    if (75132 <= sample_rate) return 1;
-    if (55426 <= sample_rate) return 2;
-    if (46009 <= sample_rate) return 3;
-    if (37566 <= sample_rate) return 4;
-    if (27713 <= sample_rate) return 5;
-    if (23004 <= sample_rate) return 6;
-    if (18783 <= sample_rate) return 7;
-    if (13856 <= sample_rate) return 8;
-    if (11502 <= sample_rate) return 9;
-    if (9391  <= sample_rate) return 10;
+    int index;
+    float temp;
+    temp = (float) sample_rate;
+    temp /= 64000.0;
+    temp = fa_fast_sqrtf(fa_fast_sqrtf(temp));
+    temp *= 20.0;
+    temp = 22.0 - temp;
+    index = (int) (temp + 0.5);
+    if (index < 0) index = 0;
+    if (index > 11) index = 11;
 
-    return 11;
+    return index;
 }
-
 
 /* Max prediction band for backward predictionas function of fs index */
 const int _max_pred_sfb[] = { 33, 33, 38, 40, 40, 40, 41, 41, 37, 37, 37, 34, 0 };
@@ -82,74 +81,10 @@ int get_max_pred_sfb(int sample_rate_index)
     return _max_pred_sfb[sample_rate_index];
 }
 
-typedef struct _rate_cutoff {
-    int bit_rate;
-    float qcof;  //quality cof
-    float cutoff;
-}rate_cutoff_t;
-
-#define QCOF_MIN  (0.6)
+#define QCOF_MIN  (0.1)
 #define QCOF_MAX  (1.6)
-/*reference to 48000kHz sample rate*/
-static rate_cutoff_t rate_cutoff[] = 
-{
-    {12000, 1.61, 5000.},
-    {15000, 1.51, 5000.},
-    {23000, 1.41, 8000.},
-    {31000, 1.31, 10000.},
-    {39000, 1.28, 13000.},
-    {45000, 1.18, 15200.},
-    {63000, 1.01, 16200.},
-    {70000, 0.91, 17000.},
-    {80000, 0.81, 17000.},
-    {100000, 0.71, 20000.},
-    {120000, 0.66, 20000.},
-    {160000, 0.61, BW_MAX},
-    {0    , 0},
-};
 
-typedef struct _bit_thr_cof_t{
-    int bit_rate;
-    float cof;
-}bit_thr_cof_t;
-
-static bit_thr_cof_t bit_thr_cof[] = 
-{
-    {16000, 0.5},
-    {24000, 0.5},
-    {32000, 0.6},
-    {38000, 0.7},
-    {48000, 0.9},
-    {64000, 1.3},
-    {80000, 1.4},
-    {100000, 1.5},
-    {120000, 1.8},
-    {180000, 7},
-    {0    , 0},
-
-};
-
-typedef struct _adj_cof_t {
-    int bit_rate;
-    float adj;
-} adj_cof_t;
-
-static adj_cof_t adj_cof[] = 
-{
-    {16000, 0.4},
-    {24000, 0.4},
-    {32000, 0.35},
-    {40000, 0.32},
-    {48000, 0.3},
-    {64000, 0},
-    {80000, -0.2},
-    {100000, -0.25},
-    {120000, -0.3},
-    {180000, -0.4},
-    {0    , 0},
-};
-
-static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof) 
+static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
 {
     int i;
     int tmpbitrate;
@@ -158,23 +93,15 @@ static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
 
     ratio = (float) 48000/sample_rate;
     tmpbitrate = bit_rate * ratio;
-    tmpbitrate = tmpbitrate/chn;
+    tmpbitrate /= chn;
 
-    for (i = 0; i < rate_cutoff[i].bit_rate; i++) {
-        if (rate_cutoff[i].bit_rate >= tmpbitrate)
-            break;
-    }
+    bandwidth = fa_fast_sqrtf(tmpbitrate * 64000.0) * 0.25;
+    *qcof = (2.0 - fa_fast_sqrtf(tmpbitrate / 64000.0));
 
-    if (i > 0) {
-        bandwidth = rate_cutoff[i-1].cutoff;
-        *qcof = rate_cutoff[i-1].qcof;
-    } else {
-        bandwidth = 5000.;
-        *qcof = 1.4;
-    }
-
-    if (bandwidth == 0.)
-        /*bandwidth = 20000;*/
+    if (bandwidth <= 0.)
+        /*bandwidth = 22000;*/
+        bandwidth = BW_MAX;
+    if (bandwidth > BW_MAX)
         bandwidth = BW_MAX;
     /*printf("bandwidth = %d\n", bandwidth);*/
     /*assert(bandwidth > 0 && bandwidth <= 20000);*/
@@ -185,29 +112,19 @@ static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
 }
 
 
-static float get_bandwidth1(int chn, int sample_rate, float qcof, int *bit_rate) 
+static float get_bandwidth1(int chn, int sample_rate, float qcof, int *bit_rate)
 {
     int i;
     float bandwidth;
 
-    i = 0;
-    /*for (i = 0; i < rate_cutoff[i].qcof; i++) {*/
-    while (rate_cutoff[i].qcof) {
-        if (rate_cutoff[i].qcof <= qcof)
-            break;
-        i++;
-    }
+    qcof = 2.0 - qcof;
+    *bit_rate = (int)(qcof * qcof * 64000 + 0.5);
+    bandwidth = qcof * 64000 * 0.25;
 
-    if (i > 0) {
-        *bit_rate = rate_cutoff[i-1].bit_rate;
-        bandwidth = rate_cutoff[i-1].cutoff;
-    } else {
-        *bit_rate = 15000;
-        bandwidth = 5000.;
-    }
-
-    if (bandwidth == 0.)
-        /*bandwidth = 20000;*/
+    if (bandwidth <= 0.)
+        /*bandwidth = 22000;*/
+        bandwidth = BW_MAX;
+    if (bandwidth > BW_MAX)
         bandwidth = BW_MAX;
     /*printf("bandwidth = %d\n", bandwidth);*/
     /*assert(bandwidth > 0 && bandwidth <= 20000);*/
@@ -228,17 +145,9 @@ static float get_bit_thr_cof(int chn, int sample_rate, int bit_rate)
 
     ratio = (float) 48000/sample_rate;
     tmpbitrate = bit_rate * ratio;
-    tmpbitrate = tmpbitrate/chn;
+    tmpbitrate /= chn;
 
-    for (i = 0; i < bit_thr_cof[i].bit_rate; i++) {
-        if (bit_thr_cof[i].bit_rate >= tmpbitrate)
-            break;
-    }
-
-    if (i > 0)
-        thr_cof = bit_thr_cof[i-1].cof;
-    else 
-        thr_cof = 1.0;
+    thr_cof = (0.25 + 0.85 * tmpbitrate / 64000.0);
 
     return thr_cof;
 }
@@ -254,23 +163,21 @@ static float get_adj_cof(int chn, int sample_rate, int bit_rate)
 
     ratio = (float) 48000/sample_rate;
     tmpbitrate = bit_rate * ratio;
-    tmpbitrate = tmpbitrate/chn;
+    tmpbitrate /= chn;
 
-    for (i = 0; i < adj_cof[i].bit_rate; i++) {
-        if (adj_cof[i].bit_rate >= tmpbitrate)
-            break;
+    adj = (float) tmpbitrate;
+    adj /= 64000.0;
+    adj = 1.0 - adj;
+    if (adj < 0)
+    {
+        adj = -adj;
+        adj = -fa_fast_sqrtf(fa_fast_sqrtf(adj)) * 0.4;
+    } else {
+        adj = fa_fast_sqrtf(fa_fast_sqrtf(adj)) * 0.4;
     }
-
-    if (i > 0)
-        adj = adj_cof[i-1].adj;
-    else 
-        adj = 0.0;
 
     return adj;
 }
-
-
-
 
 static int get_cutoff_line(int sample_rate, int fmax_line_offset, int bandwidth)
 {
@@ -295,10 +202,10 @@ static int get_cutoff_sfb(int sfb_offset_max, int *sfb_offset, int cutoff_line)
         if (sfb_offset[i] >= cutoff_line)
             break;
     }
-#if 0 
+#if 0
     if (i == sfb_offset_max)
         return i;
-    else 
+    else
         return (i+1);
 #else
         return i;
@@ -359,7 +266,7 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
     f->psy_model       = psy_model;
 
     if (vbr_flag) {
-        f->band_width = get_bandwidth1(chn_num, sample_rate, qcof, &(f->cfg.bit_rate)); 
+        f->band_width = get_bandwidth1(chn_num, sample_rate, qcof, &(f->cfg.bit_rate));
         /*printf("\nNOTE: final bitrate/chn = %d\n", f->cfg.bit_rate);*/
     } else {
         f->band_width = get_bandwidth(chn_num, sample_rate, bit_rate, &(f->cfg.qcof));
@@ -376,7 +283,7 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
 #if 0
     bits_thr_cof  = get_bit_thr_cof(chn_num, sample_rate, bit_rate);
     adj = get_adj_cof(chn_num, sample_rate, bit_rate);
-#else 
+#else
     bits_thr_cof  = get_bit_thr_cof(chn_num, sample_rate, bit_rate+bits_adj);
     adj = get_adj_cof(chn_num, sample_rate, bit_rate+bits_adj);
 #endif
@@ -501,11 +408,11 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
         memcpy(&(f->ctx[i].chn_info), &(chn_info_tmp[i]), sizeof(chn_info_t));
         f->ctx[i].chn_info.common_window = 0;
 
-        if (f->ctx[i].chn_info.lfe == 1) 
+        if (f->ctx[i].chn_info.lfe == 1)
             real_band_width = 2000;
-        else 
+        else
             real_band_width = (int)f->band_width;
-        
+
         switch (sample_rate) {
             case 48000:
                 f->ctx[i].cutoff_line_long = get_cutoff_line(48000, 1024, real_band_width);
@@ -555,19 +462,19 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
         if (f->band_width < BW_MAX) {
             if (time_resolution_first)
                 fa_quantqdf_para_init(&(f->ctx[i].qp), 0.9);
-            else 
+            else
                 fa_quantqdf_para_init(&(f->ctx[i].qp), 0.95);
-        } else { 
+        } else {
             if (time_resolution_first)
                 fa_quantqdf_para_init(&(f->ctx[i].qp), 0.9);
-            else 
+            else
                 fa_quantqdf_para_init(&(f->ctx[i].qp), 1.0);
         }
 
     }
 
     /*f->bitres_maxsize = get_aac_bitreservoir_maxsize(f->cfg.bit_rate, f->cfg.sample_rate);*/
-    
+
 
     return (uintptr_t)f;
 }
@@ -606,9 +513,9 @@ void fa_aacenc_uninit(uintptr_t handle)
 
 }
 
-#define SPEED_LEVEL_MAX  6 
+#define SPEED_LEVEL_MAX  6
 #if 0
-static int speed_level_tab[SPEED_LEVEL_MAX][6] = 
+static int speed_level_tab[SPEED_LEVEL_MAX][6] =
                             { //ms,      tns,     block_switch_en,       psy_en,       blockswitch_method,       quant_method
                                 {1,       0,        1,                    1,           BLOCKSWITCH_VAR,          QUANTIZE_LOOP},  //1
                                 {0,       0,        1,                    1,           BLOCKSWITCH_VAR,          QUANTIZE_FAST},  //2
@@ -617,8 +524,8 @@ static int speed_level_tab[SPEED_LEVEL_MAX][6] =
                                 {0,       0,        0,                    0,           BLOCKSWITCH_VAR,          QUANTIZE_LOOP},  //5
                                 {0,       0,        0,                    0,           BLOCKSWITCH_VAR,          QUANTIZE_LOOP},  //same, but bw=10k
                             };
-#else 
-static int speed_level_tab[SPEED_LEVEL_MAX][6] = 
+#else
+static int speed_level_tab[SPEED_LEVEL_MAX][6] =
                             { //ms,      tns,     block_switch_en,       psy_en,       blockswitch_method,       quant_method
                                 {1,       1,        1,                    1,           BLOCKSWITCH_PSY,          QUANTIZE_BEST},  //1
                                 {1,       1,        0,                    1,           BLOCKSWITCH_VAR,          QUANTIZE_BEST},  //2
@@ -731,7 +638,7 @@ static void mdct_line_normarlize(fa_aacenc_ctx_t *f)
                 s->mdct_line[j] /= s->max_mdct_line;
         }
     }
- 
+
 
 }
 
@@ -739,13 +646,13 @@ static void mdctline_reorder(aacenc_ctx_t *s, float xmin[8][FA_SWB_NUM_MAX])
 {
     /*use mdct transform*/
     if (s->block_type == ONLY_SHORT_BLOCK) {
-        fa_mdctline_sfb_arrange(s->h_mdctq_short, s->mdct_line, 
+        fa_mdctline_sfb_arrange(s->h_mdctq_short, s->mdct_line,
                                 s->num_window_groups, s->window_group_length);
         fa_xmin_sfb_arrange(s->h_mdctq_short, xmin,
                             s->num_window_groups, s->window_group_length);
 
     } else {
-        fa_mdctline_sfb_arrange(s->h_mdctq_long, s->mdct_line, 
+        fa_mdctline_sfb_arrange(s->h_mdctq_long, s->mdct_line,
                                 s->num_window_groups, s->window_group_length);
         fa_xmin_sfb_arrange(s->h_mdctq_long, xmin,
                             s->num_window_groups, s->window_group_length);
@@ -762,9 +669,9 @@ static void scalefactor_recalculate(fa_aacenc_ctx_t *f, int chn_num)
 
     for (i = 0; i < chn_num ; i++) {
         s = &(f->ctx[i]);
-        if (s->block_type == ONLY_SHORT_BLOCK) 
+        if (s->block_type == ONLY_SHORT_BLOCK)
             sfb_num = fa_mdctline_get_sfbnum(s->h_mdctq_short);
-        else 
+        else
             sfb_num = fa_mdctline_get_sfbnum(s->h_mdctq_long);
 
         for (gr = 0; gr < s->num_window_groups; gr++) {
@@ -809,8 +716,8 @@ void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsign
 
     /*update sample buffer, ith sample, jth chn*/
     sample_in = (short *)buf_in;
-    for (i = 0; i < AAC_FRAME_LEN; i++) 
-        for (j = 0; j < chn_num; j++) 
+    for (i = 0; i < AAC_FRAME_LEN; i++)
+        for (j = 0; j < chn_num; j++)
             f->sample[i+j*AAC_FRAME_LEN] = (float)(0.99 * sample_in[i*chn_num+j]);
 
     block_switch_en = f->block_switch_en;
@@ -829,11 +736,11 @@ void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsign
             s->block_type = ONLY_SHORT_BLOCK;
         } else {
             if (block_switch_en) {
-#if 0 
+#if 0
                 f->do_blockswitch(s);
-#else 
+#else
                 fa_blockswitch_robust(s, f->sample+i*AAC_FRAME_LEN);
-#endif 
+#endif
             } else {
                 s->block_type = ONLY_LONG_BLOCK;
                 /*s->block_type = ONLY_SHORT_BLOCK;*/
@@ -863,7 +770,7 @@ void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsign
         } else
             zero_cutoff(s->mdct_line, 1024, s->cutoff_line_long);
 
-        /* 
+        /*
            calculate xmin and pe
            --use current sample_buf calculate pe to decide which block used in the next frame
         */

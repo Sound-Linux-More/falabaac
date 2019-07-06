@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_lpc.c 
+  filename: fa_lpc.c
   version : v1.0.0
   time    : 2012/11/17 23:52
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
@@ -40,7 +40,7 @@ typedef struct _fa_lpc_t {
     double *acof;
     double *kcof;
     double err;
-#else 
+#else
     float *r;   //relation matrix will be used
 
     float *acof;
@@ -69,7 +69,7 @@ uintptr_t fa_lpc_init(int p)
     f->kcof = (double*)malloc(sizeof(double)*(p+1));
     memset(f->kcof, 0, sizeof(double)*(p+1));
     f->err = 0.0;
-#else 
+#else
     f->r = (float *)malloc(sizeof(float)*(p+1));
     memset(f->r, 0, sizeof(float)*(p+1));
     f->acof = (float *)malloc(sizeof(float)*(p+1));
@@ -78,7 +78,7 @@ uintptr_t fa_lpc_init(int p)
     memset(f->kcof, 0, sizeof(float)*(p+1));
     f->err = 0.0;
 #endif
- 
+
     return (uintptr_t)f;
 }
 
@@ -100,7 +100,7 @@ void      fa_lpc_uninit(uintptr_t handle)
     }
 }
 
-#ifdef USE_LPC_HP 
+#ifdef USE_LPC_HP
 
 double fa_lpc(uintptr_t handle, double *x, int x_len, double *lpc_cof, double *kcof, double *err)
 {
@@ -123,7 +123,7 @@ double fa_lpc(uintptr_t handle, double *x, int x_len, double *lpc_cof, double *k
     /*gain = f->err / f->r[0];*/
     if (f->err > 0)
         gain = f->r[0] / f->err;
-    else 
+    else
         gain = 0.0;
 
 
@@ -131,7 +131,7 @@ double fa_lpc(uintptr_t handle, double *x, int x_len, double *lpc_cof, double *k
 }
 
 
-#else 
+#else
 
 float fa_lpc(uintptr_t handle, float *x, int x_len, float *lpc_cof, float *kcof, float *err)
 {
@@ -154,7 +154,7 @@ float fa_lpc(uintptr_t handle, float *x, int x_len, float *lpc_cof, float *kcof,
     /*gain = f->err / f->r[0];*/
     if (f->err > 0)
         gain = f->r[0] / f->err;
-    else 
+    else
         gain = 0.0;
 
     return gain;

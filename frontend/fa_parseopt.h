@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_getopt.h 
+  filename: fa_getopt.h
   version : v1.0.0
-  time    : 2012/07/08 01:01 
+  time    : 2012/07/08 01:01
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -30,26 +30,23 @@
 #ifndef _FA_GETOPT_H
 #define _FA_GETOPT_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
-
+{
+#endif
 
 /*
     Below macro maybe defined in fa_print, if you do not want to use fa_print,
     you can define any other printf functions which you like.  Moreover, if you
-    dont want print anything (for the effienece purpose of the program), you 
+    dont want print anything (for the effienece purpose of the program), you
     can also define null, and the program will print nothing when running.
 */
-#ifndef FA_PRINT 
-//#define FA_PRINT(...)       
+#ifndef FA_PRINT
+//#define FA_PRINT(...)
 #define FA_PRINT       printf
 #define FA_PRINT_ERR   FA_PRINT
 #define FA_PRINT_DBG   FA_PRINT
 #endif
-
 
 extern char  opt_inputfile[] ;
 extern char  opt_outputfile[];
@@ -65,9 +62,8 @@ extern int   opt_vbr_enable;
 
 int fa_parseopt(int argc, char *argv[]);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_GETOPT_H//

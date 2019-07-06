@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi ç½—é¾™æ™º (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: main.c 
+  filename: main.c
   version : v1.0.0
   time    : 2012/07/22 23:43
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
@@ -27,21 +27,21 @@
 
 /*
 TODO:
-   TASK                                STATUS                SUPPORT 
+   TASK                                STATUS                SUPPORT
     ------------------------------------------------------------------
     mono                               done                   yes
     stereo(common_window=0)            done                   yes
-    stereo(ms)                         done                   yes 
-    lfe                                done                   yes(need more test) 
+    stereo(ms)                         done                   yes
+    lfe                                done                   yes(need more test)
     high frequency optimize            done                   yes(bandwith limited now)
-    bitrate control fixed              done                   yes(constant bitrate CBR is OK) 
-    TNS                                done                   yes(not very important, little influence only for the strong hit audio point) 
+    bitrate control fixed              done                   yes(constant bitrate CBR is OK)
+    TNS                                done                   yes(not very important, little influence only for the strong hit audio point)
     LTP                                no schecdule           no(very slow, no need support)
-    add fast xmin/pe caculate method   done                 
-    add new quantize fast method       done 
-    optimize the speed performance     done 
+    add fast xmin/pe caculate method   done
+    add new quantize fast method       done
+    optimize the speed performance     done
      (maybe not use psy)
-    bitrate cbr problem                doing 
+    bitrate cbr problem                doing
     encode uinit                       done
 */
 
@@ -55,7 +55,7 @@ TODO:
 #include "fa_timeprofile.h"
 
 #define CHNMAX          64
-#define FRAME_SIZE_MAX  (CHNMAX * 1024)//2048 
+#define FRAME_SIZE_MAX  (CHNMAX * 1024)//2048
 #define AAC_FRAME_SIZE  1024
 
 int main(int argc, char *argv[])
@@ -63,11 +63,11 @@ int main(int argc, char *argv[])
     int ret;
 
     /*set your destination file and source file */
-	FILE  * destfile;
-	FILE  * sourcefile;
+    FILE  * destfile;
+    FILE  * sourcefile;
 
     /*file control variable*/
-	fa_wavfmt_t fmt;
+    fa_wavfmt_t fmt;
     int sample_rate;
     int chn_num;
 
@@ -80,13 +80,13 @@ int main(int argc, char *argv[])
     uintptr_t h_aacenc;
 
     /*sample buffer in and aac buffer out*/
-	short wavsamples_in[FRAME_SIZE_MAX];
+    short wavsamples_in[FRAME_SIZE_MAX];
     unsigned char aac_buf[FRAME_SIZE_MAX];
     int aac_out_len;
 
     printf("************************************************************\n");
     printf("*                                                          *\n");
-    printf("*              falabaac encoder v2.1.0.226                 *\n");
+    printf("*              falabaac encoder v2.1.0.227                 *\n");
     printf("*                                                          *\n");
     printf("*   Copyright (C) 2012 luolongzhi ÂÞÁúÖÇ (Chengdu China)   *\n");
     printf("*                    Free Software                         *\n");
@@ -101,12 +101,12 @@ int main(int argc, char *argv[])
 
     /*open the dest and src file*/
     if ((destfile = fopen(opt_outputfile, "w+b")) == NULL) {
-		printf("output file can not be opened\n");
-		return 0; 
-	}                         
-	if ((sourcefile = fopen(opt_inputfile, "rb")) == NULL) {
-		printf("input file can not be opened;\n");
-		return 0; 
+        printf("output file can not be opened\n");
+        return 0;
+    }
+    if ((sourcefile = fopen(opt_inputfile, "rb")) == NULL) {
+        printf("input file can not be opened;\n");
+        return 0;
     }
 
     /*get the source wav file format such as sample rate , channel number...*/
@@ -133,12 +133,12 @@ int main(int argc, char *argv[])
     }
 
 #ifdef TEST_MEMLEAK
-    if (h_aacenc) 
+    if (h_aacenc)
         fa_aacenc_uninit(h_aacenc);
 
-    #ifdef WIN32 
+    #ifdef WIN32
         Sleep(50);
-    #else 
+    #else
         usleep(50*1000);
     #endif
         testcnt++;
@@ -161,7 +161,7 @@ int main(int argc, char *argv[])
         read_len = fread(wavsamples_in, 2, AAC_FRAME_SIZE*chn_num, sourcefile);
         if(read_len < (AAC_FRAME_SIZE*chn_num))
             is_last = 1;
-       
+
         /*analysis and encode*/
         fa_aacenc_encode(h_aacenc, (unsigned char *)wavsamples_in, chn_num*2*read_len, aac_buf, &aac_out_len);
 

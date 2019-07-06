@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_psytab.h 
+  filename: fa_psytab.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -28,20 +28,20 @@
 #ifndef _FA_PSYTAB_H
 #define _FA_PSYTAB_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 
 #define FA_PSY_32k_LONG_NUM   66
-#define FA_PSY_32k_SHORT_NUM  44 
+#define FA_PSY_32k_SHORT_NUM  44
 
-#define FA_PSY_44k_LONG_NUM   70 
-#define FA_PSY_44k_SHORT_NUM  42 
+#define FA_PSY_44k_LONG_NUM   70
+#define FA_PSY_44k_SHORT_NUM  42
 
-#define FA_PSY_48k_LONG_NUM   69 
-#define FA_PSY_48k_SHORT_NUM  42 
+#define FA_PSY_48k_LONG_NUM   69
+#define FA_PSY_48k_SHORT_NUM  42
 
 extern int   fa_psy_32k_long_wlow[FA_PSY_32k_LONG_NUM+1];
 extern float fa_psy_32k_long_barkval[FA_PSY_32k_LONG_NUM];
@@ -64,10 +64,8 @@ extern int   fa_psy_48k_short_wlow[FA_PSY_48k_SHORT_NUM+1];
 extern float fa_psy_48k_short_barkval[FA_PSY_48k_SHORT_NUM];
 extern float fa_psy_48k_short_qsthr[FA_PSY_48k_SHORT_NUM];
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
 
+#endif //_FA_PSYTAB_H//

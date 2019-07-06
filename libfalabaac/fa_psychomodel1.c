@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_psychomodel1.c 
+  filename: fa_psychomodel1.c
   version : v1.0.0
-  time    : 2012/07/16 - 2012/07/18  
+  time    : 2012/07/16 - 2012/07/18
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -32,8 +32,8 @@
 #include <memory.h>
 #include "fa_psychomodel1.h"
 
-#ifndef FA_PRINT 
-//#define FA_PRINT(...)       
+#ifndef FA_PRINT
+//#define FA_PRINT(...)
 #define FA_PRINT       printf
 #define FA_PRINT_ERR   FA_PRINT
 #define FA_PRINT_DBG   FA_PRINT
@@ -43,8 +43,8 @@ static int nm_pos_geomean(int l, int u);
 
 /*this psd normalizer is for the SPL estimation */
 #define SAMPLE16
-#ifdef SAMPLE16 
-#define PSD_NORMALIZER  0  
+#ifdef SAMPLE16
+#define PSD_NORMALIZER  0
 #else
 #define PSD_NORMALIZER  90.302
 #endif
@@ -98,13 +98,13 @@ static float db_pos(float power)
     int i;
 
     for (i = 0; i < DBCNT; i++) {
-        if (power < db_table[i]) 
+        if (power < db_table[i])
             return (i+MINDB);
     }
 
     return (DBCNT-1);
 
-#else 
+#else
     return 10*log10(power);
 #endif
 }
@@ -132,7 +132,7 @@ static float db_inv(float db)
     i = (int)db;
 
     return db_table[i-MINDB];
-#else 
+#else
     return pow(10, 0.1*db);
 #endif
 }
@@ -166,8 +166,8 @@ static float psd_estimate_usemdct(float mdct_line, float cof)
 
 
 /*
- * input: freq in hz  
- * output: barks 
+ * input: freq in hz
+ * output: barks
  */
 static float freq2bark(float freq)
 {
@@ -183,7 +183,7 @@ static float ath(float f)
     float ath;
 
     f /= 1000.;
- 
+
     if (f > 0.0)
         ath = 3.64 * pow(f, -0.8) - 6.5 * exp(-0.6 * pow(f-3.3, 2)) + 0.001 * pow(f,4);
     else  {
@@ -201,7 +201,7 @@ static float freqbin2freq(float fs, int fft_len, int freqbin)
     float delta_f;
     float f;
 
-    delta_f = fs / fft_len; 
+    delta_f = fs / fft_len;
 
     f = freqbin * delta_f;
 
@@ -213,14 +213,14 @@ static int freq2freqbin(float fs, int fft_len, float f)
     float delta_f;
     float freqbin;
 
-    delta_f = fs / fft_len; 
+    delta_f = fs / fft_len;
 
     freqbin = f/delta_f;
 
     return freqbin;
 }
 
-static int caculate_cb_info(float fs, int psd_len, 
+static int caculate_cb_info(float fs, int psd_len,
                             float *psd_ath, int cb_hopbin[CBANDS_NUM], float geomean_table[CBANDS_NUM],
                             float *psd_bark)
 {
@@ -246,7 +246,7 @@ static int caculate_cb_info(float fs, int psd_len,
             /*FA_PRINT("the hopbin of band[%d] = %d\n", band, k);*/
             if (band == 0)
                 geomean_table[band] = nm_pos_geomean(1, cb_hopbin[band])-1;
-            else 
+            else
                 geomean_table[band] = nm_pos_geomean(cb_hopbin[band-1], cb_hopbin[band])-1;
             band++;
         }
@@ -289,14 +289,14 @@ static int deltak_splitenum(float fs, int fft_len, int *splnum1, int *splnum2)
                  [2 3] 63 <= k < 127
                  [2 6] 127<= k <=256
  */
-static int istone(float *psd, int psd_len, int freqbin, 
+static int istone(float *psd, int psd_len, int freqbin,
                   int splnum1, int splnum2, int *tone_flag)
 {
     int i;
     int kr, kl;
     /*neighbour psd*/
     float psd_nr[6], psd_nl[6];
-   
+
     if(freqbin == 0 || freqbin >= (psd_len-6))
         goto not_tone;
 
@@ -306,12 +306,12 @@ static int istone(float *psd, int psd_len, int freqbin,
         kl = freqbin - (i + 1);
         if(kr < 0 || kr >= psd_len)
             psd_nr[i] = 0.0;
-        else 
+        else
             psd_nr[i] = psd[kr];
 
         if(kl < 0 || kl >= psd_len)
             psd_nl[i] = 0.0;
-        else 
+        else
             psd_nl[i] = psd[kl];
     }
 
@@ -354,8 +354,8 @@ not_tone:
 }
 
 /*caculate ptm*/
-static int psd_tonemasker(float *psd , int psd_len, 
-                          int splnum1, int splnum2, 
+static int psd_tonemasker(float *psd , int psd_len,
+                          int splnum1, int splnum2,
                           float *ptm , int *tone_flag)
 {
     int k;
@@ -383,7 +383,7 @@ static int nm_pos_geomean(int l, int u)
     tmp = 1;
     n   = u - l + 1;
 
-    for(i = l; i <=u; i++) 
+    for(i = l; i <=u; i++)
         tmp *= i;
 
     pos = floor(pow(tmp, 1./n));
@@ -392,7 +392,7 @@ static int nm_pos_geomean(int l, int u)
 
 }
 
-static int noisemasker_band(float *psd, int *tone_flag, 
+static int noisemasker_band(float *psd, int *tone_flag,
                             int lowbin, int highbin,
                             float *nm , int *nm_pos)
 {
@@ -414,7 +414,7 @@ static int noisemasker_band(float *psd, int *tone_flag,
 }
 
 
-static int noisemasker_band_fast(float *psd, int *tone_flag, 
+static int noisemasker_band_fast(float *psd, int *tone_flag,
                                  int lowbin, int highbin,
                                  int band, float *geomean_table,
                                  float *nm , int *nm_pos)
@@ -430,12 +430,12 @@ static int noisemasker_band_fast(float *psd, int *tone_flag,
         }
     }
 
-#if 1 
+#if 1
     *nm = db_pos(tmp);
-#else 
+#else
     if (tmp > 0)
         *nm = db_pos(tmp);
-    else 
+    else
         *nm = 0;
 #endif
 
@@ -448,13 +448,13 @@ static int noisemasker_band_fast(float *psd, int *tone_flag,
 
 
 static int psd_noisemasker(float *psd, int psd_len,
-                    int *tone_flag, int *cb_hopbin, 
+                    int *tone_flag, int *cb_hopbin,
                     float *geomean_table,
                     float *pnm)
 {
     int band;
     int lowbin, highbin;
-    float nm; 
+    float nm;
     int   nm_pos;
 
     lowbin = 0;
@@ -464,7 +464,7 @@ static int psd_noisemasker(float *psd, int psd_len,
         if(cb_hopbin[band] == 0)
             break;
 
-        highbin = cb_hopbin[band] - 1; 
+        highbin = cb_hopbin[band] - 1;
         /*noisemasker_band(psd, tone_flag, lowbin, highbin, &nm, &nm_pos);*/
         noisemasker_band_fast(psd, tone_flag, lowbin, highbin, band, geomean_table, &nm, &nm_pos);
         lowbin  = highbin + 1;
@@ -507,7 +507,7 @@ static int psd_bark2bin(float *psd_bark, int psd_len, float bark)
     return psd_len-1;
 }
 
-static int check_near_masker(float *ptm, float *pnm, 
+static int check_near_masker(float *ptm, float *pnm,
                              float *psd_ath, float *psd_bark,
                              int   psd_len)
 {
@@ -585,7 +585,7 @@ static int check_near_masker(float *ptm, float *pnm,
 }
 
 
-static int spread_function(float power, float *psd_bark,  
+static int spread_function(float power, float *psd_bark,
                            int masker_bin, int low_bin, int high_bin,
                            float *spread_effect)
 {
@@ -594,7 +594,7 @@ static int spread_function(float power, float *psd_bark,
     float maskee_bark;
     float delta_bark;
 
-    masker_bark = psd_bark[masker_bin]; 
+    masker_bark = psd_bark[masker_bin];
 
     for(i = low_bin; i <= high_bin; i++) {
         maskee_bark = psd_bark[i];
@@ -608,7 +608,7 @@ static int spread_function(float power, float *psd_bark,
             spread_effect[i] = -17*delta_bark;
         else if(delta_bark >= 1 && delta_bark < 8.5)
             spread_effect[i] = (0.15*power-17)*delta_bark - 0.15*power;
-        else 
+        else
             ;
     }
 
@@ -616,7 +616,7 @@ static int spread_function(float power, float *psd_bark,
 
 }
 
-static int tone_mask_threshold(float *ptm, float *psd_bark, 
+static int tone_mask_threshold(float *ptm, float *psd_bark,
                                float *spread_effect, float *tone_thres, int psd_len)
 {
     int   k, j;
@@ -645,7 +645,7 @@ static int tone_mask_threshold(float *ptm, float *psd_bark,
     return 0;
 }
 
-static int noise_mask_threshold(float *pnm, float *psd_bark, 
+static int noise_mask_threshold(float *pnm, float *psd_bark,
                                 float *spread_effect, float *noise_thres, int psd_len)
 {
     int   k, j;
@@ -680,7 +680,7 @@ static int global_threshold(float *tone_thres, float *noise_thres, float *psd_at
 {
     int k;
 
-    for(k = 0; k < psd_len; k++) 
+    for(k = 0; k < psd_len; k++)
         global_thres[k] = db_pos(tone_thres[k] + noise_thres[k] + db_inv(psd_ath[k]));
 
     return 0;
@@ -692,7 +692,7 @@ static int global_threshold_mag(float *tone_thres, float *noise_thres, float *ps
 {
     int k;
 
-    for(k = 0; k < psd_len; k++) 
+    for(k = 0; k < psd_len; k++)
         global_thres[k] = (tone_thres[k] + noise_thres[k] + db_inv(psd_ath[k]));
 
     return 0;
@@ -800,7 +800,7 @@ void fa_psy_global_threshold(uintptr_t handle, float *fft_buf, float *gth)
         im = fft_buf[k+k+1];
         f->psd[k] = psd_estimate(re, im);
     }
-    
+
     /*step2: tone and noise masker estimate*/
     psd_tonemasker(f->psd, f->psd_len, f->splnum1, f->splnum2, f->ptm, f->tone_flag);
     /*psd_noisemasker(f->psd, f->psd_len, f->tone_flag, f->cb_hopbin, f->pnm);*/
@@ -839,7 +839,7 @@ void fa_psy_global_threshold_usemdct(uintptr_t handle, float *mdct_buf, float *g
         re = mdct_buf[k];
         f->psd[k] = psd_estimate_usemdct(re, cof);
     }
-    
+
     /*step2: tone and noise masker estimate*/
     psd_tonemasker(f->psd, f->psd_len, f->splnum1, f->splnum2, f->ptm, f->tone_flag);
     psd_noisemasker(f->psd, f->psd_len, f->tone_flag, f->cb_hopbin, f->geomean_table, f->pnm);

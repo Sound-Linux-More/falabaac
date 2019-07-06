@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,29 +16,27 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_fir.h 
+  filename: fa_fir.h
   version : v1.0.0
-  time    : 2012/07/09 23:01 
+  time    : 2012/07/09 23:01
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
-
 
 #ifndef _FA_FIR_H
 #define _FA_FIR_H
 
 #include "fa_inttypes.h"
 
-#ifndef		M_PI
-#define		M_PI							3.14159265358979323846
+#ifndef     M_PI
+#define     M_PI                            3.14159265358979323846
 #endif
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 typedef int win_t;
 
@@ -52,16 +50,16 @@ enum {
     4 type filter init and uninit
     note: the fc is the normalized frequency according the fmax, fmax = 0.5*fs
 */
-uintptr_t fa_fir_filter_lpf_init(int frame_len, 
+uintptr_t fa_fir_filter_lpf_init(int frame_len,
                                  int flt_len, float fc, win_t win_type);
 
-uintptr_t fa_fir_filter_hpf_init(int frame_len, 
+uintptr_t fa_fir_filter_hpf_init(int frame_len,
                                  int flt_len, float fc, win_t win_type);
 
-uintptr_t fa_fir_filter_bandpass_init(int frame_len, 
+uintptr_t fa_fir_filter_bandpass_init(int frame_len,
                                       int flt_len, float fc1, float fc2, win_t win_type);
 
-uintptr_t fa_fir_filter_bandstop_init(int frame_len, 
+uintptr_t fa_fir_filter_bandstop_init(int frame_len,
                                       int flt_len, float fc1, float fc2, win_t win_type);
 
 void      fa_fir_filter_uninit(uintptr_t handle);
@@ -98,7 +96,7 @@ int fa_kaiser_cof_num(float ftrans, float atten);
 
 /*
     these below 5 functions, you can use them directly to get the filter coffs,
-    WARN: the **h is dynamic be genearted and be malloced, you MUST free this 
+    WARN: the **h is dynamic be genearted and be malloced, you MUST free this
     data memory when you no need use
 */
 int fa_fir_lpf_cof(float **h, int N, float fc, win_t win_type);
@@ -111,9 +109,8 @@ int fa_fir_bandstop_cof(float **h, int N, float fc1, float fc2, win_t win_type);
 
 float fa_conv(const float *x, const float *h, int h_len);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_FIR_H//

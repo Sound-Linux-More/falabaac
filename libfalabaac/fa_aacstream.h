@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,25 +16,24 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacstream.h 
+  filename: fa_aacstream.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
-
 #ifndef _FA_AACSTREAM_H
-#define _FA_AACSTREAM_H 
+#define _FA_AACSTREAM_H
 
 #include "fa_aaccfg.h"
 #include "fa_aacenc.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 int get_aac_bitreservoir_maxsize(int bit_rate, int sample_rate);
 
@@ -48,9 +47,8 @@ int fa_bits_count(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aacenc_ctx_t *sr
 
 int fa_write_bitstream(fa_aacenc_ctx_t *f);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_AACSTREAM_H//

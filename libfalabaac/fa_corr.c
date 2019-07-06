@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_corr.c 
+  filename: fa_corr.c
   version : v1.0.0
   time    : 2012/11/17 15:52
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
@@ -39,19 +39,19 @@ void  fa_autocorr(float *x, int n, int p, float *r)
 
     for (k = 0; k <= p; k++) {
         r[k] = 0.0;
-        for (i = 0,j = k; j < n; i++,j++)  
+        for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * x[j];
     }
 }
 
 
 /*
- * high presion 
- * WARN: use levinson method to resolve the relationship matrix will lead to different 
+ * high presion
+ * WARN: use levinson method to resolve the relationship matrix will lead to different
  *       result according to the input vector R, because the recursion of the levinson,
- *       so it is sensitive to the input vector, I simulate in matlab, the float *x and 
- *       doulbe *x will lead to little error R matrix, but totoally different visual 
- *       results resolved by levinson , so I add this function to vertify the results is 
+ *       so it is sensitive to the input vector, I simulate in matlab, the float *x and
+ *       doulbe *x will lead to little error R matrix, but totoally different visual
+ *       results resolved by levinson , so I add this function to vertify the results is
  *       correct using this method
  */
 void  fa_autocorr_hp(double *x, int n, int p, double *r)
@@ -60,7 +60,7 @@ void  fa_autocorr_hp(double *x, int n, int p, double *r)
 
     for (k = 0; k <= p; k++) {
         r[k] = 0.0;
-        for (i = 0,j = k; j < n; i++,j++)  
+        for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * x[j];
     }
 }
@@ -72,7 +72,7 @@ void  fa_crosscorr(float *x, float *y, int n, int p, float *r)
 
     for (k = 0; k <= p; k++) {
         r[k] = 0.0;
-        for (i = 0,j = k; j < n; i++,j++)  
+        for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * y[j];
     }
 }
@@ -85,7 +85,7 @@ void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r)
 
     for (k = 0; k <= p; k++) {
         r[k] = 0.0;
-        for (i = 0,j = k; j < n; i++,j++)  
+        for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * y[j];
     }
 }
@@ -94,21 +94,21 @@ void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r)
 /*a and b are the frame which be caculate the correlation coffients*/
 float fa_corr_cof(float *a, float *b, int len)
 {
-	int k;
-	float ta,tb,tc;
-	float rab;
+    int k;
+    float ta,tb,tc;
+    float rab;
 
-	ta = tb = tc = 0;
+    ta = tb = tc = 0;
 
-	for (k = 0 ; k < len ; k++) {
-		ta += a[k] * b[k];
-		tb += a[k] * a[k];
-		tc += b[k] * b[k];
-	}
+    for (k = 0 ; k < len ; k++) {
+        ta += a[k] * b[k];
+        tb += a[k] * a[k];
+        tc += b[k] * b[k];
+    }
 
-	rab = ta/sqrt(tb*tc);
+    rab = ta/sqrt(tb*tc);
 
-	return rab;
+    return rab;
 }
 
 

@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_psychomodel2.h 
+  filename: fa_psychomodel2.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -34,19 +34,19 @@
 #include "fa_fft.h"
 /*#include "fa_fir.h"*/
 
-#ifndef		M_PI
-#define		M_PI							3.14159265358979323846
+#ifndef     M_PI
+#define     M_PI                            3.14159265358979323846
 #endif
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-#ifndef FA_ABS 
+#ifndef FA_ABS
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
 
@@ -128,15 +128,15 @@ static void matrix_uninit(float **A)
 
 static int hanning(float *w,const int N)
 {
-	int i,j;
-    
-	for (i = 0 , j = N-1; i <= j ; i++, j--) {
+    int i,j;
+
+    for (i = 0 , j = N-1; i <= j ; i++, j--) {
         /*w[i] = (float)0.5*(1-cos(2*M_PI*i/(N-1)));*/
         w[i] = (float)0.5*(1-cos(2*M_PI*(i+1)/(N-1)));
         w[j] = w[i];
     }
 
-	return N;
+    return N;
 }
 
 static float psy2_spread_func(int i, int j)
@@ -147,7 +147,7 @@ static float psy2_spread_func(int i, int j)
 
     if (j >= i)
         tmpx = 3 * (j - i);
-    else 
+    else
         tmpx = 1.5 * (j - i);
 
     if (tmpx > 0.5 && tmpx < 2.5) {
@@ -161,21 +161,21 @@ static float psy2_spread_func(int i, int j)
 
     if (tmpy < -100)
         spread_val = 0;
-    else 
+    else
         spread_val = pow(10, (tmpz+tmpy)/10.);
 
     return spread_val;
-   
+
 }
 
 
-uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float *qsthr, 
+uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float *qsthr,
                                int swb_num   , int *swb_offset,
                                int iblen)
 {
     int i, j;
     fa_psychomodel2_t *f = (fa_psychomodel2_t *)malloc(sizeof(fa_psychomodel2_t));
-    
+
     memset(f, 0, sizeof(fa_psychomodel2_t));
 
     f->cbands_num = cbands_num;
@@ -205,7 +205,7 @@ uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float
     f->fft_buf    = (float *)malloc(sizeof(float)*f->fft_len*2);
     memset(f->fft_buf , 0, sizeof(float)*f->fft_len*2);
 
-    
+
     f->hanning_win = (float *)malloc(sizeof(float)*f->fft_len);
     hanning(f->hanning_win, f->fft_len);
     /*fa_blackman(f->hanning_win, f->fft_len);*/
@@ -389,8 +389,8 @@ void fa_psychomodel2_uninit(uintptr_t handle)
 }
 /*
     WARN: the x must be short type, for the table of psy according to the SPL of x
-          the short type of x means 16 bits, and the table is also working well with 
-          the 16 bits (the table is measurd by 4kHz 16 bits , +- 1 bit of the signal 
+          the short type of x means 16 bits, and the table is also working well with
+          the 16 bits (the table is measurd by 4kHz 16 bits , +- 1 bit of the signal
                        means the lsb)
 */
 void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
@@ -444,31 +444,31 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     /*calculate prediction mag and phi*/
     for (i = 0; i < (fft_len>>1); i++) {
         float tmp, tmp1, tmp2;
-#if 1 
+#if 1
         re[i]  = fft_buf[i+i];
         im[i]  = fft_buf[i+i+1];
-#else 
+#else
         //2012-12-01
         re[i]  = fft_buf[i+i]/fft_len;
         im[i]  = fft_buf[i+i+1]/fft_len;
-#endif 
+#endif
 
-#if 1 
+#if 1
         mag[i] = sqrt(re[i]*re[i] + im[i]*im[i]);
         phi[i] = atan2(im[i], re[i]);
-#else 
+#else
         mag[i] = FA_SQRTF(re[i]*re[i] + im[i]*im[i]);
         phi[i] = FA_ATAN2(im[i], re[i]);
 #endif
 
         mag_pred[i] = 2*mag_prev1[i] - mag_prev2[i];
         phi_pred[i] = 2*phi_prev1[i] - phi_prev2[i];
-#if 1 
+#if 1
         tmp1   = re[i] - mag_pred[i] * cos(phi_pred[i]);
         tmp2   = im[i] - mag_pred[i] * sin(phi_pred[i]);
         tmp    = sqrt(tmp1*tmp1+tmp2*tmp2);
         c[i]   = tmp/(mag[i] + fabs(mag_pred[i]));
-#else 
+#else
         tmp1   = re[i] - mag_pred[i] * FA_COS(phi_pred[i]);
         tmp2   = im[i] - mag_pred[i] * FA_SIN(phi_pred[i]);
         tmp    = FA_SQRTF(tmp1*tmp1+tmp2*tmp2);
@@ -490,7 +490,7 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
 
             etmp       = mag[j]*mag[j];
             group_e[i] = group_e[i] + etmp;
-            group_c[i] = group_c[i] + etmp*c[j]; 
+            group_c[i] = group_c[i] + etmp*c[j];
         }
     }
 
@@ -504,23 +504,23 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
         ct    = 0;
         tmp   = 0;
         rnorm = 1;
-         
+
         for (j = 0; j < cbands_num; j++) {
             ecb = ecb + group_e[j]*f->spread_val[j][i];
             ct  = ct  + group_c[j]*f->spread_val[j][i];
             tmp = tmp + f->spread_val[j][i];
         }
 
-        if (0 != tmp) 
+        if (0 != tmp)
             rnorm = 1./tmp;
-        else 
+        else
             rnorm = 1;
 
         en[i] = ecb * rnorm;
 
         if (0 != ecb)
             cb[i] = ct/ecb;
-        else 
+        else
             cb[i] = 0;
     }
 
@@ -530,10 +530,10 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
 
 #if 0
         tb = -0.299 - 0.43*log(cb[i]);
-#else 
+#else
         if (cb[i] > 0)
             tb = -0.299 - 0.43*FA_LOG(cb[i]);
-        else 
+        else
             tb = 1;
 #endif
         if (tb < 0)
@@ -562,7 +562,7 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
 
 #if 0
         tmp = FA_MIN(0, log10(nb[i]/(group_e[i]+1)));
-#else 
+#else
 /*
         if (nb[i] > (group_e[i] + 1)) {
             printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
@@ -664,31 +664,31 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     /*calculate prediction mag and phi*/
     for (i = 0; i < (fft_len>>1); i++) {
         float tmp, tmp1, tmp2;
-#if 1 
+#if 1
         re[i]  = fft_buf[i+i];
         im[i]  = fft_buf[i+i+1];
-#else 
+#else
         //2012-12-01
         re[i]  = fft_buf[i+i]/fft_len;
         im[i]  = fft_buf[i+i+1]/fft_len;
-#endif 
+#endif
 
-#if 1 
+#if 1
         mag[i] = sqrt(re[i]*re[i] + im[i]*im[i]);
         phi[i] = atan2(im[i], re[i]);
-#else 
+#else
         mag[i] = FA_SQRTF(re[i]*re[i] + im[i]*im[i]);
         phi[i] = FA_ATAN2(im[i], re[i]);
 #endif
 
         mag_pred[i] = 2*mag_prev1[i] - mag_prev2[i];
         phi_pred[i] = 2*phi_prev1[i] - phi_prev2[i];
-#if 1 
+#if 1
         tmp1   = re[i] - mag_pred[i] * cos(phi_pred[i]);
         tmp2   = im[i] - mag_pred[i] * sin(phi_pred[i]);
         tmp    = sqrt(tmp1*tmp1+tmp2*tmp2);
         c[i]   = tmp/(mag[i] + fabs(mag_pred[i]));
-#else 
+#else
         tmp1   = re[i] - mag_pred[i] * FA_COS(phi_pred[i]);
         tmp2   = im[i] - mag_pred[i] * FA_SIN(phi_pred[i]);
         tmp    = FA_SQRTF(tmp1*tmp1+tmp2*tmp2);
@@ -710,7 +710,7 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
 
             etmp       = mag[j]*mag[j];
             group_e[i] = group_e[i] + etmp;
-            group_c[i] = group_c[i] + etmp*c[j]; 
+            group_c[i] = group_c[i] + etmp*c[j];
         }
     }
 
@@ -724,23 +724,23 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
         ct    = 0;
         tmp   = 0;
         rnorm = 1;
-         
+
         for (j = 0; j < cbands_num; j++) {
             ecb = ecb + group_e[j]*f->spread_val[j][i];
             ct  = ct  + group_c[j]*f->spread_val[j][i];
             tmp = tmp + f->spread_val[j][i];
         }
 
-        if (0 != tmp) 
+        if (0 != tmp)
             rnorm = 1./tmp;
-        else 
+        else
             rnorm = 1;
 
         en[i] = ecb * rnorm;
 
         if (0 != ecb)
             cb[i] = ct/ecb;
-        else 
+        else
             cb[i] = 0;
     }
 
@@ -750,10 +750,10 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
 
 #if 0
         tb = -0.299 - 0.43*log(cb[i]);
-#else 
+#else
         if (cb[i] > 0)
             tb = -0.299 - 0.43*FA_LOG(cb[i]);
-        else 
+        else
             tb = 1;
 #endif
         if (tb < 0)
@@ -774,21 +774,21 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
 
                 if (nb[i] == nb_prev[i])
                     *tns_active = 1;
-                else 
+                else
                     *tns_active = 0;
             } else {
-                float frac = 2.; 
+                float frac = 2.;
 
-                if (nb[i] > frac*nb_prev[i]) 
+                if (nb[i] > frac*nb_prev[i])
                     *tns_active = 1;
-                else 
+                else
                     *tns_active = 0;
 
                 if (nb[i] >= frac*nb_prev[i])
                     nb[i] = FA_MAX((pow(10., qsthr[i]/10.)), frac*nb_prev[i]);
                 else if (nb_prev[i] > frac*nb[i])
                     nb[i] = FA_MAX((pow(10., qsthr[i]/10.)), frac*nb[i]);
-                else 
+                else
                     nb[i] = FA_MAX((pow(10., qsthr[i]/10.)), FA_MIN(nb[i], frac*nb_prev[i]));
             }
         } else {
@@ -812,7 +812,7 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
 
 #if 0
         tmp = FA_MIN(0, log10(nb[i]/(group_e[i]+1)));
-#else 
+#else
 /*
         if (nb[i] > (group_e[i] + 1)) {
             printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));

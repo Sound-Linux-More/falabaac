@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_bitbuffer.c 
+  filename: fa_bitbuffer.c
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -32,23 +32,23 @@
 #include "fa_bitbuffer.h"
 
 
-#define SIZE_OF_BYTE	    1
+#define SIZE_OF_BYTE        1
 #define SIZE_OF_SHORT       2
 #define SIZE_OF_LONG        4
 
-#define BITS_OF_BYTE	    8
+#define BITS_OF_BYTE        8
 
 
 #ifndef FA_MAX
-#define	FA_MAX(a,b)		((a) > (b) ? (a) : (b))
-#endif 
+#define FA_MAX(a,b)     ((a) > (b) ? (a) : (b))
+#endif
 
 #ifndef FA_MIN
-#define	FA_MIN(a,b)		((a) < (b) ? (a) : (b))
+#define FA_MIN(a,b)     ((a) < (b) ? (a) : (b))
 #endif
 
 
-void		fa_write_byte(unsigned char in , FILE *fp)
+void        fa_write_byte(unsigned char in , FILE *fp)
 {
     unsigned char temp[SIZE_OF_BYTE];
 
@@ -56,7 +56,7 @@ void		fa_write_byte(unsigned char in , FILE *fp)
     fwrite(temp, sizeof(*temp), SIZE_OF_BYTE, fp);
 }
 
-void		fa_write_ushort(unsigned short in, FILE *fp)
+void        fa_write_ushort(unsigned short in, FILE *fp)
 {
     unsigned char temp[SIZE_OF_SHORT];
 
@@ -66,7 +66,7 @@ void		fa_write_ushort(unsigned short in, FILE *fp)
     fwrite(temp,sizeof(*temp),SIZE_OF_SHORT,fp);
 }
 
-void		fa_write_ulong(unsigned long in, FILE *fp)
+void        fa_write_ulong(unsigned long in, FILE *fp)
 {
     unsigned char temp[SIZE_OF_LONG];
 
@@ -132,16 +132,16 @@ void fa_bitbuffer_init(fa_bitbuffer_t *bitbuf, unsigned char *start, int sizeofb
     if (bitbuf)
         bitbuf->is_valid = 1;
 
-    bitbuf->start =  start;		
-    bitbuf->end = start + sizeofbyte - 1;		
+    bitbuf->start =  start;
+    bitbuf->end = start + sizeofbyte - 1;
 
     bitbuf->pNextRead = start;
     bitbuf->pNextWrite = start;
 
-    bitbuf->rpos_of_byte = 7;			
-    bitbuf->wpos_of_byte = 7;		
+    bitbuf->rpos_of_byte = 7;
+    bitbuf->wpos_of_byte = 7;
 
-    bitbuf->nbits = 0;		  
+    bitbuf->nbits = 0;
 }
 
 void fa_bitbuffer_uninit(fa_bitbuffer_t * bitbuf)
@@ -164,7 +164,7 @@ int  fa_putbits(fa_bitbuffer_t * bitbuf, unsigned int wValue, int nbits)
 {
     short bitsToWrite, bitsWritten;
 
-    bitsWritten = nbits;                                                         
+    bitsWritten = nbits;
 
     bitbuf->nbits += nbits;
 
@@ -176,7 +176,7 @@ int  fa_putbits(fa_bitbuffer_t * bitbuf, unsigned int wValue, int nbits)
         bits_to_shift = bitbuf->wpos_of_byte+1 - bitsToWrite;
 
         tmp = (signed char)((unsigned int)wValue << (32-nbits) >> (32-bitsToWrite)<<bits_to_shift);
-        msk = ~( ((1 << bitsToWrite) - 1) << bits_to_shift );    
+        msk = ~( ((1 << bitsToWrite) - 1) << bits_to_shift );
 
         *bitbuf->pNextWrite &= msk;
         *bitbuf->pNextWrite |= tmp;
@@ -201,28 +201,28 @@ int  fa_getbits(fa_bitbuffer_t * bitbuf, short noBitsToRead)
 {
     int  returnValue;
 
-    /* return value is of type Word32, it can hold up to 32 bits 
+    /* return value is of type Word32, it can hold up to 32 bits
        this optimized code can read upto 25 Bits a time */
     assert(noBitsToRead <= 25);
 
-    bitbuf->nbits        = bitbuf->nbits-noBitsToRead ;                              
-    bitbuf->rpos_of_byte = bitbuf->rpos_of_byte-noBitsToRead ;                             
+    bitbuf->nbits        = bitbuf->nbits-noBitsToRead ;
+    bitbuf->rpos_of_byte = bitbuf->rpos_of_byte-noBitsToRead ;
 
     /* 8-bit aligned read access: *pReadNext */
-    returnValue = (unsigned int)*bitbuf->pNextRead;                                           
+    returnValue = (unsigned int)*bitbuf->pNextRead;
 
     while (bitbuf->rpos_of_byte < 0) {
-        bitbuf->rpos_of_byte = (bitbuf->rpos_of_byte+ 8) ;                                
-        bitbuf->pNextRead++;                                                               
+        bitbuf->rpos_of_byte = (bitbuf->rpos_of_byte+ 8) ;
+        bitbuf->pNextRead++;
 
 
         if (bitbuf->pNextRead > bitbuf->end) {
-            bitbuf->pNextRead = bitbuf->start;                                        
+            bitbuf->pNextRead = bitbuf->start;
         }
 
-        returnValue <<= 8;                                                                  
+        returnValue <<= 8;
 
-        returnValue  |= (unsigned int)*bitbuf->pNextRead;                                       
+        returnValue  |= (unsigned int)*bitbuf->pNextRead;
     }
 
     returnValue = returnValue << ((31-noBitsToRead)- bitbuf->rpos_of_byte) >> (32-noBitsToRead);
@@ -275,4 +275,4 @@ void example_read_bitbuffer(FILE *f, unsigned int *num_bytes, int *sr_index)
 
 }
 
-        
+

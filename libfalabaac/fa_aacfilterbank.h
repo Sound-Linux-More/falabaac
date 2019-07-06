@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -18,20 +18,19 @@
 
   filename: fa_aacfilterbank.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
-
 #ifndef _FA_AACFILTERBANK_H
 #define _FA_AACFILTERBANK_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 #include "fa_aacenc.h"
 #include "fa_inttypes.h"
@@ -60,21 +59,18 @@ typedef struct _fa_aacfilterbank_t {
 
 }fa_aacfilterbank_t;
 
-
 uintptr_t fa_aacfilterbank_init();
 void fa_aacfilterbank_uninit(uintptr_t handle);
 
-
-void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_shape, 
+void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_shape,
                                float *x, float *mdct_line);
-void fa_aacfilterbank_synthesis(uintptr_t handle, int block_type,  
+void fa_aacfilterbank_synthesis(uintptr_t handle, int block_type,
                                 float *mdct_line, float *x);
 
 void fa_aacfilterbank_get_xbuf(uintptr_t handle, float *x);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_AACFILTERBANK_H//

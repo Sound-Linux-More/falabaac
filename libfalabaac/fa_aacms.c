@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacms.c 
+  filename: fa_aacms.c
   version : v1.0.0
-  time    : 2012-10-14 14:52 
+  time    : 2012-10-14 14:52
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -32,7 +32,7 @@
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
@@ -45,7 +45,7 @@ void fa_aacmsenc(fa_aacenc_ctx_t *f)
     aacenc_ctx_t *s, *sl, *sr;
 
     chn_num = f->cfg.chn_num;
- 
+
     i = 0;
     chn = 1;
     while (i < chn_num) {

@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_quantpdf.c 
+  filename: fa_quantpdf.c
   version : v1.0.0
   time    : 2012/12/20
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
@@ -33,7 +33,7 @@
 #include "fa_fastmath.h"
 
 #ifndef M_PI
-#define M_PI			3.14159265358979323846
+#define M_PI            3.14159265358979323846
 #endif
 
 #define M_PI_SQRT       1.7724538509
@@ -42,13 +42,13 @@
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-#ifndef FA_ABS 
+#ifndef FA_ABS
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
 
@@ -78,7 +78,7 @@ void  fa_protect_db_rom_init()
             fa_protect_db_48k_long[i] = 8;
         else if (i < 42)
             fa_protect_db_48k_long[i] = 7;
-        else 
+        else
             fa_protect_db_48k_long[i] = 0;
     }
 
@@ -88,14 +88,14 @@ void  fa_protect_db_rom_init()
             fa_protect_db_48k_short[i] = 8;
         else if (i < 2)
             fa_protect_db_48k_short[i] = 7;
-        else if (i < 11) 
+        else if (i < 11)
             fa_protect_db_48k_short[i] = 7;
-        else 
+        else
             fa_protect_db_48k_short[i] = 0;
     }
 
     /*44k long*/
-#if 1 
+#if 1
 
     for (i = 0; i < 49; i++) {
         if (i < 3)
@@ -106,12 +106,12 @@ void  fa_protect_db_rom_init()
             fa_protect_db_44k_long[i] = 8;
         else if (i < 42)
             fa_protect_db_44k_long[i] = 7;
-        else 
+        else
             fa_protect_db_44k_long[i] = 0;
     }
-    
-#else 
- 
+
+#else
+
     for (i = 0; i < 49; i++) {
         if (i < 3)
             fa_protect_db_44k_long[i] = 9;
@@ -121,34 +121,34 @@ void  fa_protect_db_rom_init()
             fa_protect_db_44k_long[i] = 7;
         else if (i < 42)
             fa_protect_db_44k_long[i] = 4;
-        else 
+        else
             fa_protect_db_44k_long[i] = 0;
     }
-    
+
 #endif
 
     /*44k short*/
-#if  1 
+#if  1
     for (i = 0; i < 14; i++) {
         if (i < 1)
             fa_protect_db_44k_short[i] = 8;//7;
         else if (i < 2)
             fa_protect_db_44k_short[i] = 7;//3;
-        else if (i < 11) 
+        else if (i < 11)
             fa_protect_db_44k_short[i] = 7;//2;
-        else 
+        else
             fa_protect_db_44k_short[i] = 0;//0;
     }
 
-#else 
+#else
     for (i = 0; i < 14; i++) {
         if (i < 1)
             fa_protect_db_44k_short[i] = 8;
         else if (i < 2)
             fa_protect_db_44k_short[i] = 5;
-        else if (i < 11) 
+        else if (i < 11)
             fa_protect_db_44k_short[i] = 2;
-        else 
+        else
             fa_protect_db_44k_short[i] = 0;
     }
 
@@ -164,7 +164,7 @@ void  fa_protect_db_rom_init()
             fa_protect_db_32k_long[i] = 9;
         else if (i < 42)
             fa_protect_db_32k_long[i] = 7;
-        else 
+        else
             fa_protect_db_32k_long[i] = 0;
     }
 
@@ -174,9 +174,9 @@ void  fa_protect_db_rom_init()
             fa_protect_db_32k_short[i] = 9;
         else if (i < 2)
             fa_protect_db_32k_short[i] = 8;
-        else if (i < 11) 
+        else if (i < 11)
             fa_protect_db_32k_short[i] = 7;
-        else 
+        else
             fa_protect_db_32k_short[i] = 0;
     }
 
@@ -189,7 +189,7 @@ float fa_get_subband_power(float *X, int kmin, int kmax)
     float Px;
 
     Px = 0.0;
-    for (k = kmin; k <= kmax; k++) 
+    for (k = kmin; k <= kmax; k++)
         Px += X[k] * X[k];
 
     return Px;
@@ -201,7 +201,7 @@ float fa_get_subband_abspower(float *X, int kmin, int kmax)
     float Px;
 
     Px = 0.0;
-    for (k = kmin; k <= kmax; k++) 
+    for (k = kmin; k <= kmax; k++)
         Px += FA_ABS(X[k]);
 
     return Px;
@@ -287,8 +287,8 @@ float fa_inverse_error_func(float alpha)
 {
     float erf_inv = 0.0;
 
-    erf_inv = alpha + 
-              (M_PI/12.) * alpha * alpha * alpha + 
+    erf_inv = alpha +
+              (M_PI/12.) * alpha * alpha * alpha +
               ((7*M_PI*M_PI)/480.) * alpha * alpha * alpha * alpha * alpha +
               ((127*M_PI*M_PI*M_PI)/40320.) * alpha * alpha * alpha * alpha * alpha * alpha * alpha;
 
@@ -383,8 +383,8 @@ float fa_db2pow(float db)
 }
 
 
-void fa_adjust_thr(int subband_num, 
-                   float *Px, float *Tm, float *G, 
+void fa_adjust_thr(int subband_num,
+                   float *Px, float *Tm, float *G,
                    float *Ti, float *Ti1)
 {
     int s;
@@ -403,12 +403,12 @@ void fa_adjust_thr(int subband_num,
 
     mi = FA_MAX(mi, 0);
 
-#if  1 
+#if  1
 
     for (s = 0; s < subband_num; s++) {
         if (Px[s] <= Tm[s]) {                           //masked by thr
             Ti[s] = Px[s];
-        } else {                                        //unmasked 
+        } else {                                        //unmasked
             /*if ((Ti[s] - Tm[s]) < 6.0) {                //high SNR, use constant NMR adjust*/
             if ((Ti[s] - Tm[s]) < 15.0) {                //high SNR, use constant NMR adjust
                 /*assert(Ti[s] >= Tm[s]);*/
@@ -426,13 +426,13 @@ void fa_adjust_thr(int subband_num,
             }
         }
     }
-#else 
+#else
 
     for (s = 0; s < subband_num; s++) {
         if (Px[s] <= Tm[s]) {                           //masked by thr
             Ti[s] = Px[s];
             /*printf("-----------ttx\n");*/
-        } else {                                        //unmasked 
+        } else {                                        //unmasked
             if ((Ti[s] - Tm[s]) < 15.0) {                //high SNR, use constant NMR adjust
                 /*assert(Ti[s] >= Tm[s]);*/
                 Ti1_tmp = Ti[s] + 1;//r1;

@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_tns.c 
+  filename: fa_tns.c
   version : v1.0.0
-  time    : 2012/11/20 
+  time    : 2012/11/20
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -34,13 +34,13 @@
 #include "fa_mdctquant.h"
 #include "fa_lpc.h"
 
-#ifndef		M_PI
-#define		M_PI							3.14159265358979323846
+#ifndef     M_PI
+#define     M_PI                            3.14159265358979323846
 #endif
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
@@ -68,7 +68,7 @@ static int tns_maxband_short[12] =
 #define TNS_MAX_ORDER_LONG_LC     12
 #define TNS_MAX_ORDER_SHORT       7
 
-   
+
 uintptr_t fa_tns_init(int mpeg_version, int objtype, int sr_index)
 {
     tns_info_t *f = (tns_info_t *)malloc(sizeof(tns_info_t));
@@ -153,14 +153,14 @@ static void quant_reflection_cof(int order, int cof_res, float *kcof, int *index
     for (i = 1;i <= order; i++) {
 #if 0
         index[i] = (int)(0.5+(asin(kcof[i])*((kcof[i]>=0)?iqfac:iqfac_m)));
-#else 
+#else
         float tmp;
         int   tmp_int;
         tmp = ((asin(kcof[i])*((kcof[i]>=0)?iqfac:iqfac_m)));
         tmp_int = (int)(floor(tmp));
-        if ((tmp-tmp_int) > 0.5) 
+        if ((tmp-tmp_int) > 0.5)
             index[i] = tmp_int + 1;
-        else 
+        else
             index[i] = tmp_int;
 #endif
         kcof[i]  = sin((float)index[i]/((index[i]>=0)?iqfac:iqfac_m));
@@ -184,7 +184,7 @@ static void kcof2acof(int order, float * kcof, float * acof)
             acof[i]=atmp[i];
         }
     }
-#else 
+#else
     acof[0] = 1.0;
     atmp[0] = 1.0;
     for (p = 1; p <= order; p++) {
@@ -223,7 +223,7 @@ static void tns_ma_filter(float *spec, int length, tns_flt_t *flt)
 
         for (i = length-1-order; i >= 0; i--) {
             tmp[i] = spec[i];
-            for (j = 1; j <= order; j++) 
+            for (j = 1; j <= order; j++)
                 spec[i] += tmp[i+j] * acof[j];
         }
     } else {
@@ -360,7 +360,7 @@ void fa_tns_encode_frame(aacenc_ctx_t *f)
         /*if (gain > DEF_TNS_GAIN_THRESH) {*/
         if (gain > s->tns_gain_thr) {
             int real_order;
-            
+
             /*printf("\ngain=%f\n", gain);*/
 
             tns_win->num_flt++;
@@ -425,10 +425,10 @@ int fa_tnssync(fa_aacenc_ctx_t *f)
             if (block_type == LONG_START_BLOCK || block_type == LONG_STOP_BLOCK)
                 tns_sl->tns_gain_thr = tns_sr->tns_gain_thr = 60;
                 /*tns_sl->tns_gain_thr = tns_sr->tns_gain_thr = 2;*/
-            else 
+            else
                 tns_sl->tns_gain_thr = tns_sr->tns_gain_thr = 50;
                 /*tns_sl->tns_gain_thr = tns_sr->tns_gain_thr = 2;*/
-           
+
         } else {
             tns_info_t *tns_s = (tns_info_t *)s->h_tns;
             chn = 1;
@@ -436,12 +436,12 @@ int fa_tnssync(fa_aacenc_ctx_t *f)
             block_type = s->block_type;
             if (block_type == LONG_START_BLOCK || block_type == LONG_STOP_BLOCK)
                 tns_s->tns_gain_thr = 60;
-            else 
+            else
                 tns_s->tns_gain_thr = 50;
         }
 
         i += chn;
-    } 
+    }
 
     return 0;
 

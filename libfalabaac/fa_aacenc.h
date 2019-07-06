@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,17 +16,16 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacenc.h 
+  filename: fa_aacenc.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
-
 #ifndef _FA_AACENC_H
-#define _FA_AACENC_H 
+#define _FA_AACENC_H
 
 #include "fa_inttypes.h"
 #include "fa_aacapi.h"
@@ -35,11 +34,10 @@
 #include "fa_swbtab.h"
 #include "fa_quantpdf.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 typedef struct _aacenc_ctx_t{
 
@@ -61,7 +59,7 @@ typedef struct _aacenc_ctx_t{
     int   time_resolution_first;
 
 
-    //sfb var 
+    //sfb var
     int   sfb_num_long;
     int   sfb_num_short;
     int   max_sfb;
@@ -174,8 +172,8 @@ typedef struct _fa_aacenc_ctx_t{
 
 }fa_aacenc_ctx_t;
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
 #endif
+
+#endif //_FA_AACENC_H//

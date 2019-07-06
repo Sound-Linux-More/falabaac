@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_mdct.h 
+  filename: fa_mdct.h
   version : v1.0.0
-  time    : 2012/07/16 - 2012/07/18  
+  time    : 2012/07/16 - 2012/07/18
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -28,10 +28,10 @@
 #ifndef _FA_MDCT_H
 #define _FA_MDCT_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 #include "fa_inttypes.h"
 
@@ -62,9 +62,8 @@ void fa_imdct(uintptr_t handle, float *X, float *x);
 int fa_mdct_sine(float *w, int N);
 int fa_mdct_kbd(float *w, int N, float alpha);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_MDCT_H//

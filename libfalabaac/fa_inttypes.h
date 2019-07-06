@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_inttypes.h 
+  filename: fa_inttypes.h
   version : v1.0.0
-  time    : 2012/07/15 14:14 
+  time    : 2012/07/15 14:14
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -29,11 +29,10 @@
 #ifndef _FA_INTTYPES_H
 #define _FA_INTTYPES_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 typedef char *  caddr_t;
 
@@ -41,7 +40,7 @@ typedef char *  caddr_t;
 typedef char                int8_t;
 typedef unsigned __int64    u_int64_t;
 #else
-typedef long long           __int64; 
+typedef long long           __int64;
 typedef unsigned long long  u_int64_t;
 #endif
 typedef unsigned char       u_int8_t;
@@ -87,14 +86,12 @@ typedef u_int64_t           uint64_t;
 #define INT16_MIN (-32767 - 1)
 #endif
 
-
 #ifndef INT32_MAX
 #define INT32_MAX 2147483647
 #endif
 #ifndef INT32_MIN
 #define INT32_MIN (-2147483647 - 1)
 #endif
-
 
 #ifndef UINT8_MAX
 #define UINT8_MAX 0xff /* 255U */
@@ -126,14 +123,12 @@ typedef unsigned uintptr_t;
 #   endif
 #endif
 
-
 #ifndef offsetof
 #    define offsetof(T, F) ((unsigned int)((char *)&((T *)0)->F))
 #endif
 
-
-#define INTMAX_MIN	    (-INT64_C(9223372036854775807)-1)
-#define INTMAX_MAX		(INT64_C(9223372036854775807))
+#define INTMAX_MIN      (-INT64_C(9223372036854775807)-1)
+#define INTMAX_MAX      (INT64_C(9223372036854775807))
 #define UINTMAX_MAX     (UINT64_C(18446744073709551615))
 
 #ifndef WIN32
@@ -147,13 +142,8 @@ typedef unsigned uintptr_t;
 #define vsnprintf           _vsnprintf
 #endif
 
-
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
-
-
 #endif
+
+#endif //_FA_INTTYPES_H//

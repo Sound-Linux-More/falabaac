@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,43 +16,41 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_levinson.h 
+  filename: fa_levinson.h
   version : v1.0.0
-  time    : 2012/11/17 15:19 
+  time    : 2012/11/17 15:19
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
 #ifndef _FA_LEVINSON_H
-#define _FA_LEVINSON_H 
+#define _FA_LEVINSON_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 #define FA_LEVINSON_ORDER_MAX   64
 
-void fa_levinson(float *r,    int p, 
+void fa_levinson(float *r,    int p,
                  float *acof, float *kcof, float *err);
-void fa_levinson1(float *r, int p, 
+void fa_levinson1(float *r, int p,
                   float *acof, float *kcof, float *err);
-void fa_levinson_hp(double *r,    int p, 
+void fa_levinson_hp(double *r,    int p,
                     double *acof, double *kcof, double *err);
-void fa_levinson1_hp(double *r, int p, 
+void fa_levinson1_hp(double *r, int p,
                      double *acof, double *kcof, double *err);
 
 
-int  fa_atlvs(float *r, int n, float *b, 
+int  fa_atlvs(float *r, int n, float *b,
               float *x, float *kcof, float *err);
-int  fa_atlvs_hp(double *r, int n, double *b, 
+int  fa_atlvs_hp(double *r, int n, double *b,
                  double *x, double *kcof, double *err);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_LEVINSON_H//

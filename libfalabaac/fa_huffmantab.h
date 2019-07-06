@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_huffmantab.h 
+  filename: fa_huffmantab.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -26,13 +26,12 @@
 
 
 #ifndef _FA_HUFFMANTAB_H
-#define _FA_HUFFMANTAB_H 
+#define _FA_HUFFMANTAB_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 extern unsigned short fa_hufftab1[][2];
 extern unsigned short fa_hufftab2[][2];
@@ -47,10 +46,8 @@ extern unsigned short fa_hufftab10[][2];
 extern unsigned short fa_hufftab11[][2];
 extern unsigned int   fa_hufftab12[][2];
 
-
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_HUFFMANTAB_H//

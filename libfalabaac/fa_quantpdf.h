@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,7 +16,7 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_quantpdf.h 
+  filename: fa_quantpdf.h
   version : v1.0.0
   time    : 2012/12/20
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
@@ -25,8 +25,8 @@
 */
 
 
-#ifndef _FA_QUANTPDF_H 
-#define _FA_QUANTPDF_H 
+#ifndef _FA_QUANTPDF_H
+#define _FA_QUANTPDF_H
 
 typedef struct _fa_qpdf_para_t {
     float alpha;
@@ -47,10 +47,10 @@ extern int fa_protect_db_32k_long[51];
 extern int fa_protect_db_32k_short[14];
 
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 void  fa_protect_db_rom_init();
 float fa_get_subband_power(float *X, int kmin, int kmax);
@@ -69,15 +69,13 @@ int   fa_estimate_sf_fast(float T, float t);
 int   fa_estimate_sf_fast_improve(float T, float t, float miu2);
 float fa_pow2db(float power);
 float fa_db2pow(float db);
-void  fa_adjust_thr(int subband_num, 
-                    float *Px, float *Tm, float *G, 
+void  fa_adjust_thr(int subband_num,
+                    float *Px, float *Tm, float *G,
                     float *Ti, float *Ti1);
 void  fa_quantqdf_para_init(fa_qpdf_para_t *f, float alpha);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_QUANTPDF_H//

@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,29 +16,28 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aaccfg.h 
+  filename: fa_aaccfg.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
 #ifndef _FA_AACCFG_H
-#define _FA_AACCFG_H 
+#define _FA_AACCFG_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 /*-------------------------- configuration define -----------------------------------*/
-//MPEG ID's 
+//MPEG ID's
 #define MPEG2       1
 #define MPEG4       0
 
-//AAC object types 
+//AAC object types
 #define MAIN        1
 #define LOW         2
 #define SSR         3
@@ -56,7 +55,6 @@ extern "C"
 
 //channels
 #define MAX_CHANNELS            64
-
 
 /*-------------------------- encoding/decoding define -------------------------------*/
 //length for bitstream define
@@ -138,9 +136,6 @@ enum {
 #define AAC_BLOCK_SHORT_LEN 128
 #define AAC_BLOCK_TRANS_LEN 448   // (1024-128)/2=448
 
-
-
-
 typedef struct _aaccfg_t  {
     /* copyright string */
     char *copyright;
@@ -173,11 +168,8 @@ typedef struct _aaccfg_t  {
     int sample_rate_index;
 }aaccfg_t;
 
-
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_AACCFG_H//

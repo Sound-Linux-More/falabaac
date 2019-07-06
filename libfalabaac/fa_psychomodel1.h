@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_psychomodel1.h 
+  filename: fa_psychomodel1.h
   version : v1.0.0
-  time    : 2012/07/16 - 2012/07/18  
+  time    : 2012/07/16 - 2012/07/18
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -28,10 +28,10 @@
 #ifndef _FA_PSYCHOMODEL_H
 #define _FA_PSYCHOMODEL_H
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 
 typedef unsigned uintptr_t;
@@ -46,9 +46,8 @@ void fa_psy_global_threshold(uintptr_t handle, float *fft_buf, float *gth);
 void fa_psy_global_threshold_usemdct(uintptr_t handle, float *mdct_buf, float *gth);
 
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
 #endif
+
+#endif //_FA_PSYCHOMODEL_H//

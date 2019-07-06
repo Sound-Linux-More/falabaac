@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacblockswitch.c 
+  filename: fa_aacblockswitch.c
   version : v1.0.0
-  time    : 2012/10/27 
+  time    : 2012/10/27
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -35,13 +35,13 @@
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-#ifndef FA_ABS 
+#ifndef FA_ABS
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
 
@@ -58,13 +58,13 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
 
     if (prev_block_type == ONLY_SHORT_BLOCK)
         prev_coding_block_type = SHORT_CODING_BLOCK;
-    else 
+    else
         prev_coding_block_type = LONG_CODING_BLOCK;
 
     /*use pe to decide current coding block type*/
-    if (pe > SWITCH_PE) 
+    if (pe > SWITCH_PE)
         cur_coding_block_type = SHORT_CODING_BLOCK;
-    else 
+    else
         cur_coding_block_type = LONG_CODING_BLOCK;
 /*
     if (cur_coding_block_type != prev_coding_block_type)
@@ -77,7 +77,7 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
         update_psy_long2short_previnfo(h_aacpsy);
 
     /*use prev coding block type and current coding block type to decide current block type*/
-#if 1 
+#if 1
     if (cur_coding_block_type == SHORT_CODING_BLOCK) {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             *cur_block_type = LONG_START_BLOCK;
@@ -89,7 +89,7 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             *cur_block_type = LONG_STOP_BLOCK;
     }
-#else 
+#else
 
     if (cur_coding_block_type == SHORT_CODING_BLOCK) {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
@@ -177,7 +177,7 @@ static float frame_var_max(float *x, int len)
             /*tmp  = fabs(xp[i]/32768.);*/
             tmp  = FA_ABS(xp[i]/32768.);
             diff =  tmp - avg;
-            var  += diff  * diff; 
+            var  += diff  * diff;
         }
 
         var /= hop;
@@ -216,7 +216,7 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
     /*get prev coding block type*/
     if (prev_block_type == ONLY_SHORT_BLOCK)
         prev_coding_block_type = SHORT_CODING_BLOCK;
-    else 
+    else
         prev_coding_block_type = LONG_CODING_BLOCK;
 
     if (cur_var_max < SWITCH_E1)
@@ -225,18 +225,18 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
         if (prev_coding_block_type == LONG_CODING_BLOCK) {
             if (var_diff > SWITCH_E)
                 cur_coding_block_type = SHORT_CODING_BLOCK;
-            else 
+            else
                 cur_coding_block_type = LONG_CODING_BLOCK;
         } else {
             if (var_diff > SWITCH_E2)
                 cur_coding_block_type = SHORT_CODING_BLOCK;
-            else 
+            else
                 cur_coding_block_type = LONG_CODING_BLOCK;
         }
     }
- 
+
     /*use prev coding block type and current coding block type to decide current block type*/
-#if 0 
+#if 0
     /*test switch */
     if (prev_block_type == ONLY_LONG_BLOCK)
         cur_block_type = LONG_START_BLOCK;
@@ -259,7 +259,7 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             cur_block_type = LONG_STOP_BLOCK;
     }
-    #else 
+    #else
 
     if (cur_coding_block_type == SHORT_CODING_BLOCK) {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
@@ -305,7 +305,7 @@ typedef struct _fa_blockctrl_t {
     float *x_flt;   // filter by hp_flt, high frequence sample
 
     // 1 means attack, 0 means no attack
-    int attack_flag;           
+    int attack_flag;
     int lastattack_flag;
     int attack_index;
     int lastattack_index;
@@ -397,21 +397,21 @@ static void calculate_win_enrg(fa_blockctrl_t *f)
                             //lastattack-attack-blocktype
 static const int win_sequence[2][2][4] =
 {
-   /*  ONLY_LONG_BLOCK    LONG_START_BLOCK   ONLY_SHORT_BLOCK   LONG_STOP_BLOCK   */  
+   /*  ONLY_LONG_BLOCK    LONG_START_BLOCK   ONLY_SHORT_BLOCK   LONG_STOP_BLOCK   */
    /*last no attack*/
-   { 
+   {
        /*no attack*/
-       {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  LONG_STOP_BLOCK,   ONLY_LONG_BLOCK,  },   
+       {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  LONG_STOP_BLOCK,   ONLY_LONG_BLOCK,  },
        /*attack*/
-       {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, } 
-   }, 
+       {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
+   },
    /*last attack*/
-   { 
+   {
        /*no attack*/
-       {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_LONG_BLOCK,  },  
+       {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_LONG_BLOCK,  },
        /*attack*/
-       {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, } 
-   }  
+       {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
+   }
 };
 
 
@@ -423,16 +423,16 @@ static int select_block(int prev_block_type, int attack_flag)
 
     if (attack_flag)
         cur_coding_block_type = SHORT_CODING_BLOCK;
-    else 
+    else
         cur_coding_block_type = LONG_CODING_BLOCK;
 
     /*get prev coding block type*/
     if (prev_block_type == ONLY_SHORT_BLOCK)
         prev_coding_block_type = SHORT_CODING_BLOCK;
-    else 
+    else
         prev_coding_block_type = LONG_CODING_BLOCK;
 
-#if 0 
+#if 0
     if (cur_coding_block_type == SHORT_CODING_BLOCK) {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = LONG_START_BLOCK;
@@ -445,7 +445,7 @@ static int select_block(int prev_block_type, int attack_flag)
             cur_block_type = LONG_STOP_BLOCK;
     }
 
-#else 
+#else
 
     if (cur_coding_block_type == SHORT_CODING_BLOCK) {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
@@ -474,8 +474,8 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
     /*float win_enrg_max;*/
     float win_enrg_prev;
 
-    float frac; 
-    float ratio; 
+    float frac;
+    float ratio;
 
     float max_attack;
     float cur_attack;
@@ -494,7 +494,7 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
     for (i = 0; i < 1024; i++) {
         f->x[i] = sample_buf[i];
     }
-#else 
+#else
     for (i = 0; i < 1024; i++) {
         f->x[i]      = fb->x_buf[i+1024];
         f->x[i+1024] = sample_buf[i];
@@ -549,7 +549,7 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
             f->attack_index = 0;
         }
     }
-    
+
     /*s->block_type = select_block(s->block_type, f->attack_flag);*/
     s->block_type = win_sequence[f->lastattack_flag][f->attack_flag][s->block_type];
 
@@ -680,15 +680,15 @@ int fa_blocksync(fa_aacenc_ctx_t *f)
             sl->block_type = block_type;
             sr->block_type = block_type;
 
-#if 0 
+#if 0
             if (block_type != 0)
                 printf("i=%d, block_type=%d\n", i+1, s->block_type);
 #endif
-            
+
             if (block_type == ONLY_SHORT_BLOCK) {
                 sl->num_window_groups = MAX_GROUP_CNT;
                 sr->num_window_groups = MAX_GROUP_CNT;
-#if  1 
+#if  1
                 sl->window_group_length[0] = group_tab[bcl->attack_index][0];
                 sl->window_group_length[1] = group_tab[bcl->attack_index][1];
                 sl->window_group_length[2] = group_tab[bcl->attack_index][2];
@@ -705,7 +705,7 @@ int fa_blocksync(fa_aacenc_ctx_t *f)
                 sr->window_group_length[5] = 0;
                 sr->window_group_length[6] = 0;
                 sr->window_group_length[7] = 0;
-#else 
+#else
                 sl->window_group_length[0] = group_tab[bcl->attack_index][0];
                 sl->window_group_length[1] = group_tab[bcl->attack_index][1];
                 sl->window_group_length[2] = group_tab[bcl->attack_index][2];
@@ -756,7 +756,7 @@ int fa_blocksync(fa_aacenc_ctx_t *f)
         }
 
         i += chn;
-    } 
+    }
 
     return 0;
 }

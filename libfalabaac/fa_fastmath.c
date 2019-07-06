@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_fastmath.c 
+  filename: fa_fastmath.c
   version : v1.0.0
-  time    : 2012/10/20 16:47 
+  time    : 2012/10/20 16:47
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -32,22 +32,22 @@
 #include "fa_fastmath.h"
 
 #ifndef M_PI
-#define M_PI			3.14159265358979323846
+#define M_PI            3.14159265358979323846
 #endif
 
-#define M_PI_MUL2		6.28318530717958647692
-#define M_PI_DIV2		1.57079632679489661923
+#define M_PI_MUL2       6.28318530717958647692
+#define M_PI_DIV2       1.57079632679489661923
 
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif 
+#endif
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-#ifndef FA_ABS 
+#ifndef FA_ABS
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
 
@@ -92,27 +92,27 @@ ieee754_float32_t fa_fast_log2(ieee754_float32_t x)
 //angle function
 float fa_fast_sin(float angle)
 {
-	float real_angle;
-	float square,result;
-	int sign;
+    float real_angle;
+    float square,result;
+    int sign;
 
     /*normalize the angle in [0,2*M_PI]*/
-	angle = angle + M_PI_MUL2;
-	angle = fmod(angle, M_PI_MUL2);	//now the angle is in(0,2*M_PI)
+    angle = angle + M_PI_MUL2;
+    angle = fmod(angle, M_PI_MUL2); //now the angle is in(0,2*M_PI)
 
-	if (angle <= M_PI) {
-		real_angle = M_PI - angle;
-		angle      = FA_MIN(real_angle, angle);
-		sign = 1;
-	} else {
-		angle	   = angle - M_PI;
-		real_angle = M_PI - angle;
-		angle      = FA_MIN(real_angle, angle);
-		sign       = -1;
-	}
-	
+    if (angle <= M_PI) {
+        real_angle = M_PI - angle;
+        angle      = FA_MIN(real_angle, angle);
+        sign = 1;
+    } else {
+        angle      = angle - M_PI;
+        real_angle = M_PI - angle;
+        angle      = FA_MIN(real_angle, angle);
+        sign       = -1;
+    }
+
     /*do fast compute*/
-	square =  angle*angle;
+    square =  angle*angle;
     result =  7.61e-03f;
     result *= square;
     result -= 1.6605e-01f;
@@ -126,26 +126,26 @@ float fa_fast_sin(float angle)
 
 float fa_fast_cos(float angle)
 {
-	float real_angle;
-	float square,result;
-	int sign;
+    float real_angle;
+    float square,result;
+    int sign;
 
     /*normalize the angle in [0,2*M_PI]*/
-	angle = angle + M_PI_MUL2;
-	angle = fmod(angle, M_PI_MUL2);	//now the angle is in(0,2*M_PI)
+    angle = angle + M_PI_MUL2;
+    angle = fmod(angle, M_PI_MUL2); //now the angle is in(0,2*M_PI)
 
-	if (angle <= M_PI){
-		real_angle = M_PI - angle;
-		/*sign       = (M_PI_DIV2 - angle)/FA_ABS(M_PI_DIV2 - angle);*/
-		sign       = ((M_PI_DIV2 - angle) >= 0 ? 1 : -1);
-		angle      = FA_MIN(real_angle,angle);
-	}else{
-		angle	   = angle - M_PI;
-		real_angle = M_PI - angle;
-		/*sign	   = (angle - M_PI_DIV2)/FA_ABS(angle - M_PI_DIV2);*/
-		sign	   = ((angle - M_PI_DIV2) >= 0 ? 1 : -1);
-		angle      = FA_MIN(real_angle,angle);
-	}
+    if (angle <= M_PI){
+        real_angle = M_PI - angle;
+        /*sign       = (M_PI_DIV2 - angle)/FA_ABS(M_PI_DIV2 - angle);*/
+        sign       = ((M_PI_DIV2 - angle) >= 0 ? 1 : -1);
+        angle      = FA_MIN(real_angle,angle);
+    }else{
+        angle      = angle - M_PI;
+        real_angle = M_PI - angle;
+        /*sign     = (angle - M_PI_DIV2)/FA_ABS(angle - M_PI_DIV2);*/
+        sign       = ((angle - M_PI_DIV2) >= 0 ? 1 : -1);
+        angle      = FA_MIN(real_angle,angle);
+    }
 
     /*do fast compute*/
     square = angle*angle;
@@ -189,13 +189,13 @@ float fa_fast_atan2(float y, float x)
     if (abs_y >= abs_x) {
         if (y > 0)
             sita = M_PI_DIV2 - fast_atan(x/y);
-        else 
+        else
             sita = M_PI_DIV2 - fast_atan(x/y) - M_PI;
 
     } else  {
         if (x > 0)
             sita = fast_atan(y/x);
-        else 
+        else
             sita = fast_atan(y/x) - M_PI;
     }
 
@@ -207,9 +207,9 @@ float fa_fast_invsqrtf(float x)
 {
     float xhalf = 0.5f*x;
     int i = *(int*)&x;
-    i = 0x5f3759df - (i >> 1);       
+    i = 0x5f3759df - (i >> 1);
     x = *(float*)&i;
-    x = x*(1.5f - xhalf*x*x);       
+    x = x*(1.5f - xhalf*x*x);
 
     return x;
 }
@@ -217,17 +217,17 @@ float fa_fast_invsqrtf(float x)
 
 float fa_fast_sqrtf(float number)
 {
-    long i;   
-    float x, y;   
-    const float f = 1.5F;    
-    x = number * 0.5F;  
-    y  = number;   
-    i  = * ( long * ) &y;    
-    i  = 0x5f3759df - ( i >> 1 );    
-    y  = * ( float * ) &i;    
-    y  = y * ( f - ( x * y * y ) );    
-    y  = y * ( f - ( x * y * y ) );    
-    return number * y;    
+    long i;
+    float x, y;
+    const float f = 1.5F;
+    x = number * 0.5F;
+    y  = number;
+    i  = * ( long * ) &y;
+    i  = 0x5f3759df - ( i >> 1 );
+    y  = * ( float * ) &i;
+    y  = y * ( f - ( x * y * y ) );
+    y  = y * ( f - ( x * y * y ) );
+    return number * y;
 }
 
 

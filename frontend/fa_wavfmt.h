@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,9 +16,9 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_wavfmt.h 
+  filename: fa_wavfmt.h
   version : v1.0.0
-  time    : 2012/07/08 18:33 
+  time    : 2012/07/08 18:33
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
@@ -27,30 +27,30 @@
 */
 
 
-#ifndef	_FA_WAVFMT_H
-#define	_FA_WAVFMT_H
+#ifndef _FA_WAVFMT_H
+#define _FA_WAVFMT_H
 
 #include <stdio.h>
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 
 typedef struct _fa_wavfmt_t
 {
-	unsigned short  format;
+    unsigned short  format;
 
-	unsigned short  channels;
+    unsigned short  channels;
 
-	unsigned long   samplerate;
+    unsigned long   samplerate;
 
-	unsigned short  bytes_per_sample;
+    unsigned short  bytes_per_sample;
 
-	unsigned short  block_align;
+    unsigned short  block_align;
 
-	unsigned long   data_size;
+    unsigned long   data_size;
 
 }fa_wavfmt_t;
 
@@ -58,10 +58,8 @@ typedef struct _fa_wavfmt_t
 fa_wavfmt_t  fa_wavfmt_readheader (FILE *fp);
 void         fa_wavfmt_writeheader(fa_wavfmt_t fmt, FILE *fp);
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_WAVFMT_H//

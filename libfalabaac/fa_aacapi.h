@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,26 +16,23 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacapi.h 
+  filename: fa_aacapi.h
   version : v1.0.0
-  time    : 2012/11/24 17:58 
+  time    : 2012/11/24 17:58
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
-
-
 #ifndef _FA_AACAPI_H
-#define _FA_AACAPI_H 
+#define _FA_AACAPI_H
 
 #include "fa_inttypes.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
-
+{
+#endif
 
 //typedef unsigned uintptr_t;
 
@@ -49,12 +46,12 @@ extern "C"
       if you want to support more sample rate, complete fa_swbtab and add code in fa_aacenc_init by yourself, very easy
 
     2.vbr with quality control (0.1 ~ 1.0), vbr mode is recommend for it adjust bitrate according to the frame feature;
-      cbr(roughtly cbr, because if want have accurate bit rate can cost more bitrate control loop and will degrade the 
+      cbr(roughtly cbr, because if want have accurate bit rate can cost more bitrate control loop and will degrade the
       speed performance), cbr support 16~160 per channel, means that if encode stereo audio, can support (32 ~320kbps)
       default settings is: -q 0.7, band width is 17kHz, roughtly bitrate is 110 ~ 150kbps according to the audio sample feature
-      if you want the best quality and wide band width, use -q 1, the band width extend to 22kHz and encoding whole 
+      if you want the best quality and wide band width, use -q 1, the band width extend to 22kHz and encoding whole
       frequency line using psychmodel
-                                     
+
       you can download the EBU test audio file frome the web site below to do sound quality test:
       http://tech.ebu.ch/public-cations/sqamcd
 
@@ -63,9 +60,9 @@ extern "C"
     4.now only support mpeg_version 2(mpeg2aac), sbr and ps not support now, is developing
         MPEG2       1
         MPEG4       0
-      and only ADTS format support 
+      and only ADTS format support
 
-    5.aac_objtype only support MAIN and LC, and ltp of MAIN can not support(useless, very slow and influece quality little) , SSR is not support 
+    5.aac_objtype only support MAIN and LC, and ltp of MAIN can not support(useless, very slow and influece quality little) , SSR is not support
         MAIN        1
         LOW         2
         SSR         3
@@ -73,11 +70,11 @@ extern "C"
 
     6.ms encode is support, but if you use fast quantize method(according to you speed_level choice), I close ms encode
 
-    7.band_width you can change by yourself using option -w 
-    
+    7.band_width you can change by yourself using option -w
+
     8.I give 6 speed level(1~6), you can choose according to your application , 1 is the lowest but very good quality, 6 is fatest but low quality,
-      default is 1(strongly recommend), 
-      I think level 3 is a good choice if you want fast encoding, the speed is more than 2 times compare to the speed_level 1. 
+      default is 1(strongly recommend),
+      I think level 3 is a good choice if you want fast encoding, the speed is more than 2 times compare to the speed_level 1.
 
     9.Summary----
       Want Best quality (default)       : use -l 1  (best quality, very good sound, smoothly and stable)
@@ -93,14 +90,11 @@ uintptr_t fa_aacenc_init(int sample_rate, int bit_rate, int chn_num, float quali
 
 void fa_aacenc_uninit(uintptr_t handle);
 
-//WARN: the inlen must be 1024*chn_num*2 (2 means 2 bytes for per sample, so your sample should be 16 bits short type), 
+//WARN: the inlen must be 1024*chn_num*2 (2 means 2 bytes for per sample, so your sample should be 16 bits short type),
 void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsigned char *buf_out, int *outlen);
 
-
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_AACAPI_H//

@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,25 +16,25 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacchn.h 
+  filename: fa_aacchn.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05 
+  time    : 2012/08/22 - 2012/10/05
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
 #ifndef _FA_AACCHN_H
-#define _FA_AACCHN_H 
+#define _FA_AACCHN_H
 
 #include "fa_inttypes.h"
 #include "fa_aaccfg.h"
 #include "fa_mdctquant.h"
 
-#ifdef __cplusplus 
+#ifdef __cplusplus
 extern "C"
-{ 
-#endif  
+{
+#endif
 
 typedef struct _chn_info_t{
 
@@ -60,11 +60,8 @@ typedef struct _chn_info_t{
 
 void get_aac_chn_info(chn_info_t *chn_info, int nchn, int lfe_enable);
 
-
-#ifdef __cplusplus 
+#ifdef __cplusplus
 }
-#endif  
-
-
-
 #endif
+
+#endif //_FA_AACCHN_H//

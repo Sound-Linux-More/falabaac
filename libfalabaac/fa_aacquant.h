@@ -1,5 +1,5 @@
 /*
-  falab - free algorithm lab 
+  falab - free algorithm lab
   Copyright (C) 2012 luolongzhi 罗龙智 (Chengdu, China)
 
   This program is free software: you can redistribute it and/or modify
@@ -16,16 +16,16 @@
   along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 
-  filename: fa_aacquant.h 
+  filename: fa_aacquant.h
   version : v1.0.0
-  time    : 2012/08/22 - 2012/11/24 
+  time    : 2012/08/22 - 2012/11/24
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: http://code.google.com/p/falab/
 
 */
 
 #ifndef _FA_AACQUANT_H
-#define _FA_AACQUANT_H 
+#define _FA_AACQUANT_H
 
 #include "fa_aacenc.h"
 #include "fa_swbtab.h"
@@ -45,4 +45,4 @@ void fa_fastquant_calculate_xmin(aacenc_ctx_t *s, float xmin[8][NUM_SFB_MAX], fl
 
 void fa_adjust_scalefactor(fa_aacenc_ctx_t *f);
 
-#endif
+#endif //_FA_AACQUANT_H//
