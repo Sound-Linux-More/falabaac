@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -46,7 +45,6 @@ typedef struct _fa_fir_filter_t {
     float   *h;
     float   *buf;
 }fa_fir_filter_t;
-
 
 /*
  * Calculate the sin(pi*x)/(pi*x)
@@ -129,9 +127,7 @@ float fa_kaiser_atten2beta(float atten)
         beta = (float)0.1102 * (float)(atten - 8.7);
 
     return beta;
-
 }
-
 
 int fa_kaiser(float *w, const int N)
 {
@@ -226,7 +222,6 @@ static int fir_lowpass(float *h, float *w, int N, float fc)
     }
 
     return N;
-
 }
 
 static int fir_highpass(float *h, float *w, int N, float fc)
@@ -244,7 +239,6 @@ static int fir_highpass(float *h, float *w, int N, float fc)
     h[delay] = 1-fc;
 
     return N;
-
 }
 
 static int fir_bandpass(float *h, float *w, int N, float fc1, float fc2)
@@ -262,7 +256,6 @@ static int fir_bandpass(float *h, float *w, int N, float fc1, float fc2)
     h[delay] = fc2-fc1;
 
     return N;
-
 }
 
 static int fir_bandstop(float *h, float *w, int N, float fc1, float fc2)
@@ -280,7 +273,6 @@ static int fir_bandstop(float *h, float *w, int N, float fc1, float fc2)
     h[delay] = 1-(fc2-fc1);
 
     return N;
-
 }
 
 int fa_fir_lpf_cof(float **h, int N, float fc, win_t win_type)
@@ -496,7 +488,6 @@ uintptr_t fa_fir_filter_hpf_init(int frame_len,
     memset(flt->buf,0,sizeof(float)*flt->buf_len);      //very important in the first time of convolution
 
     return (uintptr_t)flt;
-
 }
 
 uintptr_t fa_fir_filter_bandpass_init(int frame_len,
@@ -542,7 +533,6 @@ uintptr_t fa_fir_filter_bandstop_init(int frame_len,
     memset(flt->buf,0,sizeof(float)*flt->buf_len);      //very important in the first time of convolution
 
     return (uintptr_t)flt;
-
 }
 
 void fa_fir_filter_uninit(uintptr_t handle)
@@ -557,8 +547,6 @@ void fa_fir_filter_uninit(uintptr_t handle)
     free(flt);
     flt = NULL;
 }
-
-
 
 int fa_fir_filter(uintptr_t handle, float *buf_in, float *buf_out, int frame_len)
 {
@@ -596,7 +584,6 @@ int fa_fir_filter(uintptr_t handle, float *buf_in, float *buf_out, int frame_len
     }
 
     return frame_len;
-
 }
 
 /*
@@ -639,4 +626,3 @@ int fa_fir_filter_flush(uintptr_t handle, float *buf_out)
 
     return flt_len-1;
 }
-

@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -93,7 +92,6 @@ typedef struct _fa_psychomodel2_t {
     float *thrbin;
     float *smr;
 }fa_psychomodel2_t;
-
 
 static float ** matrix_init(int Nrow, int Ncol)
 {
@@ -165,9 +163,7 @@ static float psy2_spread_func(int i, int j)
         spread_val = pow(10, (tmpz+tmpy)/10.);
 
     return spread_val;
-
 }
-
 
 uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float *qsthr,
                                int swb_num   , int *swb_offset,
@@ -194,7 +190,6 @@ uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float
         for (j = 0; j < cbands_num; j++)
             f->spread_val[i][j] = psy2_spread_func(i,j);
 
-
     f->swb_num    = swb_num;
     f->swb_offset = (int *)malloc(sizeof(int)*(swb_num+1));
     for (i = 0; i <= swb_num; i++)
@@ -204,7 +199,6 @@ uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float
     f->h_fft      = fa_fft_init(f->fft_len);
     f->fft_buf    = (float *)malloc(sizeof(float)*f->fft_len*2);
     memset(f->fft_buf , 0, sizeof(float)*f->fft_len*2);
-
 
     f->hanning_win = (float *)malloc(sizeof(float)*f->fft_len);
     hanning(f->hanning_win, f->fft_len);
@@ -382,11 +376,9 @@ void fa_psychomodel2_uninit(uintptr_t handle)
 
         free(f);
         f = NULL;
-
     }
-
-
 }
+
 /*
     WARN: the x must be short type, for the table of psy according to the SPL of x
           the short type of x means 16 bits, and the table is also working well with
@@ -858,12 +850,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
         smr[i] = epart[i]/npart[i];
         /*printf("smr%d=%f", i, smr[i]);*/
     }
-
     /*printf("\n\n");*/
 }
-
-
-
 
 void fa_psychomodel2_calculate_xmin(uintptr_t handle, float *mdct_line, float *xmin, float qcof)
 {
@@ -911,8 +899,6 @@ void fa_psychomodel2_calculate_xmin_short(uintptr_t handle, float xmin[8][51])
     }
 }
 
-
-
 void fa_psychomodel2_get_mag_prev1(uintptr_t handle, float *mag, int *len)
 {
     int i;
@@ -932,7 +918,6 @@ void fa_psychomodel2_get_mag_prev2(uintptr_t handle, float *mag, int *len)
     for (i = 0; i < (*len); i++)
         mag[i] = f->mag_prev2[i];
 }
-
 
 void fa_psychomodel2_get_phi_prev1(uintptr_t handle, float *phi, int *len)
 {
@@ -954,7 +939,6 @@ void fa_psychomodel2_get_phi_prev2(uintptr_t handle, float *phi, int *len)
         phi[i] = f->phi_prev2[i];
 }
 
-
 void fa_psychomodel2_set_mag_prev1(uintptr_t handle, float *mag, int len)
 {
     int i;
@@ -972,7 +956,6 @@ void fa_psychomodel2_set_mag_prev2(uintptr_t handle, float *mag, int len)
     for (i = 0; i < len; i++)
         f->mag_prev2[i] = mag[i];
 }
-
 
 void fa_psychomodel2_set_phi_prev1(uintptr_t handle, float *phi, int len)
 {
@@ -1001,7 +984,6 @@ void fa_psychomodel2_reset_nb_prev(uintptr_t handle)
         f->nb_prev[i] = 0;
 }
 
-
 void fa_psychomodel2_reset_mag_prev1(uintptr_t handle)
 {
     int i;
@@ -1024,7 +1006,6 @@ void fa_psychomodel2_reset_mag_prev2(uintptr_t handle)
         f->mag_prev2[i] = 0;
 }
 
-
 void fa_psychomodel2_reset_phi_prev1(uintptr_t handle)
 {
     int i;
@@ -1046,5 +1027,3 @@ void fa_psychomodel2_reset_phi_prev2(uintptr_t handle)
     for (i = 0; i < len; i++)
         f->phi_prev2[i] = 0;
 }
-
-

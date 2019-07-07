@@ -44,7 +44,6 @@ void  fa_autocorr(float *x, int n, int p, float *r)
     }
 }
 
-
 /*
  * high presion
  * WARN: use levinson method to resolve the relationship matrix will lead to different
@@ -65,7 +64,6 @@ void  fa_autocorr_hp(double *x, int n, int p, double *r)
     }
 }
 
-
 void  fa_crosscorr(float *x, float *y, int n, int p, float *r)
 {
     int i, j, k;
@@ -76,7 +74,6 @@ void  fa_crosscorr(float *x, float *y, int n, int p, float *r)
             r[k] += x[i] * y[j];
     }
 }
-
 
 /*high precison*/
 void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r)
@@ -89,7 +86,6 @@ void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r)
             r[k] += x[i] * y[j];
     }
 }
-
 
 /*a and b are the frame which be caculate the correlation coffients*/
 float fa_corr_cof(float *a, float *b, int len)
@@ -110,5 +106,3 @@ float fa_corr_cof(float *a, float *b, int len)
 
     return rab;
 }
-
-

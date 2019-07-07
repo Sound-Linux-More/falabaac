@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -43,7 +42,6 @@
 #ifndef FA_MAX
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
-
 
 static float rom_exp2_N[20];
 
@@ -103,7 +101,6 @@ static int calculate_esc_sequence(int input, int *len_esc_sequence)
 
     return(output);
 }
-
 
 static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int length)
 {
@@ -246,7 +243,6 @@ static int calculate_huff_bits(int hufftab_no, int *x_quant, int offset, int len
     return 0;
 }
 
-
 int fa_noiseless_huffman_bitcount(int *x_quant, int sfb_num,  int *sfb_offset,
                                   int *quant_hufftab_no, int *quant_bits)
 {
@@ -311,11 +307,8 @@ int fa_noiseless_huffman_bitcount(int *x_quant, int sfb_num,  int *sfb_offset,
         total_bits += quant_bits_best;
     }
 
-
     return total_bits;
 }
-
-
 
 int fa_huffman_encode_mdctline(int *x_quant, int sfb_num, int *sfb_offset, int *quant_hufftab_no,
                                int *max_sfb, int *x_quant_code, int *x_quant_bits)
@@ -590,7 +583,3 @@ int fa_huffman_encode_mdctline(int *x_quant, int sfb_num, int *sfb_offset, int *
     /*return bits;*/
     return counter;
 }
-
-
-
-

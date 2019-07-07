@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -34,7 +33,6 @@
 #include "fa_fastmath.h"
 #include "fa_huffman.h"
 /*#include "fa_timeprofile.h"*/
-
 
 #ifndef FA_MIN
 #define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
@@ -180,7 +178,6 @@ int fa_get_start_common_scalefac(float max_mdct_line)
     return start_common_scalefac;
 }
 
-
 void fa_mdctline_pow34(uintptr_t handle)
 {
     fa_mdctquant_t *f = (fa_mdctquant_t *)handle;
@@ -246,10 +243,6 @@ void fa_mdctline_quant(uintptr_t handle,
     /*FA_CLOCK_END(5);*/
     /*FA_CLOCK_COST(5);*/
 }
-
-
-
-
 
 void fa_mdctline_quantdirect(uintptr_t handle,
                              int common_scalefac,
@@ -321,10 +314,7 @@ void fa_mdctline_quantdirect(uintptr_t handle,
         }
     }
 #endif
-
 }
-
-
 
 void fa_calculate_quant_noise(uintptr_t handle,
                              int num_window_groups, int *window_group_length,
@@ -463,9 +453,7 @@ int  fa_fix_quant_noise_single(uintptr_t handle,
     }
 
     return 1;
-
 }
-
 
 int  fa_fix_quant_noise_couple(uintptr_t handle1, uintptr_t handle2,
                                int outer_loop_count, int outer_loop_count_max,
@@ -555,9 +543,7 @@ int  fa_fix_quant_noise_couple(uintptr_t handle1, uintptr_t handle2,
     }
 
     return 1;
-
 }
-
 
 int fa_mdctline_get_sfbnum(uintptr_t handle)
 {
@@ -565,7 +551,6 @@ int fa_mdctline_get_sfbnum(uintptr_t handle)
 
     return f->sfb_num;
 }
-
 
 int fa_mdctline_iquantize(uintptr_t handle,
                           int num_window_groups, int *window_group_length,
@@ -716,9 +701,7 @@ void fa_balance_energe(uintptr_t handle,
 #endif
 
     }
-
 }
-
 
 #else
 
@@ -835,17 +818,9 @@ void fa_balance_energe(uintptr_t handle,
 
         group_offset += mdct_line_num * window_group_length[gr];
     }
-
 }
 
-
-
-
-
 #endif
-
-
-
 
 void fa_xmin_sfb_arrange(uintptr_t handle, float xmin_swb[NUM_WINDOW_GROUPS_MAX][NUM_SFB_MAX],
                          int num_window_groups, int *window_group_length)
@@ -937,9 +912,7 @@ void fa_mdctline_sfb_arrange(uintptr_t handle, float *mdct_line_swb,
         f->sfb_low[gr][sfb_num] = f->sfb_high[gr][sfb_num-1] + 1;
         group_offset += mdct_line_num * window_group_length[gr];
     }
-
 }
-
 
 void fa_mdctline_sfb_iarrange(uintptr_t handle, float *mdct_line_swb, int *mdct_line_sign,
                               int num_window_groups, int *window_group_length)
@@ -978,9 +951,7 @@ void fa_mdctline_sfb_iarrange(uintptr_t handle, float *mdct_line_swb, int *mdct_
 
     for (i = 0; i < 1024; i++)
         mdct_line_swb[i] = mdct_line_swb[i] * mdct_line_sign[i];
-
 }
-
 
 int  fa_mdctline_encode(uintptr_t handle, int *x_quant, int num_window_groups, int *window_group_length,
                         int quant_hufftab_no[8][FA_SWB_NUM_MAX],
@@ -1024,7 +995,6 @@ int  fa_mdctline_encode(uintptr_t handle, int *x_quant, int num_window_groups, i
     /*FA_CLOCK_COST(4);*/
     return spectral_count;
 }
-
 
 void fa_mdctline_ms_encode(uintptr_t hl, uintptr_t hr, int num_window_groups,
                            ms_info_t *ms_l, ms_info_t *ms_r)
@@ -1095,7 +1065,4 @@ void fa_mdctline_ms_encode(uintptr_t hl, uintptr_t hr, int num_window_groups,
             }
         }
     }
-
 }
-
-

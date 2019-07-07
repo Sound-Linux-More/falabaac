@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -52,8 +51,6 @@
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
 
-
-
 int fa_protect_db_48k_long[49];
 int fa_protect_db_48k_short[14];
 
@@ -62,7 +59,6 @@ int fa_protect_db_44k_short[14];
 
 int fa_protect_db_32k_long[51];
 int fa_protect_db_32k_short[14];
-
 
 void  fa_protect_db_rom_init()
 {
@@ -179,8 +175,6 @@ void  fa_protect_db_rom_init()
         else
             fa_protect_db_32k_short[i] = 0;
     }
-
-
 }
 
 float fa_get_subband_power(float *X, int kmin, int kmax)
@@ -206,7 +200,6 @@ float fa_get_subband_abspower(float *X, int kmin, int kmax)
 
     return Px;
 }
-
 
 float fa_get_subband_sqrtpower(float *X, int kmin, int kmax)
 {
@@ -261,8 +254,6 @@ void fa_get_subband_abssqrtpower_improve(float *X, int kmin, int kmax, float *Px
     *Px2 = tPx2;
     *Px3 = tPx3;
 }
-
-
 
 float fa_get_scaling_para(int scale_factor)
 {
@@ -331,7 +322,6 @@ int   fa_estimate_sf(float T, int K, float beta,
     return sf;
 }
 
-
 int   fa_estimate_sf_fast(float T, float t)
 {
     float ratio;
@@ -368,10 +358,6 @@ int   fa_estimate_sf_fast_improve(float T, float t, float miu2)
     return sf;
 }
 
-
-
-
-
 float fa_pow2db(float power)
 {
     return 10*FA_LOG10(power);
@@ -381,7 +367,6 @@ float fa_db2pow(float db)
 {
     return pow(10, 0.1*db);
 }
-
 
 void fa_adjust_thr(int subband_num,
                    float *Px, float *Tm, float *G,
@@ -462,4 +447,3 @@ void fa_quantqdf_para_init(fa_qpdf_para_t *f, float alpha)
     f->a2    = 4./27.;
     f->a4    = 16./405.;
 }
-

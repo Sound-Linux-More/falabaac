@@ -24,8 +24,6 @@
 
 */
 
-
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -150,7 +148,6 @@ static float psd_estimate(float re, float im)
     return psd;
 }
 
-
 static float psd_estimate_usemdct(float mdct_line, float cof)
 {
     float power;
@@ -162,8 +159,6 @@ static float psd_estimate_usemdct(float mdct_line, float cof)
 
     return psd;
 }
-
-
 
 /*
  * input: freq in hz
@@ -193,7 +188,6 @@ static float ath(float f)
 
     return ath;
 }
-
 
 /*freqbin = 0 means direct constant component*/
 static float freqbin2freq(float fs, int fft_len, int freqbin)
@@ -413,7 +407,6 @@ static int noisemasker_band(float *psd, int *tone_flag,
     return 0;
 }
 
-
 static int noisemasker_band_fast(float *psd, int *tone_flag,
                                  int lowbin, int highbin,
                                  int band, float *geomean_table,
@@ -444,8 +437,6 @@ static int noisemasker_band_fast(float *psd, int *tone_flag,
 
     return 0;
 }
-
-
 
 static int psd_noisemasker(float *psd, int psd_len,
                     int *tone_flag, int *cb_hopbin,
@@ -583,7 +574,6 @@ static int check_near_masker(float *ptm, float *pnm,
 
     return 0;
 }
-
 
 static int spread_function(float power, float *psd_bark,
                            int masker_bin, int low_bin, int high_bin,
@@ -735,6 +725,7 @@ uintptr_t fa_psychomodel1_init(int fs, int fft_len)
 
     return (uintptr_t)f;
 }
+
 void fa_psychomodel1_uninit(uintptr_t handle)
 {
     fa_psychomodel1_t *f = (fa_psychomodel1_t *)handle;
@@ -784,7 +775,6 @@ void fa_psychomodel1_uninit(uintptr_t handle)
         free(f);
         f = NULL;
     }
-
 }
 
 void fa_psy_global_threshold(uintptr_t handle, float *fft_buf, float *gth)
@@ -859,4 +849,3 @@ void fa_psy_global_threshold_usemdct(uintptr_t handle, float *mdct_buf, float *g
     printf("dbmax=%f, dbmin=%f\n", dbmax, dbmin);
 #endif
 }
-

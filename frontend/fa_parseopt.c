@@ -52,7 +52,6 @@ int   opt_time_resolution_first = 0;
 
 int   opt_vbr_enable = 1;
 
-
 const char *usage =
 "\n\n"
 "Usage: falabaac <-i> <inputfile> [options] ...\n"
@@ -124,7 +123,6 @@ const char *long_help =
 "    --time_resolution<t>       Set the encoding time resolution first, use short window\n"
 "\n\n";
 
-
 const char *all_help =
 "\n\n"
 "Usage: falabaac <-i> <inputfile>  [options] ...                                                            \n"
@@ -186,9 +184,6 @@ const char *all_help =
 "    --license                  for the license terms for falab.                                            \n"
 "                                                                                                           \n"
 "\n\n";
-
-
-
 
 const char *license =
 "\n\n"
@@ -295,7 +290,6 @@ static int fa_checkopt(int argc)
     return 0;
 }
 
-
 /**
  * @brief: parse the command line
  *         this is the simple template which will be used by falab projects
@@ -344,118 +338,117 @@ int fa_parseopt(int argc, char *argv[])
 
         switch (c) {
             case 'h': {
-                          /*die_msg = short_help;*/
-                          die_msg = all_help;
-                          break;
-                      }
+                  /*die_msg = short_help;*/
+                  die_msg = all_help;
+                  break;
+              }
 /*
             case 'H': {
-                          die_msg = long_help;
-                          break;
-                      }
-                      */
+                  die_msg = long_help;
+                  break;
+              }
+              */
             case 'L': {
-                          die_msg = license;
-                          break;
-                      }
+                  die_msg = license;
+                  break;
+              }
 
             case 'i': {
-                          if (sscanf(optarg, "%s", opt_inputfile) > 0) {
-                              FA_PRINT("SUCC: inputfile is %s\n", opt_inputfile);
-                          }else {
-                              FA_PRINT_ERR("FAIL: no inputfile\n");
-                          }
-                          break;
-                      }
+                  if (sscanf(optarg, "%s", opt_inputfile) > 0) {
+                      FA_PRINT("SUCC: inputfile is %s\n", opt_inputfile);
+                  }else {
+                      FA_PRINT_ERR("FAIL: no inputfile\n");
+                  }
+                  break;
+              }
 
             case 'o': {
-                          if (sscanf(optarg, "%s", opt_outputfile) > 0) {
-                              FA_PRINT("SUCC: outputfile is %s\n", opt_outputfile);
-                          }else {
-                              FA_PRINT_ERR("FAIL: no outputfile\n");
-                          }
-                          break;
-                      }
+                  if (sscanf(optarg, "%s", opt_outputfile) > 0) {
+                      FA_PRINT("SUCC: outputfile is %s\n", opt_outputfile);
+                  }else {
+                      FA_PRINT_ERR("FAIL: no outputfile\n");
+                  }
+                  break;
+              }
 
             case 'b': {
-                          unsigned int i;
-                          if (sscanf(optarg, "%u", &i) > 0) {
-                              opt_bitrate = i;
-                              opt_vbr_enable = 0;
-                              FA_PRINT("SUCC: set bitrate = %u\n", opt_bitrate);
+                  unsigned int i;
+                  if (sscanf(optarg, "%u", &i) > 0) {
+                      opt_bitrate = i;
+                      opt_vbr_enable = 0;
+                      FA_PRINT("SUCC: set bitrate = %u\n", opt_bitrate);
 
-                          }
-                          break;
-                      }
+                  }
+                  break;
+              }
 
             case 'q': {
-                          float i;
-                          if (sscanf(optarg, "%f", &i) > 0) {
-                              opt_quality = i;
-                              FA_PRINT("SUCC: set quality = %f\n", opt_quality);
-                          }
-                          break;
-                      }
+                  float i;
+                  if (sscanf(optarg, "%f", &i) > 0) {
+                      opt_quality = i;
+                      FA_PRINT("SUCC: set quality = %f\n", opt_quality);
+                  }
+                  break;
+              }
 
             case 'v': {
-                          unsigned int i;
-                          if (sscanf(optarg, "%u", &i) > 0) {
-                              opt_vbrflag = i;
-                              FA_PRINT("SUCC: set vbr mode = %u\n", opt_vbrflag);
-                          }
-                          break;
-                      }
+                  unsigned int i;
+                  if (sscanf(optarg, "%u", &i) > 0) {
+                      opt_vbrflag = i;
+                      FA_PRINT("SUCC: set vbr mode = %u\n", opt_vbrflag);
+                  }
+                  break;
+              }
 
             case 'l': {
-                          unsigned int i;
-                          if (sscanf(optarg, "%u", &i) > 0) {
-                              opt_speedlevel = i;
-                              FA_PRINT("SUCC: set speedlevel = %u\n", opt_speedlevel);
-                          }
-                          break;
-                      }
+                  unsigned int i;
+                  if (sscanf(optarg, "%u", &i) > 0) {
+                      opt_speedlevel = i;
+                      FA_PRINT("SUCC: set speedlevel = %u\n", opt_speedlevel);
+                  }
+                  break;
+              }
 
             case 'w': {
-                          /*unsigned int i;*/
-                          float i;
-                          if (sscanf(optarg, "%f", &i) > 0) {
-                              opt_bandwidth = i;
-                              FA_PRINT("SUCC: set band_width = %f\n", opt_bandwidth);
-                          }
-                          break;
-                      }
+                  /*unsigned int i;*/
+                  float i;
+                  if (sscanf(optarg, "%f", &i) > 0) {
+                      opt_bandwidth = i;
+                      FA_PRINT("SUCC: set band_width = %f\n", opt_bandwidth);
+                  }
+                  break;
+              }
 
             case 'e': {
-                          unsigned int i;
-                          if (sscanf(optarg, "%u", &i) > 0) {
-                              opt_lfeenable = i;
-                              if (opt_lfeenable != 0 && opt_lfeenable != 1) {
-                                  FA_PRINT("FAIL: lfe enable should be 0 or 1\n");
-                                  exit(0);
-                              }
-                              FA_PRINT("SUCC: set lfe enable = %u\n", opt_lfeenable);
-                          }
-                          break;
+                  unsigned int i;
+                  if (sscanf(optarg, "%u", &i) > 0) {
+                      opt_lfeenable = i;
+                      if (opt_lfeenable != 0 && opt_lfeenable != 1) {
+                          FA_PRINT("FAIL: lfe enable should be 0 or 1\n");
+                          exit(0);
                       }
+                      FA_PRINT("SUCC: set lfe enable = %u\n", opt_lfeenable);
+                  }
+                  break;
+              }
 
             case 't': {
-                          unsigned int i;
-                          if (sscanf(optarg, "%u", &i) > 0) {
-                              opt_time_resolution_first = i;
-                              if (opt_time_resolution_first != 0 && opt_time_resolution_first!= 1) {
-                                  FA_PRINT("FAIL: time_resolution enable should be 0 or 1\n");
-                                  exit(0);
-                              }
-                              FA_PRINT("SUCC: set time_resolution enable = %u\n", opt_time_resolution_first);
-                          }
-                          break;
+                  unsigned int i;
+                  if (sscanf(optarg, "%u", &i) > 0) {
+                      opt_time_resolution_first = i;
+                      if (opt_time_resolution_first != 0 && opt_time_resolution_first!= 1) {
+                          FA_PRINT("FAIL: time_resolution enable should be 0 or 1\n");
+                          exit(0);
                       }
-
+                      FA_PRINT("SUCC: set time_resolution enable = %u\n", opt_time_resolution_first);
+                  }
+                  break;
+              }
 
             case '?':
             default:
-                      die_msg = usage;
-                      break;
+                  die_msg = usage;
+                  break;
         }
     }
 

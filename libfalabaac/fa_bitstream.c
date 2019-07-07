@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -52,7 +51,6 @@ typedef struct _fa_bitstream_t {
     int           num_bytes;
 
 }fa_bitstream_t;
-
 
 /*initial bitstream buffer, size is num_bytes*/
 uintptr_t fa_bitstream_init(int num_bytes)
@@ -107,7 +105,6 @@ int  fa_bitstream_fillbuffer(uintptr_t handle, unsigned char *buf, int num_bytes
 
     return fill_bytes;
 }
-
 
 /*put bits*/
 int  fa_bitstream_putbits(uintptr_t handle, unsigned int value, int nbits)

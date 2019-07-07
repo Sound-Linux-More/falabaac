@@ -24,20 +24,17 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
 #include <memory.h>
 #include "fa_bitbuffer.h"
 
-
 #define SIZE_OF_BYTE        1
 #define SIZE_OF_SHORT       2
 #define SIZE_OF_LONG        4
 
 #define BITS_OF_BYTE        8
-
 
 #ifndef FA_MAX
 #define FA_MAX(a,b)     ((a) > (b) ? (a) : (b))
@@ -46,7 +43,6 @@
 #ifndef FA_MIN
 #define FA_MIN(a,b)     ((a) < (b) ? (a) : (b))
 #endif
-
 
 void        fa_write_byte(unsigned char in , FILE *fp)
 {
@@ -121,7 +117,6 @@ unsigned long fa_read_ulong(FILE *fp)
     return cx;
 
 }
-
 
 void fa_bitbuffer_init(fa_bitbuffer_t *bitbuf, unsigned char *start, int sizeofbyte)
 {
@@ -230,8 +225,6 @@ int  fa_getbits(fa_bitbuffer_t * bitbuf, short noBitsToRead)
     return returnValue;
 }
 
-
-
 /*below are the example for write and read*/
 void  example_write_bitbuffer(FILE *f, int num_bytes, int sr_index)
 {
@@ -253,7 +246,6 @@ void  example_write_bitbuffer(FILE *f, int num_bytes, int sr_index)
     fwrite(tmp,1,4,f);
 }
 
-
 void example_read_bitbuffer(FILE *f, unsigned int *num_bytes, int *sr_index)
 {
     fa_bitbuffer_t bitbuf;
@@ -274,5 +266,3 @@ void example_read_bitbuffer(FILE *f, unsigned int *num_bytes, int *sr_index)
     fa_bitbuffer_uninit(&bitbuf);
 
 }
-
-

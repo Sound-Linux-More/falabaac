@@ -46,7 +46,6 @@
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-
 static int tns_samplerate[13] =
 { 96000,88200,64000,48000,44100,32000,24000,22050,16000,12000,11025,8000,0 };
 
@@ -67,7 +66,6 @@ static int tns_maxband_short[12] =
 #define TNS_MAX_ORDER_LONG_MAIN   20
 #define TNS_MAX_ORDER_LONG_LC     12
 #define TNS_MAX_ORDER_SHORT       7
-
 
 uintptr_t fa_tns_init(int mpeg_version, int objtype, int sr_index)
 {
@@ -125,7 +123,6 @@ void fa_tns_uninit(uintptr_t handle)
         free(f);
         f = NULL;
     }
-
 }
 
 static int truncate_cof(int order, float threshold, float * kcof)
@@ -167,7 +164,6 @@ static void quant_reflection_cof(int order, int cof_res, float *kcof, int *index
     }
 }
 
-
 static void kcof2acof(int order, float * kcof, float * acof)
 {
     float atmp[TNS_MAX_ORDER+2];
@@ -197,10 +193,8 @@ static void kcof2acof(int order, float * kcof, float * acof)
         }
         acof[p] = kcof[p-1];
     }
-
 #endif
 }
-
 
 static void tns_ma_filter(float *spec, int length, tns_flt_t *flt)
 {
@@ -242,10 +236,7 @@ static void tns_ma_filter(float *spec, int length, tns_flt_t *flt)
                 /*spec[i] += tmp[i-j] * acof[j] * 0.3;*/
         }
     }
-
 }
-
-
 
 void fa_tns_encode_frame(aacenc_ctx_t *f)
 {
@@ -327,7 +318,6 @@ void fa_tns_encode_frame(aacenc_ctx_t *f)
     /*if (f->block_type == LONG_STOP_BLOCK)*/
         /*direction = 1;*/
 
-
     for (w = 0; w < num_windows; w++) {
         tns_win_t * tns_win = &(s->tns_win[w]);
         tns_flt_t * tns_flt = tns_win->tns_flt;
@@ -382,11 +372,8 @@ void fa_tns_encode_frame(aacenc_ctx_t *f)
             kcof2acof(real_order, kcof, acof);
             tns_ma_filter(&(mdct_line[mdct_line_index]), mdct_line_len, tns_flt);
         }
-
     }
-
 }
-
 
 int fa_tnssync(fa_aacenc_ctx_t *f)
 {
@@ -439,12 +426,10 @@ int fa_tnssync(fa_aacenc_ctx_t *f)
             else
                 tns_s->tns_gain_thr = 50;
         }
-
         i += chn;
     }
 
     return 0;
-
 }
 
 

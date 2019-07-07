@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -42,7 +41,6 @@ typedef struct  _fa_fft_ctx_t {
     float *cos_ang;
     float *sin_ang;
 }fa_fft_ctx_t;
-
 
 static int bit_reverse(int *buf_rvs, int size)
 {
@@ -143,8 +141,6 @@ static void inverse_dit_butterfly(float *data, long size, float *cos_ang, float 
     }
 }
 
-
-
 /*
     in-place Radix-2 FFT for complex values
     data:   (array of float, below order)
@@ -175,9 +171,7 @@ void fa_fft(uintptr_t handle, float *data)
         data[i+i] = temp[i+i];
         data[i+i+1] = temp[i+i+1];
     }
-
 }
-
 
 /*
     in-place Radix-2 inverse FFT for complex values
@@ -210,8 +204,6 @@ void fa_ifft(uintptr_t handle, float* data)
 
     inverse_dit_butterfly(data, size, cos_ang, sin_ang);
 }
-
-
 
 uintptr_t fa_fft_init(int size)
 {
@@ -261,6 +253,3 @@ void fa_fft_uninit(uintptr_t handle)
     free(f);
     f = NULL;
 }
-
-
-

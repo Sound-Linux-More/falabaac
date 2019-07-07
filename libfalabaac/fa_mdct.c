@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -78,7 +77,6 @@ typedef struct _fa_mdct_ctx_t {
     void    (*imdct_func)(struct _fa_mdct_ctx_t *f, const float *X, float *x, int N2);
 
 }fa_mdct_ctx_t;
-
 
 static float ** matrix_init(int Nrow, int Ncol)
 {
@@ -195,7 +193,6 @@ int fa_mdct_kbd(float *w, int N, float alpha)
     return N;
 }
 
-
 static void mdct0(fa_mdct_ctx_t *f, const float *x, float *X, int N)
 {
     int k, n;
@@ -212,7 +209,6 @@ static void mdct0(fa_mdct_ctx_t *f, const float *x, float *X, int N)
         }
         X[k] = Xk;
     }
-
 }
 
 static void imdct0(fa_mdct_ctx_t *f, const float *X, float *x, int N2)
@@ -231,9 +227,7 @@ static void imdct0(fa_mdct_ctx_t *f, const float *X, float *x, int N2)
         }
         x[n] = (xn * 4)/N;
     }
-
 }
-
 
 static void mdct1(fa_mdct_ctx_t *f, const float *x, float *X, int N)
 {
@@ -251,7 +245,6 @@ static void mdct1(fa_mdct_ctx_t *f, const float *x, float *X, int N)
 
     for (k = 0; k < N2; k++)
         X[k] = f->fft_buf[k+k] * f->c_pos[k] - f->fft_buf[k+k+1] * f->s_pos[k];
-
 }
 
 static void imdct1(fa_mdct_ctx_t *f, const float *X, float *x, int N2)
@@ -274,7 +267,6 @@ static void imdct1(fa_mdct_ctx_t *f, const float *X, float *x, int N2)
 
     for (k = 0; k < N; k++)
         x[k] = 2 * (f->fft_buf[k+k] * f->c_inv[k] - f->fft_buf[k+k+1] * f->s_inv[k]);
-
 }
 
 static void mdct2(fa_mdct_ctx_t *f, const float *x, float *X, int N)
@@ -312,7 +304,6 @@ static void mdct2(fa_mdct_ctx_t *f, const float *x, float *X, int N)
         X[2*k]      =  2 * (re * f->tw_c[k] - im * f->tw_s[k]);
         X[N2-1-2*k] = -2 * (re * f->tw_s[k] + im * f->tw_c[k]);
     }
-
 }
 
 static void imdct2(fa_mdct_ctx_t *f, const float *X, float *x, int N2)
@@ -359,7 +350,6 @@ static void imdct2(fa_mdct_ctx_t *f, const float *X, float *x, int N2)
         x[k] = rot[N4+k] * cof;
     for (k = 3*N4; k < N; k++)
         x[k] = -rot[k-3*N4] * cof;
-
 }
 
 uintptr_t fa_mdct_init(int type, int size)
@@ -384,92 +374,89 @@ uintptr_t fa_mdct_init(int type, int size)
 
     switch (type) {
         case MDCT_ORIGIN:{
-                             /*mdct0 init*/
-                             f->mdct_work   = (float *)malloc(sizeof(float)*(length>>1));
-                             memset(f->mdct_work, 0, sizeof(float)*(length>>1));
-                             f->cos_ang_pos = (float **)matrix_init(length>>1, length);
-                             f->cos_ang_inv = (float **)matrix_init(length   , length>>1);
+             /*mdct0 init*/
+             f->mdct_work   = (float *)malloc(sizeof(float)*(length>>1));
+             memset(f->mdct_work, 0, sizeof(float)*(length>>1));
+             f->cos_ang_pos = (float **)matrix_init(length>>1, length);
+             f->cos_ang_inv = (float **)matrix_init(length   , length>>1);
 
-                             for (k = 0; k < (length>>1); k++) {
-                                 for (n = 0; n < length; n++) {
-                                     /* formula: cos( (pi/(2*N)) * (2*n + 1 + N/2) * (2*k + 1) ) */
-                                     tmp = (M_PI/(2*length)) * (2*n + 1 + (length>>1)) * (2*k + 1);
-                                     f->cos_ang_pos[k][n] = f->cos_ang_inv[n][k] = cos(tmp);
-                                 }
-                             }
+             for (k = 0; k < (length>>1); k++) {
+                 for (n = 0; n < length; n++) {
+                     /* formula: cos( (pi/(2*N)) * (2*n + 1 + N/2) * (2*k + 1) ) */
+                     tmp = (M_PI/(2*length)) * (2*n + 1 + (length>>1)) * (2*k + 1);
+                     f->cos_ang_pos[k][n] = f->cos_ang_inv[n][k] = cos(tmp);
+                 }
+             }
 
-                             f->mdct_func  = mdct0;
-                             f->imdct_func = imdct0;
-                             break;
-                         }
+             f->mdct_func  = mdct0;
+             f->imdct_func = imdct0;
+             break;
+         }
         case MDCT_FFT:   {
-                             float n0;
+             float n0;
 
-                             n0 = ((float)length/2 + 1) / 2;
+             n0 = ((float)length/2 + 1) / 2;
 
-                             f->h_fft   = fa_fft_init(length);
-                             f->fft_buf = (float *)malloc(sizeof(float)*length*2);
+             f->h_fft   = fa_fft_init(length);
+             f->fft_buf = (float *)malloc(sizeof(float)*length*2);
 
-                             /*positive transform --> mdct*/
-                             f->pre_c_pos = (float *)malloc(sizeof(float)*length);
-                             f->pre_s_pos = (float *)malloc(sizeof(float)*length);
-                             f->c_pos     = (float *)malloc(sizeof(float)*(length>>1));
-                             f->s_pos     = (float *)malloc(sizeof(float)*(length>>1));
+             /*positive transform --> mdct*/
+             f->pre_c_pos = (float *)malloc(sizeof(float)*length);
+             f->pre_s_pos = (float *)malloc(sizeof(float)*length);
+             f->c_pos     = (float *)malloc(sizeof(float)*(length>>1));
+             f->s_pos     = (float *)malloc(sizeof(float)*(length>>1));
 
-                             for (k = 0; k < length; k++) {
-                                 f->pre_c_pos[k] = cos(-(M_PI*k)/length);
-                                 f->pre_s_pos[k] = sin(-(M_PI*k)/length);
-                             }
-                             for (k = 0; k < (length>>1); k++) {
-                                 f->c_pos[k] = cos(-2*M_PI*n0*(k+0.5)/length);
-                                 f->s_pos[k] = sin(-2*M_PI*n0*(k+0.5)/length);
-                             }
+             for (k = 0; k < length; k++) {
+                 f->pre_c_pos[k] = cos(-(M_PI*k)/length);
+                 f->pre_s_pos[k] = sin(-(M_PI*k)/length);
+             }
+             for (k = 0; k < (length>>1); k++) {
+                 f->c_pos[k] = cos(-2*M_PI*n0*(k+0.5)/length);
+                 f->s_pos[k] = sin(-2*M_PI*n0*(k+0.5)/length);
+             }
 
+             /*inverse transform -->imdct*/
+             f->pre_c_inv = (float *)malloc(sizeof(float)*length);
+             f->pre_s_inv = (float *)malloc(sizeof(float)*length);
+             f->c_inv     = (float *)malloc(sizeof(float)*length);
+             f->s_inv     = (float *)malloc(sizeof(float)*length);
 
-                             /*inverse transform -->imdct*/
-                             f->pre_c_inv = (float *)malloc(sizeof(float)*length);
-                             f->pre_s_inv = (float *)malloc(sizeof(float)*length);
-                             f->c_inv     = (float *)malloc(sizeof(float)*length);
-                             f->s_inv     = (float *)malloc(sizeof(float)*length);
+             for (k = 0; k < length; k++) {
+                 f->pre_c_inv[k] = cos((2*M_PI*k*n0)/length);
+                 f->pre_s_inv[k] = sin((2*M_PI*k*n0)/length);
+             }
+             for (k = 0; k < length; k++) {
+                 f->c_inv[k] = cos(M_PI*(k+n0)/length);
+                 f->s_inv[k] = sin(M_PI*(k+n0)/length);
+             }
 
-                             for (k = 0; k < length; k++) {
-                                 f->pre_c_inv[k] = cos((2*M_PI*k*n0)/length);
-                                 f->pre_s_inv[k] = sin((2*M_PI*k*n0)/length);
-                             }
-                             for (k = 0; k < length; k++) {
-                                 f->c_inv[k] = cos(M_PI*(k+n0)/length);
-                                 f->s_inv[k] = sin(M_PI*(k+n0)/length);
-                             }
-
-                             f->mdct_func  = mdct1;
-                             f->imdct_func = imdct1;
-                             break;
-                         }
+             f->mdct_func  = mdct1;
+             f->imdct_func = imdct1;
+             break;
+         }
         case MDCT_FFT4:  {
-                             f->h_fft   = fa_fft_init(length>>2);
-                             f->fft_buf = (float *)malloc(sizeof(float)*(length>>1));
-                             f->sqrt_cof = 1./sqrt(length);
+             f->h_fft   = fa_fft_init(length>>2);
+             f->fft_buf = (float *)malloc(sizeof(float)*(length>>1));
+             f->sqrt_cof = 1./sqrt(length);
 
-                             f->rot = (float *)malloc(sizeof(float)*length);
-                             f->tw_c = (float *)malloc(sizeof(float)*(length>>2));
-                             f->tw_s = (float *)malloc(sizeof(float)*(length>>2));
+             f->rot = (float *)malloc(sizeof(float)*length);
+             f->tw_c = (float *)malloc(sizeof(float)*(length>>2));
+             f->tw_s = (float *)malloc(sizeof(float)*(length>>2));
 
-                             memset(f->rot, 0, sizeof(float)*length);
-                             for (k = 0; k < (length>>2); k++) {
-                                 f->tw_c[k] = cos(-2*M_PI*(k+0.125)/length);
-                                 f->tw_s[k] = sin(-2*M_PI*(k+0.125)/length);
-                             }
+             memset(f->rot, 0, sizeof(float)*length);
+             for (k = 0; k < (length>>2); k++) {
+                 f->tw_c[k] = cos(-2*M_PI*(k+0.125)/length);
+                 f->tw_s[k] = sin(-2*M_PI*(k+0.125)/length);
+             }
 
-                             f->mdct_func  = mdct2;
-                             f->imdct_func = imdct2;
-                             break;
-                         }
-
+             f->mdct_func  = mdct2;
+             f->imdct_func = imdct2;
+             break;
+         }
     }
 
     return (uintptr_t)f;
 }
-
 
 static void free_mdct_origin(fa_mdct_ctx_t *f)
 {
@@ -565,7 +552,6 @@ static void free_mdct_fft4(fa_mdct_ctx_t *f)
     fa_fft_uninit(f->h_fft);
 }
 
-
 void fa_mdct_uninit(uintptr_t handle)
 {
     int type;
@@ -598,11 +584,9 @@ void fa_mdct(uintptr_t handle, float *x, float *X)
     f->mdct_func(f, x, X, f->length);
 }
 
-
 void fa_imdct(uintptr_t handle, float *X, float *x)
 {
     fa_mdct_ctx_t *f = (fa_mdct_ctx_t *)handle;
 
     f->imdct_func(f, X, x, (f->length)>>1);
-
 }

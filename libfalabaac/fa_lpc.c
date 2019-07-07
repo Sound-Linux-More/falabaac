@@ -50,7 +50,6 @@ typedef struct _fa_lpc_t {
 
 } fa_lpc_t;
 
-
 uintptr_t fa_lpc_init(int p)
 {
     fa_lpc_t *f = NULL;
@@ -126,10 +125,8 @@ double fa_lpc(uintptr_t handle, double *x, int x_len, double *lpc_cof, double *k
     else
         gain = 0.0;
 
-
     return gain;
 }
-
 
 #else
 
@@ -161,4 +158,3 @@ float fa_lpc(uintptr_t handle, float *x, int x_len, float *lpc_cof, float *kcof,
 }
 
 #endif
-

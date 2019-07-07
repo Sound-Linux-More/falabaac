@@ -49,7 +49,6 @@
 #define SIZE_SHORT                      2
 #define BITS_PER_BYTE                   8
 
-
 static void fa_write_u16(int in, FILE *fp)
 {
     unsigned char temp[SIZE_SHORT];
@@ -174,7 +173,6 @@ fa_wavfmt_t fa_wavfmt_readheader(FILE *fp)
     return fmt;
 }
 
-
 /*------------Write minimal Wave Header------------*/
 /* total=44                                        */
 /* 8                                               */
@@ -198,7 +196,6 @@ fa_wavfmt_t fa_wavfmt_readheader(FILE *fp)
 /* 8                                               */
 /* data                                          4 */
 /* wav data chunk size in bytes(chunk size-36)   4 */
-
 void fa_wavfmt_writeheader(fa_wavfmt_t fmt, FILE *fp)
 {
     unsigned short  block_align;
@@ -228,5 +225,3 @@ void fa_wavfmt_writeheader(fa_wavfmt_t fmt, FILE *fp)
     fwrite("data", sizeof(char), SIZE_ID         , fp);
     fa_write_u32(fmt.data_size * fmt.block_align , fp);
 }
-
-

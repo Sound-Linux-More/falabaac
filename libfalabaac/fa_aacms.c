@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "fa_aacms.h"
@@ -78,8 +77,4 @@ void fa_aacmsenc(fa_aacenc_ctx_t *f)
         }
         i += chn;
     }
-
 }
-
-
-

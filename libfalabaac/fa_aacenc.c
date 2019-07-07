@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
@@ -108,9 +107,7 @@ static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
     assert(bandwidth > 0. && bandwidth <= BW_MAX);
 
     return bandwidth;
-
 }
-
 
 static float get_bandwidth1(int chn, int sample_rate, float qcof, int *bit_rate)
 {
@@ -131,9 +128,7 @@ static float get_bandwidth1(int chn, int sample_rate, float qcof, int *bit_rate)
     assert(bandwidth > 0. && bandwidth <= BW_MAX);
 
     return bandwidth;
-
 }
-
 
 static float get_bit_thr_cof(int chn, int sample_rate, int bit_rate)
 {
@@ -151,7 +146,6 @@ static float get_bit_thr_cof(int chn, int sample_rate, int bit_rate)
 
     return thr_cof;
 }
-
 
 static float get_adj_cof(int chn, int sample_rate, int bit_rate)
 {
@@ -191,7 +185,6 @@ static int get_cutoff_line(int sample_rate, int fmax_line_offset, int bandwidth)
     offset = (int)((float)bandwidth/delta_f);
 
     return offset;
-
 }
 
 static int get_cutoff_sfb(int sfb_offset_max, int *sfb_offset, int cutoff_line)
@@ -322,7 +315,6 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
             f->blockswitch_method = BLOCKSWITCH_VAR;
             f->do_blockswitch  = fa_blockswitch_var;
             break;
-
     }
 
     switch (quantize_method) {
@@ -342,7 +334,6 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
         default:
             f->quantize_method = QUANTIZE_BEST;
             f->do_quantize = fa_quantize_best;
-
     }
 
     /*init psy and mdct quant */
@@ -452,7 +443,6 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
                 break;
         }
 
-
         memset(f->ctx[i].mdct_line, 0, sizeof(float)*2*AAC_FRAME_LEN);
 
         /*f->ctx[i].max_pred_sfb = get_max_pred_sfb(f->cfg.sample_rate_index);*/
@@ -470,11 +460,9 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
             else
                 fa_quantqdf_para_init(&(f->ctx[i].qp), 1.0);
         }
-
     }
 
     /*f->bitres_maxsize = get_aac_bitreservoir_maxsize(f->cfg.bit_rate, f->cfg.sample_rate);*/
-
 
     return (uintptr_t)f;
 }
@@ -510,7 +498,6 @@ void fa_aacenc_uninit(uintptr_t handle)
         free(f);
         f = NULL;
     }
-
 }
 
 #define SPEED_LEVEL_MAX  6
@@ -600,9 +587,7 @@ uintptr_t fa_aacenc_init(int sample_rate, int bit_rate, int chn_num, float quali
                          blockswitch_method, quantize_method, time_resolution_first);
 
     return handle;
-
 }
-
 
 static void zero_cutoff(float *mdct_line, int mdct_line_num, int cutoff_line)
 {
@@ -610,7 +595,6 @@ static void zero_cutoff(float *mdct_line, int mdct_line_num, int cutoff_line)
 
     for (i = cutoff_line; i < mdct_line_num; i++)
         mdct_line[i] = 0;
-
 }
 
 static void mdct_line_normarlize(fa_aacenc_ctx_t *f)
@@ -638,8 +622,6 @@ static void mdct_line_normarlize(fa_aacenc_ctx_t *f)
                 s->mdct_line[j] /= s->max_mdct_line;
         }
     }
-
-
 }
 
 static void mdctline_reorder(aacenc_ctx_t *s, float xmin[8][FA_SWB_NUM_MAX])
@@ -656,9 +638,7 @@ static void mdctline_reorder(aacenc_ctx_t *s, float xmin[8][FA_SWB_NUM_MAX])
                                 s->num_window_groups, s->window_group_length);
         fa_xmin_sfb_arrange(s->h_mdctq_long, xmin,
                             s->num_window_groups, s->window_group_length);
-
     }
-
 }
 
 static void scalefactor_recalculate(fa_aacenc_ctx_t *f, int chn_num)
@@ -683,8 +663,6 @@ static void scalefactor_recalculate(fa_aacenc_ctx_t *f, int chn_num)
         }
         s->common_scalefac = s->scalefactor[0][0];
     }
-
-
 }
 
 void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsigned char *buf_out, int *outlen)
@@ -831,5 +809,4 @@ void fa_aacenc_encode(uintptr_t handle, unsigned char *buf_in, int inlen, unsign
     *outlen = fa_bitstream_getbufval(f->h_bitstream, buf_out);
 
     fa_bitstream_reset(f->h_bitstream);
-
 }

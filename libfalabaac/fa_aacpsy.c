@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -44,7 +43,6 @@
 #ifndef FA_ABS
 #define FA_ABS(a) ( (a) > 0 ? (a) : (-(a)))
 #endif
-
 
 typedef struct _fa_aacpsy_t {
     int   sample_rate;
@@ -69,7 +67,6 @@ typedef struct _fa_aacpsy_t {
     /*int   block_type;*/
 
 }fa_aacpsy_t;
-
 
 uintptr_t fa_aacpsy_init(int sample_rate)
 {
@@ -121,7 +118,6 @@ uintptr_t fa_aacpsy_init(int sample_rate)
     return (uintptr_t)f;
 }
 
-
 void fa_aacpsy_uninit(uintptr_t handle)
 {
     int i;
@@ -140,7 +136,6 @@ void fa_aacpsy_uninit(uintptr_t handle)
         f = NULL;
     }
 }
-
 
 /* short block to long block
  * NOTE: I simulate using matlab, and found that the psd of short block less than long block
@@ -247,8 +242,6 @@ void update_psy_long2short_previnfo(uintptr_t handle)
     for (j = 0; j < 8; j++)
         fa_psychomodel2_reset_nb_prev(f->h_psy2_short[j]);
     fa_psychomodel2_reset_nb_prev(f->h_psy2_long);
-
-
 }
 
 void reset_psy_previnfo(uintptr_t handle)
@@ -269,7 +262,6 @@ void reset_psy_previnfo(uintptr_t handle)
     fa_psychomodel2_reset_phi_prev1(f->h_psy2_long);
     fa_psychomodel2_reset_phi_prev2(f->h_psy2_long);
     fa_psychomodel2_reset_nb_prev(f->h_psy2_long);
-
 }
 
 void fa_aacpsy_calculate_pe(uintptr_t handle, float *x, int block_type, float *pe_block, int *tns_active)
@@ -298,7 +290,6 @@ void fa_aacpsy_calculate_pe(uintptr_t handle, float *x, int block_type, float *p
 
     *pe_block = pe_sum;
 }
-
 
 void fa_aacpsy_calculate_pe_hp(uintptr_t handle, float *x, int block_type, float *pe_block, int *tns_active)
 {
@@ -358,9 +349,7 @@ void update_psy_short_previnfo(uintptr_t handle, int index)
         fa_psychomodel2_get_phi_prev2(f->h_psy2_short[index-1], f->mag_prev2_short, &len);
         fa_psychomodel2_set_phi_prev2(f->h_psy2_short[index]  , f->mag_prev2_short, len);
     }
-
 }
-
 
 void fa_aacpsy_calculate_xmin(uintptr_t handle, float *mdct_line, int block_type, float xmin[8][FA_SWB_NUM_MAX], float qcof)
 {
@@ -414,8 +403,5 @@ void fa_aacpsy_calculate_xmin_usepsych1(uintptr_t handle, float *mdct_line, int 
                 /*printf("xmin[%d]=%f\n", j, xmin[0][i]);*/
             }
         }
-
-
     }
 }
-

@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -51,13 +50,10 @@
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
 
-
 #define FA_LOG2_SIZE       (512)  //(1024)
 #define FA_LOG2_SIZE_L2    (9)    //(10)
 
-
 static ieee754_float32_t log_table[FA_LOG2_SIZE+1];
-
 
 void fa_logtab_init()
 {
@@ -86,8 +82,6 @@ ieee754_float32_t fa_fast_log2(ieee754_float32_t x)
 
     return log2val;
 }
-
-
 
 //angle function
 float fa_fast_sin(float angle)
@@ -121,7 +115,6 @@ float fa_fast_sin(float angle)
     result *= angle;
 
     return result*sign;
-
 }
 
 float fa_fast_cos(float angle)
@@ -177,7 +170,6 @@ static float fast_atan (float value)
     return result;
 }
 
-
 float fa_fast_atan2(float y, float x)
 {
     float sita;
@@ -202,7 +194,6 @@ float fa_fast_atan2(float y, float x)
     return sita;
 }
 
-
 float fa_fast_invsqrtf(float x)
 {
     float xhalf = 0.5f*x;
@@ -213,7 +204,6 @@ float fa_fast_invsqrtf(float x)
 
     return x;
 }
-
 
 float fa_fast_sqrtf(float number)
 {
@@ -229,7 +219,3 @@ float fa_fast_sqrtf(float number)
     y  = y * ( f - ( x * y * y ) );
     return number * y;
 }
-
-
-
-

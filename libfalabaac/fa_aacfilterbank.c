@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -310,13 +309,9 @@ void fa_aacfilterbank_analysis(uintptr_t handle, int block_type, int *window_sha
             fa_mdct(f->h_mdct_long, f->mdct_long_buf, mdct_line);
             break;
     }
-
 }
 
-
-
 #endif
-
 
 /*used in decode*/
 void fa_aacfilterbank_synthesis(uintptr_t handle, int block_type,
@@ -416,9 +411,7 @@ void fa_aacfilterbank_synthesis(uintptr_t handle, int block_type,
 
             break;
     }
-
 }
-
 
 void fa_aacfilterbank_get_xbuf(uintptr_t handle, float *x)
 {
@@ -427,5 +420,4 @@ void fa_aacfilterbank_get_xbuf(uintptr_t handle, float *x)
 
     for (i = 0; i < 2*AAC_FRAME_LEN; i++)
         x[i] = f->x_buf[i];
-
 }

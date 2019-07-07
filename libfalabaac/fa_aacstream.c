@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include "fa_aacstream.h"
@@ -39,11 +38,9 @@
 #define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
 #endif
 
-
 #define BYTE_NUMBIT 8       /* bits in byte (char) */
 #define LONG_NUMBIT 32      /* bits in unsigned long */
 #define bit2byte(a) (((a)+BYTE_NUMBIT-1)/BYTE_NUMBIT)
-
 
 static int write_adtsheader(uintptr_t h_bs, aaccfg_t *c, int used_bytes, int write_flag);
 static int write_icsinfo(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
@@ -100,8 +97,6 @@ int get_avaiable_bits(int average_bits, int more_bits, int bitres_bits, int bitr
     return available_bits;
 }
 
-
-
 /* calculate bit_allocation based on PE */
 int calculate_bit_allocation(float pe, int block_type)
 {
@@ -126,7 +121,6 @@ int calculate_bit_allocation(float pe, int block_type)
 
     return bits_alloc;
 }
-
 
 /* returns the maximum bit reservoir size */
 int get_aac_bitreservoir_maxsize(int bit_rate, int sample_rate)
@@ -198,7 +192,6 @@ int fa_write_bitstream_onechn(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aace
 
     return bits;
 }
-
 
 int fa_write_bitstream(fa_aacenc_ctx_t *f)
 {
@@ -348,7 +341,6 @@ int fa_bits_count(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aacenc_ctx_t *sr
     return bits;
 }
 
-
 static int write_adtsheader(uintptr_t h_bs, aaccfg_t *c, int used_bytes, int write_flag)
 {
     /*aaccfg_t *c = &(f->cfg);*/
@@ -477,8 +469,6 @@ static int write_ics(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag,
     return bits;
 }
 
-
-
 static int write_cpe(uintptr_t h_bs, aacenc_ctx_t *s, aacenc_ctx_t *sr, int aac_objtype, int write_flag)
 {
     /*unsigned long h_bs = s->h_bitstream;*/
@@ -533,7 +523,6 @@ static int write_cpe(uintptr_t h_bs, aacenc_ctx_t *s, aacenc_ctx_t *sr, int aac_
     return bits;
 }
 
-
 static int write_sce(uintptr_t h_bs, aacenc_ctx_t *s, int aac_objtype, int write_flag)
 {
     /*unsigned long h_bs = s->h_bitstream;*/
@@ -557,7 +546,6 @@ static int write_sce(uintptr_t h_bs, aacenc_ctx_t *s, int aac_objtype, int write
     return bits;
 }
 
-
 static int write_lfe(uintptr_t h_bs, aacenc_ctx_t *s, int aac_objtype, int write_flag)
 {
     /*unsigned long h_bs = s->h_bitstream;*/
@@ -580,7 +568,6 @@ static int write_lfe(uintptr_t h_bs, aacenc_ctx_t *s, int aac_objtype, int write
 
     return bits;
 }
-
 
 static int find_grouping_bits(aacenc_ctx_t *s)
 {
@@ -690,7 +677,6 @@ static int write_predictor_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 
 #endif
 
-
 static int write_pulse_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 {
     /*unsigned long h_bs = s->h_bitstream;*/
@@ -704,7 +690,6 @@ static int write_pulse_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 
     return bits;
 }
-
 
 static int write_tns_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 {
@@ -791,8 +776,6 @@ static int write_tns_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
     return bits;
 }
 
-
-
 static int write_gaincontrol_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 {
     /*unsigned long h_bs = s->h_bitstream;*/
@@ -806,7 +789,6 @@ static int write_gaincontrol_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_fla
 
     return bits;
 }
-
 
 static int write_spectral_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 {
@@ -834,7 +816,6 @@ static int write_spectral_data(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 
     return bits;
 }
-
 
 static int write_aac_fillbits(uintptr_t h_bs, aacenc_ctx_t *s, int num_bits, int write_flag)
 {
@@ -973,8 +954,6 @@ static int write_hufftab_no(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
     return bit_count;
 }
 
-
-
 static int write_scalefactor(uintptr_t h_bs, aacenc_ctx_t *s, int write_flag)
 {
     /* this function takes care of counting the number of bits necessary */
@@ -1061,4 +1040,3 @@ static int write_bits_for_bytealign(uintptr_t h_bs, aacenc_ctx_t *s, int bits_so
 
     return j;
 }
-

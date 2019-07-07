@@ -37,7 +37,6 @@
 /*#include "fa_timeprofile.h"*/
 #include "fa_fastmath.h"
 
-
 /*#define USE_PDF_IMPROVE*/
 
 #ifndef FA_MIN
@@ -93,9 +92,7 @@ static void calculate_start_common_scalefac(fa_aacenc_ctx_t *f)
 
         i += chn;
     }
-
 }
-
 
 static void init_quant_change(int outer_loop_count, aacenc_ctx_t *s, int fast)
 {
@@ -122,9 +119,7 @@ static void init_quant_change(int outer_loop_count, aacenc_ctx_t *s, int fast)
         /*s->common_scalefac = FA_MAX(s->start_common_scalefac, s->last_common_scalefac);*/
         s->quant_change = 2;
     }
-
 }
-
 
 static int choose_search_step(int delta_bits)
 {
@@ -369,8 +364,6 @@ static void quant_innerloop(fa_aacenc_ctx_t *f, int outer_loop_count, int fast)
 
         i += chn;
     }
-
-
 }
 
 static void quant_outerloop(fa_aacenc_ctx_t *f, int fast)
@@ -645,7 +638,6 @@ static void quant_outerloop(fa_aacenc_ctx_t *f, int fast)
     /*printf("outer loop cnt= %d\n", outer_loop_count);*/
 }
 
-
 void fa_quantize_loop(fa_aacenc_ctx_t *f)
 {
     int i;
@@ -698,7 +690,6 @@ void fa_quantize_loop(fa_aacenc_ctx_t *f)
 #endif
 }
 
-
 /*this is the fast quantize, maybe is not very right, just for your test */
 
 void  fa_fastquant_calculate_sfb_avgenergy(aacenc_ctx_t *s)
@@ -741,7 +732,6 @@ void  fa_fastquant_calculate_sfb_avgenergy(aacenc_ctx_t *s)
     }
 
 }
-
 
 void fa_fastquant_calculate_xmin(aacenc_ctx_t *s, float xmin[8][NUM_SFB_MAX], float qcof)
 {
@@ -825,9 +815,7 @@ void fa_fastquant_calculate_xmin(aacenc_ctx_t *s, float xmin[8][NUM_SFB_MAX], fl
             xmin[0][i] = qcof*energy/10;
         }
     }
-
 }
-
 
 void fa_calculate_scalefactor_win(aacenc_ctx_t *s, float xmin[8][NUM_SFB_MAX])
 {
@@ -949,9 +937,7 @@ void fa_calculate_scalefactor_win(aacenc_ctx_t *s, float xmin[8][NUM_SFB_MAX])
     }
 
     /*printf("\n\n");*/
-
 }
-
 
 static void calculate_scalefactor(aacenc_ctx_t *s)
 {
@@ -992,7 +978,6 @@ static void calculate_scalefactor(aacenc_ctx_t *s)
         }
         /*printf("\n\n");*/
     }
-
 }
 
 void fa_quantize_fast(fa_aacenc_ctx_t *f)
@@ -1194,9 +1179,7 @@ static void calculate_pow_miu(aacenc_ctx_t *s)
             s->pdft[0][i] = width*a2*miuhalf+s->qp.beta*FA_SQRTF(2*width*diff);
         }
     }
-
 }
-
 
 static void calculate_pow_miu_improve(aacenc_ctx_t *s)
 {
@@ -1260,9 +1243,7 @@ static void calculate_pow_miu_improve(aacenc_ctx_t *s)
             s->pdft[0][i] = width*a2*miuhalf+s->qp.beta*FA_SQRTF(2*width*diff);
         }
     }
-
 }
-
 
 static void calculate_scalefactor_usepdf(aacenc_ctx_t *s, float ti_adj)
 {
@@ -1418,9 +1399,7 @@ static void calculate_scalefactor_usepdf(aacenc_ctx_t *s, float ti_adj)
 
 */
         }
-
     }
-
 }
 
 static void init_pdf_para(aacenc_ctx_t *s)
@@ -1480,7 +1459,6 @@ static void init_pdf_para(aacenc_ctx_t *s)
             s->Ti1[0][i] = 1;
         }
     }
-
 }
 
 static void adjust_noise_thr(aacenc_ctx_t *s)
@@ -1568,9 +1546,7 @@ static void adjust_noise_thr(aacenc_ctx_t *s)
             /*printf("index=%d,Ti=%f, Ti1 = %f\n", i, s->Ti[0][i], s->Ti1[0][i]);*/
         }
     }
-
 }
-
 
 static float choose_stepsize_db(int delta_bits, float cof)
 {
@@ -1615,7 +1591,6 @@ static float choose_stepsize_db(int delta_bits, float cof)
 #endif
 
     return step;
-
 }
 
 static int mdctline_enc(fa_aacenc_ctx_t *f)
@@ -1803,9 +1778,7 @@ static int mdctline_enc(fa_aacenc_ctx_t *f)
     }
 
     return total_bits;
-
 }
-
 
 void fa_adjust_scalefactor(fa_aacenc_ctx_t *f)
 {
@@ -1829,9 +1802,7 @@ void fa_adjust_scalefactor(fa_aacenc_ctx_t *f)
                     s->x_quant);
         }
     }
-
 }
-
 
 void fa_quantize_best(fa_aacenc_ctx_t *f)
 {
@@ -1968,14 +1939,7 @@ void fa_quantize_best(fa_aacenc_ctx_t *f)
 #endif
 
         }
-
     }
 
 #endif
-
 }
-
-
-
-
-

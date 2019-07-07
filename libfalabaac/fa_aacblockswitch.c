@@ -24,7 +24,6 @@
 
 */
 
-
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
@@ -44,7 +43,6 @@
 #ifndef FA_ABS
 #define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
 #endif
-
 
 /*---------------------------------- psy blockswitch --------------------------------------------------*/
 #define SWITCH_PE  400 //2500 //1000 //1800//1800 //300// 1800
@@ -106,9 +104,7 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
     }
 
 #endif
-
 }
-
 
 /*this function used in aac encode*/
 static int aac_blockswitch_psy(int block_type, float pe, uintptr_t h_aacpsy)
@@ -136,7 +132,6 @@ int fa_blockswitch_psy(aacenc_ctx_t *s)
 
     return s->block_type;
 }
-
 
 /*---------------------------------- time var fast blockswitch --------------------------------------------------*/
 static float frame_var_max(float *x, int len)
@@ -187,7 +182,6 @@ static float frame_var_max(float *x, int len)
 
     return var_max;
 }
-
 
 #define SWITCH_E_BASE  1 //(32768*32768)
 #define SWITCH_E   (0.03*SWITCH_E_BASE)
@@ -293,7 +287,6 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
     return cur_block_type;
 }
 
-
 #define WINCNT  4
 /*#define WINCNT  8 */
 
@@ -359,7 +352,6 @@ void fa_blockswitch_uninit(uintptr_t handle)
         free(f);
         f = NULL;
     }
-
 }
 
 static void calculate_win_enrg(fa_blockctrl_t *f)
@@ -391,7 +383,6 @@ static void calculate_win_enrg(fa_blockctrl_t *f)
         f->win_enrg[1][win]      = win_enrg_tmp;
         f->win_hfenrg[1][win]    = win_hfenrg_tmp;
     }
-
 }
 
                             //lastattack-attack-blocktype
@@ -413,7 +404,6 @@ static const int win_sequence[2][2][4] =
        {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
    }
 };
-
 
 static int select_block(int prev_block_type, int attack_flag)
 {
@@ -560,7 +550,6 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
 
     return s->block_type;
 }
-
 
 static const int block_sync_tab[4][4] =
 {

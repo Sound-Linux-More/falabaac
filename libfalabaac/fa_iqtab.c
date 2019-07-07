@@ -24,11 +24,7 @@
 
 */
 
-
 #include "fa_iqtab.h"
-
-
-
 
 /*const float fa_iqtable[IQ_TABLE_SIZE] =*/
 const double fa_iqtable[IQ_TABLE_SIZE] =
@@ -8226,4 +8222,3 @@ const double fa_iqtable[IQ_TABLE_SIZE] =
     165086.61740784015,
     165113.4940829452
 };
-

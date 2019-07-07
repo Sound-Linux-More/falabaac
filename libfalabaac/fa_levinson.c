@@ -30,7 +30,6 @@
 #include <memory.h>
 #include "fa_levinson.h"
 
-
 /*
  * - r     : the input vector which defines the toeplitz matrix
  * - p     : size of the system to solve. order must be < size -1
@@ -134,7 +133,6 @@ void fa_levinson1(float *r, int p,
     *err = em;
 }
 
-
 void fa_levinson_hp(double *r,    int p,
                     double *acof, double *kcof, double *err)
 {
@@ -227,7 +225,6 @@ void fa_levinson1_hp(double *r, int p,
 
     *err = em;
 }
-
 
 int  fa_atlvs(float *r, int n, float *b,
               float *x, float *kcof, float *err)
@@ -337,6 +334,4 @@ int  fa_atlvs_hp(double *r, int n, double *b,
     *err = a;
 
     return 0;
-
 }
-

@@ -24,8 +24,6 @@
 
 */
 
-
-
 #include <time.h>
 #include <stdio.h>
 
@@ -52,11 +50,3 @@ void fa_prt_time_cost(int index)
 {
     printf("The number of %d index cost time is %f sec\n", index, global_time_cost[index]);
 }
-
-
-
-
-
-
-
-
