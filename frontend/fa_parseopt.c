@@ -88,7 +88,7 @@ const char *short_help =
 "    -q <quality>               Set quality(0.1~1.5)                             [eg: -q 0.5]\n"
 "    -v <vbr>                   Set vbr mode(recommend)                          [eg: -v 1]\n"
 "    -l <speedlevel>            Set speed level(1~6)                             [eg: -l 2]\n"
-"    -w <bandwidth>             Set band width(kHz, 5~22kHz valid)               [eg: -w 15]\n"
+"    -w <bandwidth>             Set band width(kHz, 5~24kHz valid)               [eg: -w 15]\n"
 "    -e <lfeenable>             Set the LFE encode enable(0 or 1)                [eg: -e 1]\n"
 "    -t <time_resolution>       Set the encoder use time resolution first(0 or 1)[eg: -t 1]\n"
 "    --help                     Show this abbreviated help.\n"
@@ -106,7 +106,7 @@ const char *long_help =
 "    -q <quality>               Set quality(0.1~1.5)                             [eg: -q 0.7]\n"
 "    -v <vbr>                   Set vbr mode(recommend)                          [eg: -v 1]\n"
 "    -l <speedlevel>            Set speed level(1~6)                             [eg: -l 2]\n"
-"    -w <bandwidth>             Set band width(kHz, 5~22kHz valid)               [eg: -w 15]\n"
+"    -w <bandwidth>             Set band width(kHz, 5~24kHz valid)               [eg: -w 15]\n"
 "    -e <lfeenable>             Set the LFE encode enable(0 or 1)                [eg: -e 1]\n"
 "    -t <time_resolution>       Set the encoder use time resolution first(0 or 1)[eg: -t 1]\n"
 "    --help                     Show this abbreviated help.\n"
@@ -114,11 +114,11 @@ const char *long_help =
 "    --license                  for the license terms for falab.\n"
 "    --input <inputfile>        Set input filename, must be wav file, now support 32kHz, 44.1kHz and 48kHz, 16bits/sample \n"
 "    --output <outputfile>      Set output filename, aac file, format is MPEG2-ADTS\n"
-"    --bitrate <bitrate>        Set average bitrate, 16~160kbps per channel, default is 128kbps. 96kbps is also good quality\n"
+"    --bitrate <bitrate>        Set average bitrate, 16~256kbps per channel, default is 128kbps. 96kbps is also good quality\n"
 "    --quality <quality>        Set quality, 0.1~1.5\n"
 "    --vbr <vbr>                Set vbr mode, strongly recommend, it has good quality and fast speed\n"
 "    --speedlevel <l>           Set the speed level(1 is slow but good quality, 6 is fastest but less quality)\n"
-"    --bandwidth  <w>           Set band width, only 5-20 (kHz) valid. 20kHz when bitrate >=96kbps\n"
+"    --bandwidth  <w>           Set band width, only 5-24 (kHz) valid. 20kHz when bitrate >=96kbps\n"
 "    --lfeenable  <e>           Set the LFE encode enable\n"
 "    --time_resolution<t>       Set the encoding time resolution first, use short window\n"
 "\n\n";
@@ -143,12 +143,12 @@ const char *all_help =
 "                    --output test_out.aac                                                                  \n"
 "                                                                                                           \n"
 "    -b <bitrate> , --bitrate <bitrate>                                                                     \n"
-"          Set average bitrate, (16~160)kbps per channel                                                    \n"
+"          Set average bitrate, (16~256)kbps per channel                                                    \n"
 "          Example:  -b 128                                                                                 \n"
 "                    --bitrate 128                                                                          \n"
 "                                                                                                           \n"
 "    -q <quality> , --quality <quality>                                                                     \n"
-"          Set encoding quality level (0.1~1.0), default is 0.7, roughly bitrate is 110kbps for 44.1kHz     \n"
+"          Set encoding quality level (0.1~1.5), default is 0.7, roughly bitrate is 110kbps for 44.1kHz     \n"
 "          Example:  -q 0.7                                                                                 \n"
 "                    --quality 0.7                                                                          \n"
 "          WARN: when -b use, -q item is invalid                                                            \n"
@@ -165,7 +165,7 @@ const char *all_help =
 "                    --speedlevel 1                                                                         \n"
 "                                                                                                           \n"
 "    -w <bandwidth> , --bandwidth <bandwidth>                                                               \n"
-"          Set band width (5~22)kHz, float point value support, eg 16.5                                     \n"
+"          Set band width (5~24)kHz, float point value support, eg 16.5                                     \n"
 "          Example:  -w 17                                                                                  \n"
 "                    --bandwidth 17                                                                         \n"
 "                                                                                                           \n"
@@ -276,8 +276,8 @@ static int fa_checkopt(int argc)
     }
 
     if (opt_bandwidth > (float)BW_MAXS || opt_bandwidth < 5.)  {
-        /*FA_PRINT_ERR("FAIL: out of range, should be in [5,20] kHz\n");*/
-        FA_PRINT_ERR("FAIL: out of range, should be in [5,22] kHz\n");
+        /*FA_PRINT_ERR("FAIL: out of range, should be in [5,24] kHz\n");*/
+        FA_PRINT_ERR("FAIL: out of range, should be in [5,24] kHz\n");
         return -1;
     }
 

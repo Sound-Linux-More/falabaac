@@ -1,12 +1,12 @@
 Name     : falabaac
 
-Version  : v2.1.0.226 (2013-03-03)
+Version  : v2.1.0.227 (2019-07-07)
 
 Author   : luolongzhi (Chengdu China)
 
 Contact  : luolongzhi@gmail.com
 
-URL      : https://github.com/zvezdochiot/falabaac
+URL      : https://github.com/Sound-Linux-More/falabaac
 
 Descript : AAC encoder (different with FAAC, nero aac or qtaac), very good quality.
            support Linux and Windows platform.Support 6 speed level, default is 3.
@@ -21,5 +21,5 @@ Note     : falabaac is the free software, you can redistribute it and/or modify 
            which give different modules or project to study and develop signal process.
 
 ---
-2013
+2019
 zvezdochiot
