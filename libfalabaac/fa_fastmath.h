@@ -85,13 +85,18 @@ float fa_fast_atan2(float y, float x);
 
 float fa_fast_invsqrtf(float x);
 float fa_fast_sqrtf(float x);
+float fa_cbrtf(float x);
+float fa_sqrf(float x);
+float fa_quadf(float x);
 
 #ifdef FA_USE_FASTSQRTF
 #define        FA_SQRTF(x)       (fa_fast_sqrtf(x))
 #define        FA_INVSQRTF(x)    (fa_fast_invsqrtf(x))
+#define        FA_CBRTF(x)       (fa_cbrtf(x))
 #else
 #define        FA_SQRTF(x)       (sqrt(x))
 #define        FA_INVSQRTF(x)    (1./sqrt(x))
+#define        FA_CBRTF(x)       (cbrtf(x))
 #endif
 
 #ifdef __cplusplus

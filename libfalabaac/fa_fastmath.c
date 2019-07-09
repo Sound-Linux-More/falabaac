@@ -219,3 +219,35 @@ float fa_fast_sqrtf(float number)
     y  = y * ( f - ( x * y * y ) );
     return number * y;
 }
+
+float fa_cbrtf (float x)
+{
+    if (x == 0)
+    {
+        return 0;
+    }
+    float y = 1, last_y_1 = 0, last_y_2 = 0;
+    while (last_y_1 != y && last_y_2 != y)
+    {
+        last_y_1 = y;
+        y = (y + x / y / y) / 2;
+        last_y_2 = y;
+        y = (y + x / y / y) / 2;
+    }
+    return y;
+}
+
+float fa_sqrf(float x)
+{
+    x *= x;
+    
+    return x;
+}
+
+float fa_quadf(float x)
+{
+    x *= x;
+    x *= x;
+    
+    return x;
+}

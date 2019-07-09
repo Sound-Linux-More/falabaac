@@ -62,7 +62,7 @@ int get_samplerate_index(int sample_rate)
     float temp;
     temp = (float) sample_rate;
     temp /= 64000.0;
-    temp = fa_fast_sqrtf(fa_fast_sqrtf(temp));
+    temp = FA_SQRTF(FA_SQRTF(temp));
     temp *= 20.0;
     temp = 22.0 - temp;
     index = (int) (temp + 0.5);
@@ -94,8 +94,8 @@ static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
     tmpbitrate = bit_rate * ratio;
     tmpbitrate /= chn;
 
-    bandwidth = fa_fast_sqrtf(tmpbitrate * 64000.0) * 0.25;
-    *qcof = (2.0 - fa_fast_sqrtf(tmpbitrate / 64000.0));
+    bandwidth = FA_SQRTF(tmpbitrate * 64000.0) * 0.25;
+    *qcof = (2.0 - FA_SQRTF(tmpbitrate / 64000.0));
 
     if (bandwidth <= 0.)
         /*bandwidth = 22000;*/
@@ -165,9 +165,9 @@ static float get_adj_cof(int chn, int sample_rate, int bit_rate)
     if (adj < 0)
     {
         adj = -adj;
-        adj = -fa_fast_sqrtf(fa_fast_sqrtf(adj)) * 0.4;
+        adj = -FA_SQRTF(FA_SQRTF(adj)) * 0.4;
     } else {
-        adj = fa_fast_sqrtf(fa_fast_sqrtf(adj)) * 0.4;
+        adj = FA_SQRTF(FA_SQRTF(adj)) * 0.4;
     }
 
     return adj;
