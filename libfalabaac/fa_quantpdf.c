@@ -26,30 +26,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <assert.h>
+#include "fa_fastmath.h"
 #include "fa_quantpdf.h"
 #include "fa_fastmath.h"
-
-#ifndef M_PI
-#define M_PI            3.14159265358979323846
-#endif
-
-#define M_PI_SQRT       1.7724538509
-#define M_PI_SQRT_HALF  0.886226925451
-#define SQRT2           1.41421356237
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_ABS
-#define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
-#endif
 
 int fa_protect_db_48k_long[49];
 int fa_protect_db_48k_short[14];

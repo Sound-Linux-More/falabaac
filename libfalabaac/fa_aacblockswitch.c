@@ -27,22 +27,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_aacblockswitch.h"
 #include "fa_aacfilterbank.h"
 #include "fa_aacstream.h"
 #include "fa_fir.h"
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_ABS
-#define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
-#endif
 
 /*---------------------------------- psy blockswitch --------------------------------------------------*/
 #define SWITCH_PE  400 //2500 //1000 //1800//1800 //300// 1800

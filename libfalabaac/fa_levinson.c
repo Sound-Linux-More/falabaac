@@ -26,8 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_levinson.h"
 
 /*
@@ -238,7 +238,7 @@ int  fa_atlvs(float *r, int n, float *b,
     memset(y, 0, sizeof(float)*FA_LEVINSON_ORDER_MAX);
 
     a = r[0];
-    if (fabs(a)+1.0 == 1.0)
+    if (FA_ABS(a)+1.0 == 1.0)
         return -1;
 
     y[0] = 1.0;
@@ -251,7 +251,7 @@ int  fa_atlvs(float *r, int n, float *b,
             beta = beta + y[j]*r[j+1];
             q    = q    + x[j]*r[k-j];
         }
-        if (fabs(a)+1.0==1.0)
+        if (FA_ABS(a)+1.0 == 1.0)
             return -1;
 
         c         = -beta/a;
@@ -264,7 +264,7 @@ int  fa_atlvs(float *r, int n, float *b,
                 s[i] = y[i-1] + c*y[k-i-1];
 
         a = a + c*beta;
-        if (fabs(a)+1.0==1.0)
+        if (FA_ABS(a)+1.0 == 1.0)
             return -1;
 
         h = (b[k] - q) / a;
@@ -293,7 +293,7 @@ int  fa_atlvs_hp(double *r, int n, double *b,
     memset(y, 0, sizeof(double)*FA_LEVINSON_ORDER_MAX);
 
     a = r[0];
-    if (fabs(a)+1.0 == 1.0)
+    if (FA_ABS(a)+1.0 == 1.0)
         return -1;
 
     y[0] = 1.0;
@@ -306,7 +306,7 @@ int  fa_atlvs_hp(double *r, int n, double *b,
             beta = beta + y[j]*r[j+1];
             q    = q    + x[j]*r[k-j];
         }
-        if (fabs(a)+1.0==1.0)
+        if (FA_ABS(a)+1.0 == 1.0)
             return -1;
 
         c         = -beta/a;
@@ -319,7 +319,7 @@ int  fa_atlvs_hp(double *r, int n, double *b,
                 s[i] = y[i-1] + c*y[k-i-1];
 
         a = a + c*beta;
-        if (fabs(a)+1.0==1.0)
+        if (FA_ABS(a)+1.0 == 1.0)
             return -1;
 
         h = (b[k] - q) / a;

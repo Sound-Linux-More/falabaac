@@ -26,22 +26,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_bitbuffer.h"
 #include "fa_bitstream.h"
-
-#ifndef FA_ABS
-#define FA_ABS(A)    ((A) < 0 ? (-(A)) : (A))
-#endif
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
 
 typedef struct _fa_bitstream_t {
 

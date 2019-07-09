@@ -26,17 +26,12 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "fa_fastmath.h"
 #include "fa_aacstream.h"
 #include "fa_bitstream.h"
 #include "fa_huffman.h"
 #include "fa_huffmantab.h"
 #include "fa_tns.h"
-#include "fa_fastmath.h"
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
 
 #define BYTE_NUMBIT 8       /* bits in byte (char) */
 #define LONG_NUMBIT 32      /* bits in unsigned long */

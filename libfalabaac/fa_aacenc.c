@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_aacenc.h"
 #include "fa_aaccfg.h"
 #include "fa_aacpsy.h"
@@ -41,15 +42,6 @@
 #include "fa_aacquant.h"
 #include "fa_huffman.h"
 #include "fa_tns.h"
-#include "fa_fastmath.h"
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
 
 #define GAIN_ADJUST   4 //5
 

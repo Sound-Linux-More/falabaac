@@ -26,8 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_psychomodel1.h"
 
 #ifndef FA_PRINT
@@ -103,7 +103,7 @@ static float db_pos(float power)
     return (DBCNT-1);
 
 #else
-    return 10*log10(power);
+    return 10*FA_LOG10(power);
 #endif
 }
 

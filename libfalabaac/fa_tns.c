@@ -28,23 +28,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <math.h>
+#include "fa_fastmath.h"
 #include "fa_tns.h"
 #include "fa_aaccfg.h"
 #include "fa_mdctquant.h"
 #include "fa_lpc.h"
-
-#ifndef     M_PI
-#define     M_PI                            3.14159265358979323846
-#endif
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
 
 static int tns_samplerate[13] =
 { 96000,88200,64000,48000,44100,32000,24000,22050,16000,12000,11025,8000,0 };

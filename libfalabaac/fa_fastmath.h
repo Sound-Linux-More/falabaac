@@ -51,6 +51,28 @@ typedef float ieee754_float32_t;
 void fa_logtab_init();
 ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
 
+#ifndef     M_PI
+#define     M_PI        3.14159265358979323846
+#endif
+#define M_PI_MUL2       6.28318530717958647692
+#define M_PI_DIV2       1.57079632679489661923
+
+#define M_PI_SQRT       1.7724538509
+#define M_PI_SQRT_HALF  0.886226925451
+#define SQRT2           1.41421356237
+
+#ifndef FA_ABS
+#define FA_ABS(A)    ((A) < 0 ? (-(A)) : (A))
+#endif
+
+#ifndef FA_MIN
+#define FA_MIN(a,b)  ((a) < (b) ? (a) : (b))
+#endif
+
+#ifndef FA_MAX
+#define FA_MAX(a,b)  ((a) > (b) ? (a) : (b))
+#endif
+
 #ifdef FA_USE_FASTLOG
 #define        FA_LOG2_V         (0.69314718055994530942)
 #define        FA_LOG10_V        (2.30258509299404568402)

@@ -27,27 +27,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <math.h>
 #include "fa_fastmath.h"
 #include "fa_psychomodel2.h"
 #include "fa_fft.h"
 /*#include "fa_fir.h"*/
-
-#ifndef     M_PI
-#define     M_PI                            3.14159265358979323846
-#endif
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_ABS
-#define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
-#endif
 
 #define FA_MAG_MAX     10000000000000000
 

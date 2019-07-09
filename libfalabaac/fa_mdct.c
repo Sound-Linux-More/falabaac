@@ -26,14 +26,10 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_mdct.h"
 #include "fa_fft.h"
-
-#ifndef     M_PI
-#define     M_PI                            3.14159265358979323846
-#endif
 
 #undef  EPS
 #define EPS     1E-16
@@ -116,7 +112,7 @@ int fa_mdct_sine(float *w, int N)
 
     for (n = 0; n < N; n++) {
         tmp = (M_PI/N) * (n + 0.5);
-        w[n] = sin(tmp);
+        w[n] = FA_SIN(tmp);
     }
 
     return N;
@@ -153,7 +149,7 @@ static int kaiser_beta(float *w, const int N, const float beta)
         Ib = bessel(beta);
 
         x = (float)((2. *i/(N-1))-1);
-        Ia = bessel(beta*(float)sqrt(1. - x*x));
+        Ia = bessel(beta*(float)FA_SQRTF(1. - x*x));
 
         w[i] = (float)(Ia/Ib);
     }
@@ -185,7 +181,7 @@ int fa_mdct_kbd(float *w, int N, float alpha)
     tmp = 0.0;
     for (i = 0, j = N-1; i < N2; i++, j--) {
         tmp += w1[i];
-        w[i] = w[j] = sqrt(tmp*sum);
+        w[i] = w[j] = FA_SQRTF(tmp*sum);
     }
 
     free(w1);
@@ -363,7 +359,7 @@ uintptr_t fa_mdct_init(int type, int size)
     f = (fa_mdct_ctx_t *)malloc(sizeof(fa_mdct_ctx_t));
     memset(f, 0, sizeof(fa_mdct_ctx_t));
 
-    base = (int)(log(size)/log(2));
+    base = (int)(FA_LOG2(size));
     if ((1<<base) < size)
         base += 1;
 
@@ -384,7 +380,7 @@ uintptr_t fa_mdct_init(int type, int size)
                  for (n = 0; n < length; n++) {
                      /* formula: cos( (pi/(2*N)) * (2*n + 1 + N/2) * (2*k + 1) ) */
                      tmp = (M_PI/(2*length)) * (2*n + 1 + (length>>1)) * (2*k + 1);
-                     f->cos_ang_pos[k][n] = f->cos_ang_inv[n][k] = cos(tmp);
+                     f->cos_ang_pos[k][n] = f->cos_ang_inv[n][k] = FA_COS(tmp);
                  }
              }
 
@@ -407,12 +403,12 @@ uintptr_t fa_mdct_init(int type, int size)
              f->s_pos     = (float *)malloc(sizeof(float)*(length>>1));
 
              for (k = 0; k < length; k++) {
-                 f->pre_c_pos[k] = cos(-(M_PI*k)/length);
-                 f->pre_s_pos[k] = sin(-(M_PI*k)/length);
+                 f->pre_c_pos[k] = FA_COS(-(M_PI*k)/length);
+                 f->pre_s_pos[k] = FA_SIN(-(M_PI*k)/length);
              }
              for (k = 0; k < (length>>1); k++) {
-                 f->c_pos[k] = cos(-2*M_PI*n0*(k+0.5)/length);
-                 f->s_pos[k] = sin(-2*M_PI*n0*(k+0.5)/length);
+                 f->c_pos[k] = FA_COS(-2*M_PI*n0*(k+0.5)/length);
+                 f->s_pos[k] = FA_SIN(-2*M_PI*n0*(k+0.5)/length);
              }
 
              /*inverse transform -->imdct*/
@@ -422,12 +418,12 @@ uintptr_t fa_mdct_init(int type, int size)
              f->s_inv     = (float *)malloc(sizeof(float)*length);
 
              for (k = 0; k < length; k++) {
-                 f->pre_c_inv[k] = cos((2*M_PI*k*n0)/length);
-                 f->pre_s_inv[k] = sin((2*M_PI*k*n0)/length);
+                 f->pre_c_inv[k] = FA_COS((2*M_PI*k*n0)/length);
+                 f->pre_s_inv[k] = FA_SIN((2*M_PI*k*n0)/length);
              }
              for (k = 0; k < length; k++) {
-                 f->c_inv[k] = cos(M_PI*(k+n0)/length);
-                 f->s_inv[k] = sin(M_PI*(k+n0)/length);
+                 f->c_inv[k] = FA_COS(M_PI*(k+n0)/length);
+                 f->s_inv[k] = FA_SIN(M_PI*(k+n0)/length);
              }
 
              f->mdct_func  = mdct1;
@@ -437,7 +433,7 @@ uintptr_t fa_mdct_init(int type, int size)
         case MDCT_FFT4:  {
              f->h_fft   = fa_fft_init(length>>2);
              f->fft_buf = (float *)malloc(sizeof(float)*(length>>1));
-             f->sqrt_cof = 1./sqrt(length);
+             f->sqrt_cof = FA_INVSQRTF(length);
 
              f->rot = (float *)malloc(sizeof(float)*length);
              f->tw_c = (float *)malloc(sizeof(float)*(length>>2));
@@ -445,8 +441,8 @@ uintptr_t fa_mdct_init(int type, int size)
 
              memset(f->rot, 0, sizeof(float)*length);
              for (k = 0; k < (length>>2); k++) {
-                 f->tw_c[k] = cos(-2*M_PI*(k+0.125)/length);
-                 f->tw_s[k] = sin(-2*M_PI*(k+0.125)/length);
+                 f->tw_c[k] = FA_COS(-2*M_PI*(k+0.125)/length);
+                 f->tw_s[k] = FA_SIN(-2*M_PI*(k+0.125)/length);
              }
 
              f->mdct_func  = mdct2;

@@ -26,29 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <assert.h>
 #include "fa_fastmath.h"
-
-#ifndef M_PI
-#define M_PI            3.14159265358979323846
-#endif
-
-#define M_PI_MUL2       6.28318530717958647692
-#define M_PI_DIV2       1.57079632679489661923
-
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_ABS
-#define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
-#endif
 
 #define FA_LOG2_SIZE       (512)  //(1024)
 #define FA_LOG2_SIZE_L2    (9)    //(10)

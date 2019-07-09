@@ -26,16 +26,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "fa_fastmath.h"
 #include "fa_aacms.h"
 #include "fa_mdctquant.h"
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
 
 void fa_aacmsenc(fa_aacenc_ctx_t *f)
 {

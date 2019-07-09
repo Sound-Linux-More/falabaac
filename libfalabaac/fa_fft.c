@@ -26,12 +26,8 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include "fa_fastmath.h"
 #include "fa_fft.h"
-
-#ifndef M_PI
-#define  M_PI       3.14159265358979323846
-#endif
 
 typedef struct  _fa_fft_ctx_t {
     int   base;
@@ -215,7 +211,8 @@ uintptr_t fa_fft_init(int size)
     memset(f, 0, sizeof(fa_fft_ctx_t));
 
     f->length = size;
-    f->base   = (int)(log(size)/log(2));
+//    f->base   = (int)(log(size)/log(2));
+    f->base   = (int)(FA_LOG2(size));
 
     if ((1<<f->base) < size)
         f->base += 1;

@@ -26,7 +26,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
+#include "fa_fastmath.h"
 #include "fa_corr.h"
 
 /*
@@ -102,7 +102,7 @@ float fa_corr_cof(float *a, float *b, int len)
         tc += b[k] * b[k];
     }
 
-    rab = ta/sqrt(tb*tc);
+    rab = ta/FA_SQRTF(tb*tc);
 
     return rab;
 }

@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <assert.h>
 #include <memory.h>
+#include "fa_fastmath.h"
 #include "fa_bitbuffer.h"
 
 #define SIZE_OF_BYTE        1
@@ -35,14 +36,6 @@
 #define SIZE_OF_LONG        4
 
 #define BITS_OF_BYTE        8
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)     ((a) > (b) ? (a) : (b))
-#endif
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)     ((a) < (b) ? (a) : (b))
-#endif
 
 void        fa_write_byte(unsigned char in , FILE *fp)
 {

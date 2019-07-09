@@ -27,22 +27,10 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <memory.h>
-#include <math.h>
+#include "fa_fastmath.h"
 #include "fa_aaccfg.h"
 #include "fa_aacpsy.h"
 #include "fa_psytab.h"
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_ABS
-#define FA_ABS(a) ( (a) > 0 ? (a) : (-(a)))
-#endif
 
 typedef struct _fa_aacpsy_t {
     int   sample_rate;

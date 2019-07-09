@@ -26,9 +26,9 @@
 
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 #include <memory.h>
 #include <assert.h>
+#include "fa_fastmath.h"
 #include "fa_fir.h"
 
 #undef  EPS
@@ -58,13 +58,13 @@ static float sinc (float x)
     if (x == 0.0)
         val = 1.0;
     else {
-        val = sin (M_PI * xm) / (M_PI * x);
+        val = FA_SIN (M_PI * xm) / (M_PI * x);
 
         xm = fmod (x, 2.0);
         if (x == floor (x))
             val = 0.0;
         else
-            val = sin (M_PI * xm) / (M_PI * x);
+            val = FA_SIN (M_PI * xm) / (M_PI * x);
 
     }
 
@@ -141,7 +141,7 @@ int fa_kaiser(float *w, const int N)
         Ib = bessel(beta);
 
         x = (float)((2. *i/(N-1))-1);
-        Ia = bessel(beta*(float)sqrt(1. - x*x));
+        Ia = bessel(beta*FA_SQRTF(1. - x*x));
 
         w[i] = (float)(Ia/Ib);
     }
@@ -160,7 +160,7 @@ int fa_kaiser_beta(float *w, const int N, const float beta)
         Ib = bessel(beta);
 
         x = (float)((2. *i/(N-1))-1);
-        Ia = bessel(beta*(float)sqrt(1. - x*x));
+        Ia = bessel(beta*FA_SQRTF(1. - x*x));
 
         w[i] = (float)(Ia/Ib);
     }

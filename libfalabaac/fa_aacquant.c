@@ -28,6 +28,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include <assert.h>
+#include "fa_fastmath.h"
 #include "fa_aaccfg.h"
 #include "fa_aacquant.h"
 #include "fa_aacpsy.h"
@@ -35,21 +36,8 @@
 #include "fa_mdctquant.h"
 #include "fa_aacstream.h"
 /*#include "fa_timeprofile.h"*/
-#include "fa_fastmath.h"
 
 /*#define USE_PDF_IMPROVE*/
-
-#ifndef FA_MIN
-#define FA_MIN(a,b)  ( (a) < (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_MAX
-#define FA_MAX(a,b)  ( (a) > (b) ? (a) : (b) )
-#endif
-
-#ifndef FA_ABS
-#define FA_ABS(a)    ( (a) > 0 ? (a) : (-(a)) )
-#endif
 
 /*#define SF_MAGIC_NUM  (0.148148148148) //(0.449346777778)*/
 #define SF_MAGIC_NUM  (4./27) //((16./9.)*(1./12)) //(0.449346777778)
