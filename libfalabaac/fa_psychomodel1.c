@@ -47,7 +47,8 @@ static int nm_pos_geomean(int l, int u);
 #define PSD_NORMALIZER  90.302
 #endif
 
-typedef struct _fa_psychomodel1_t {
+typedef struct _fa_psychomodel1_t
+{
     float fs;
     int   fft_len;
     int   psd_len;
@@ -70,7 +71,7 @@ typedef struct _fa_psychomodel1_t {
     int   splnum1;
     int   splnum2;
 
-}fa_psychomodel1_t;
+} fa_psychomodel1_t;
 
 #define DB_FAST
 
@@ -84,7 +85,8 @@ static void psy_dbtable_init()
     int i;
     float db;
 
-    for (i = 0; i < DBCNT; i++) {
+    for (i = 0; i < DBCNT; i++)
+    {
         db = (float)(i + MINDB);
         db_table[i] = pow(10, 0.1*db);
     }
@@ -95,7 +97,8 @@ static float db_pos(float power)
 #if 0 //def DB_FAST
     int i;
 
-    for (i = 0; i < DBCNT; i++) {
+    for (i = 0; i < DBCNT; i++)
+    {
         if (power < db_table[i])
             return (i+MINDB);
     }
@@ -181,7 +184,8 @@ static float ath(float f)
 
     if (f > 0.0)
         ath = 3.64 * pow(f, -0.8) - 6.5 * exp(-0.6 * pow(f-3.3, 2)) + 0.001 * pow(f,4);
-    else  {
+    else
+    {
         f = 0.01;
         ath = 3.64 * pow(f, -0.8) - 6.5 * exp(-0.6 * pow(f-3.3, 2)) + 0.001 * pow(f,4);
     }
@@ -228,14 +232,16 @@ static int caculate_cb_info(float fs, int psd_len,
     for (i = 0; i < CBANDS_NUM; i++)
         geomean_table[i] = 1;
 
-    for(k = 0; k < psd_len; k++) {
+    for(k = 0; k < psd_len; k++)
+    {
         f = freqbin2freq(fs, psd_len*2, k);
         psd_ath[k]  = ath(f);
         /*printf("psd_ath[%d]=%f\n", k, psd_ath[k]);*/
         psd_bark[k] = freq2bark(f);
 
         if((floor(psd_bark[k]) > band) &&
-           (band < CBANDS_NUM)){
+                (band < CBANDS_NUM))
+        {
             cb_hopbin[band] = k;
             /*FA_PRINT("the hopbin of band[%d] = %d\n", band, k);*/
             if (band == 0)
@@ -257,11 +263,11 @@ static int caculate_cb_info(float fs, int psd_len,
 static int deltak_splitenum(float fs, int fft_len, int *splnum1, int *splnum2)
 {
     int freqbin1, freqbin2;
-/*
-    deltak = 2     (0.17-5.5kHz)
-             [2 3] (5.5-11kHz)
-             [2 6] (11-max kHz)
-*/
+    /*
+        deltak = 2     (0.17-5.5kHz)
+                 [2 3] (5.5-11kHz)
+                 [2 6] (11-max kHz)
+    */
     freqbin1 = freq2freqbin(fs, fft_len, 5500);
     freqbin2 = freq2freqbin(fs, fft_len, 11000);
 
@@ -295,7 +301,8 @@ static int istone(float *psd, int psd_len, int freqbin,
         goto not_tone;
 
     /*0 means very low, minima*/
-    for(i = 0; i < 6; i++) {
+    for(i = 0; i < 6; i++)
+    {
         kr = freqbin + (i + 1);
         kl = freqbin - (i + 1);
         if(kr < 0 || kr >= psd_len)
@@ -309,16 +316,22 @@ static int istone(float *psd, int psd_len, int freqbin,
             psd_nl[i] = psd[kl];
     }
 
-    if(psd[freqbin] < psd_nr[0] || psd[freqbin] < psd_nl[0]) {
+    if(psd[freqbin] < psd_nr[0] || psd[freqbin] < psd_nl[0])
+    {
         goto not_tone;
-    }else if(freqbin > 1 && freqbin < splnum1) {          //0.17~5.5 kHz
+    }
+    else if(freqbin > 1 && freqbin < splnum1)             //0.17~5.5 kHz
+    {
         if(psd[freqbin] <= (psd_nr[1]+7) || psd[freqbin] <= (psd_nl[1]+7))
             goto not_tone;
         tone_flag[freqbin] = 1;
         tone_flag[freqbin-1] = tone_flag[freqbin+1] = 1;
         tone_flag[freqbin-2] = tone_flag[freqbin+2] = 1;
-    }else if(freqbin >= splnum1 && freqbin < splnum2) {   //5.5~11   kHz
-        for(i = 1; i <= 2; i++) {
+    }
+    else if(freqbin >= splnum1 && freqbin < splnum2)      //5.5~11   kHz
+    {
+        for(i = 1; i <= 2; i++)
+        {
             if(psd[freqbin] <= (psd_nr[i]+7) || psd[freqbin] <= (psd_nl[i]+7))
                 goto not_tone;
         }
@@ -326,8 +339,11 @@ static int istone(float *psd, int psd_len, int freqbin,
         tone_flag[freqbin-1] = tone_flag[freqbin+1] = 1;
         tone_flag[freqbin-2] = tone_flag[freqbin+2] = 1;
         tone_flag[freqbin-3] = tone_flag[freqbin+3] = 1;
-    }else if(freqbin >= splnum2 && freqbin < psd_len){                                                 //11~max   kHz
-        for(i = 1; i <= 5; i++) {
+    }
+    else if(freqbin >= splnum2 && freqbin < psd_len)                                                   //11~max   kHz
+    {
+        for(i = 1; i <= 5; i++)
+        {
             if(psd[freqbin] <= (psd_nr[i]+7) || psd[freqbin] <= (psd_nl[i]+7))
                 goto not_tone;
         }
@@ -338,7 +354,9 @@ static int istone(float *psd, int psd_len, int freqbin,
         tone_flag[freqbin-4] = tone_flag[freqbin+4] = 1;
         tone_flag[freqbin-5] = tone_flag[freqbin+5] = 1;
         tone_flag[freqbin-6] = tone_flag[freqbin+6] = 1;
-    }else {
+    }
+    else
+    {
         goto not_tone;
     }
 
@@ -357,8 +375,10 @@ static int psd_tonemasker(float *psd , int psd_len,
     memset(ptm, 0, sizeof(float)*psd_len);
     memset(tone_flag, 0, sizeof(int)*psd_len);
 
-    for(k = 0; k < psd_len; k++) {
-        if(istone(psd, psd_len, k, splnum1, splnum2, tone_flag)) {
+    for(k = 0; k < psd_len; k++)
+    {
+        if(istone(psd, psd_len, k, splnum1, splnum2, tone_flag))
+        {
             ptm[k] = db_pos(db_inv(psd[k-1]) + db_inv(psd[k]) + db_inv(psd[k+1]));
             /*printf("ptm[%d]=%f\n", k, ptm[k]);*/
         }
@@ -395,8 +415,10 @@ static int noisemasker_band(float *psd, int *tone_flag,
 
     *nm  = 0;
     tmp = 0;
-    for(k = lowbin; k <= highbin; k++) {
-        if(!tone_flag[k]) {
+    for(k = lowbin; k <= highbin; k++)
+    {
+        if(!tone_flag[k])
+        {
             tmp += db_inv(psd[k]);
         }
     }
@@ -417,8 +439,10 @@ static int noisemasker_band_fast(float *psd, int *tone_flag,
 
     *nm  = 0;
     tmp = 0;
-    for(k = lowbin; k <= highbin; k++) {
-        if(!tone_flag[k]) {
+    for(k = lowbin; k <= highbin; k++)
+    {
+        if(!tone_flag[k])
+        {
             tmp += db_inv(psd[k]);
         }
     }
@@ -439,9 +463,9 @@ static int noisemasker_band_fast(float *psd, int *tone_flag,
 }
 
 static int psd_noisemasker(float *psd, int psd_len,
-                    int *tone_flag, int *cb_hopbin,
-                    float *geomean_table,
-                    float *pnm)
+                           int *tone_flag, int *cb_hopbin,
+                           float *geomean_table,
+                           float *pnm)
 {
     int band;
     int lowbin, highbin;
@@ -450,7 +474,8 @@ static int psd_noisemasker(float *psd, int psd_len,
 
     lowbin = 0;
     memset(pnm, 0, sizeof(float)*psd_len);
-    for(band = 0; band < CBANDS_NUM; band++) {
+    for(band = 0; band < CBANDS_NUM; band++)
+    {
         nm_pos = 0;
         if(cb_hopbin[band] == 0)
             break;
@@ -470,7 +495,8 @@ static int ptm_pnm_filter_by_ath(float *ptm, float *pnm, float *psd_ath, int psd
 {
     int k;
 
-    for(k = 0; k < psd_len; k++) {
+    for(k = 0; k < psd_len; k++)
+    {
         if(ptm[k] < psd_ath[k])
             ptm[k] = 0.;
         if(pnm[k] < psd_ath[k])
@@ -490,7 +516,8 @@ static int psd_bark2bin(float *psd_bark, int psd_len, float bark)
     if(bark >= CBANDS_NUM)
         return psd_len-1;
 
-    for(k = 1; k < psd_len; k++) {
+    for(k = 1; k < psd_len; k++)
+    {
         if(psd_bark[k] > bark)
             return k-1;
     }
@@ -512,7 +539,8 @@ static int check_near_masker(float *ptm, float *pnm,
     ptm_pnm_filter_by_ath(ptm, pnm, psd_ath, psd_len);
 
 
-    for(k = 0; k < psd_len; k++) {
+    for(k = 0; k < psd_len; k++)
+    {
         tone_found  = 0;
         noise_found = 0;
 
@@ -522,7 +550,8 @@ static int check_near_masker(float *ptm, float *pnm,
         if(pnm[k] > 0)
             noise_found = 1;
 
-        if(tone_found || noise_found) {
+        if(tone_found || noise_found)
+        {
             masker_bark = psd_bark[k];
             bw_low_bark = masker_bark - 0.5;
             bw_high_bark= masker_bark + 0.5;
@@ -530,40 +559,62 @@ static int check_near_masker(float *ptm, float *pnm,
             bw_low_bin  = psd_bark2bin(psd_bark, psd_len, bw_low_bark) + 1;
             bw_high_bin = psd_bark2bin(psd_bark, psd_len, bw_high_bark);
 
-            for(j = bw_low_bin; j <= bw_high_bin; j++) {
-                if(tone_found) {
-                    if(j != k && ptm[k] < ptm[j]) {
+            for(j = bw_low_bin; j <= bw_high_bin; j++)
+            {
+                if(tone_found)
+                {
+                    if(j != k && ptm[k] < ptm[j])
+                    {
                         ptm[k] = 0;
                         break;
-                    }else if(j != k){
+                    }
+                    else if(j != k)
+                    {
                         ptm[j] = 0;
-                    }else {
+                    }
+                    else
+                    {
                         ;
                     }
 
-                    if(ptm[k] < pnm[j]) {
+                    if(ptm[k] < pnm[j])
+                    {
                         ptm[k] = 0;
                         break;
-                    }else {
+                    }
+                    else
+                    {
                         pnm[j] = 0;
                     }
-                }else if(noise_found) {
-                    if(j != k && pnm[k] < pnm[j]) {
+                }
+                else if(noise_found)
+                {
+                    if(j != k && pnm[k] < pnm[j])
+                    {
                         pnm[k] = 0;
                         break;
-                    }else if(j != k){
+                    }
+                    else if(j != k)
+                    {
                         pnm[j] = 0;
-                    }else {
+                    }
+                    else
+                    {
                         ;
                     }
 
-                    if(pnm[k] < ptm[j]) {
+                    if(pnm[k] < ptm[j])
+                    {
                         pnm[k] = 0;
                         break;
-                    }else {
+                    }
+                    else
+                    {
                         ptm[j] = 0;
                     }
-                }else{
+                }
+                else
+                {
                     ;
                 }
             }
@@ -586,7 +637,8 @@ static int spread_function(float power, float *psd_bark,
 
     masker_bark = psd_bark[masker_bin];
 
-    for(i = low_bin; i <= high_bin; i++) {
+    for(i = low_bin; i <= high_bin; i++)
+    {
         maskee_bark = psd_bark[i];
         delta_bark  = maskee_bark - masker_bark;
 
@@ -616,9 +668,11 @@ static int tone_mask_threshold(float *ptm, float *psd_bark,
 
     memset(tone_thres, 0, sizeof(float)*psd_len);
 
-    for(k = 0; k < psd_len; k++) {
+    for(k = 0; k < psd_len; k++)
+    {
         memset(spread_effect, 0, sizeof(float)*psd_len);
-        if(ptm[k] > 0) {
+        if(ptm[k] > 0)
+        {
             masker_bark = psd_bark[k];
             low_bark    = masker_bark - 3;
             high_bark   = masker_bark + 8;
@@ -645,9 +699,11 @@ static int noise_mask_threshold(float *pnm, float *psd_bark,
 
     memset(noise_thres, 0, sizeof(float)*psd_len);
 
-    for(k = 0; k < psd_len; k++) {
+    for(k = 0; k < psd_len; k++)
+    {
         memset(spread_effect, 0, sizeof(float)*psd_len);
-        if(pnm[k] > 0) {
+        if(pnm[k] > 0)
+        {
             masker_bark = psd_bark[k];
             low_bark    = masker_bark - 3;
             high_bark   = masker_bark + 8;
@@ -730,44 +786,55 @@ void fa_psychomodel1_uninit(uintptr_t handle)
 {
     fa_psychomodel1_t *f = (fa_psychomodel1_t *)handle;
 
-    if(f) {
-        if(f->psd) {
+    if(f)
+    {
+        if(f->psd)
+        {
             free(f->psd);
             f->psd = NULL;
         }
-        if(f->psd_ath) {
+        if(f->psd_ath)
+        {
             free(f->psd_ath);
             f->psd_ath = NULL;
         }
-        if(f->psd_bark) {
+        if(f->psd_bark)
+        {
             free(f->psd_bark);
             f->psd_bark = NULL;
         }
-        if(f->ptm) {
+        if(f->ptm)
+        {
             free(f->ptm);
             f->ptm = NULL;
         }
-        if(f->pnm) {
+        if(f->pnm)
+        {
             free(f->pnm);
             f->pnm = NULL;
         }
-        if(f->tone_flag) {
+        if(f->tone_flag)
+        {
             free(f->tone_flag);
             f->tone_flag = NULL;
         }
-        if(f->spread_effect) {
+        if(f->spread_effect)
+        {
             free(f->spread_effect);
             f->spread_effect = NULL;
         }
-        if(f->tone_thres) {
+        if(f->tone_thres)
+        {
             free(f->tone_thres);
             f->tone_thres = NULL;
         }
-        if(f->noise_thres) {
+        if(f->noise_thres)
+        {
             free(f->noise_thres);
             f->noise_thres = NULL;
         }
-        if(f->global_thres) {
+        if(f->global_thres)
+        {
             free(f->global_thres);
             f->global_thres = NULL;
         }
@@ -785,7 +852,8 @@ void fa_psy_global_threshold(uintptr_t handle, float *fft_buf, float *gth)
     fa_psychomodel1_t *f = (fa_psychomodel1_t *)handle;
 
     /*step1: psd estimate and normalize to SPL*/
-    for(k = 0; k < f->psd_len; k++) {
+    for(k = 0; k < f->psd_len; k++)
+    {
         re = fft_buf[k+k];
         im = fft_buf[k+k+1];
         f->psd[k] = psd_estimate(re, im);
@@ -825,7 +893,8 @@ void fa_psy_global_threshold_usemdct(uintptr_t handle, float *mdct_buf, float *g
     /*cof = (100. *  (float)f->psd_len)/1024.;*/
     cof = (64. *  (float)f->psd_len)/1024.;
     /*step1: psd estimate and normalize to SPL*/
-    for(k = 0; k < f->psd_len; k++) {
+    for(k = 0; k < f->psd_len; k++)
+    {
         re = mdct_buf[k];
         f->psd[k] = psd_estimate_usemdct(re, cof);
     }

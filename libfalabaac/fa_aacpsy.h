@@ -37,23 +37,23 @@ extern "C"
 {
 #endif
 
-uintptr_t fa_aacpsy_init(int sample_rate);
-void fa_aacpsy_uninit(uintptr_t handle);
+    uintptr_t fa_aacpsy_init(int sample_rate);
+    void fa_aacpsy_uninit(uintptr_t handle);
 
-void update_psy_long2short_previnfo(uintptr_t handle);
-void update_psy_short2long_previnfo(uintptr_t handle);
+    void update_psy_long2short_previnfo(uintptr_t handle);
+    void update_psy_short2long_previnfo(uintptr_t handle);
 
-void update_psy_short_previnfo(uintptr_t handle, int index);
+    void update_psy_short_previnfo(uintptr_t handle, int index);
 
 //reset previnfo
-void reset_psy_previnfo(uintptr_t handle);
+    void reset_psy_previnfo(uintptr_t handle);
 
 //the x must be 16bits sample quantize
-void fa_aacpsy_calculate_pe(uintptr_t handle, float *x, int block_type, float *pe_block, int *tns_active);
-void fa_aacpsy_calculate_pe_hp(uintptr_t handle, float *x, int block_type, float *pe_block, int *tns_active);
-void fa_aacpsy_calculate_xmin(uintptr_t handle, float *mdct_line, int block_type, float xmin[8][FA_SWB_NUM_MAX], float qcof);
+    void fa_aacpsy_calculate_pe(uintptr_t handle, float *x, int block_type, float *pe_block, int *tns_active);
+    void fa_aacpsy_calculate_pe_hp(uintptr_t handle, float *x, int block_type, float *pe_block, int *tns_active);
+    void fa_aacpsy_calculate_xmin(uintptr_t handle, float *mdct_line, int block_type, float xmin[8][FA_SWB_NUM_MAX], float qcof);
 
-void fa_aacpsy_calculate_xmin_usepsych1(uintptr_t handle, float *mdct_line, int block_type, float xmin[8][FA_SWB_NUM_MAX]);
+    void fa_aacpsy_calculate_xmin_usepsych1(uintptr_t handle, float *mdct_line, int block_type, float xmin[8][FA_SWB_NUM_MAX]);
 
 #ifdef __cplusplus
 }

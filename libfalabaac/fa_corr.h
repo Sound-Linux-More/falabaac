@@ -33,13 +33,13 @@ extern "C"
 {
 #endif
 
-void  fa_autocorr(float *x, int n, int p, float *r);
-void  fa_autocorr_hp(double *x, int n, int p, double *r);
+    void  fa_autocorr(float *x, int n, int p, float *r);
+    void  fa_autocorr_hp(double *x, int n, int p, double *r);
 
-void  fa_crosscorr(float *x, float *y, int n, int p, float *r);
-void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r);
+    void  fa_crosscorr(float *x, float *y, int n, int p, float *r);
+    void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r);
 
-float fa_corr_cof(float *a, float *b, int len);
+    float fa_corr_cof(float *a, float *b, int len);
 
 #ifdef __cplusplus
 }

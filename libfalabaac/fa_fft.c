@@ -29,14 +29,15 @@
 #include "fa_fastmath.h"
 #include "fa_fft.h"
 
-typedef struct  _fa_fft_ctx_t {
+typedef struct  _fa_fft_ctx_t
+{
     int   base;
     int   length;
     int   *bit_rvs;
     float *fft_work;
     float *cos_ang;
     float *sin_ang;
-}fa_fft_ctx_t;
+} fa_fft_ctx_t;
 
 static int bit_reverse(int *buf_rvs, int size)
 {
@@ -45,7 +46,8 @@ static int bit_reverse(int *buf_rvs, int size)
     int N2 = size << 1;          // N<<1 == N*2
     int i  = 0;
 
-    do {
+    do
+    {
         buf_rvs[i++] = s;
         r += 2;
         s ^= size - (size / (r&-r));
@@ -74,12 +76,15 @@ static void dif_butterfly(float *data, long size, float *cos_ang, float *sin_ang
 
     astep = 1;
     end   = data + size + size;
-    for (dl = size; dl > 1; dl >>= 1, astep += astep) {
+    for (dl = size; dl > 1; dl >>= 1, astep += astep)
+    {
         l1 = data;
         l2 = data + dl;
-        for (; l2 < end; l1 = l2, l2 = l2 + dl) {
+        for (; l2 < end; l1 = l2, l2 = l2 + dl)
+        {
             ol2 = l2;
-            for (angle = 0; l1 < ol2; l1 += 2, l2 += 2) {
+            for (angle = 0; l1 < ol2; l1 += 2, l2 += 2)
+            {
                 wr = cos_ang[angle];
                 wi = -sin_ang[angle];
                 xr = *l1     + *l2;
@@ -88,8 +93,10 @@ static void dif_butterfly(float *data, long size, float *cos_ang, float *sin_ang
                 di = *(l1+1) - *(l2+1);
                 yr = dr*wr   - di*wi;
                 yi = dr*wi   + di*wr;
-                *(l1) = xr; *(l1+1) = xi;
-                *(l2) = yr; *(l2+1) = yi;
+                *(l1) = xr;
+                *(l1+1) = xi;
+                *(l2) = yr;
+                *(l2+1) = yi;
                 angle += astep;
             }
         }
@@ -115,12 +122,15 @@ static void inverse_dit_butterfly(float *data, long size, float *cos_ang, float 
 
     astep = size >> 1;
     end   = data + size + size;
-    for (dl = 2; astep > 0; dl += dl, astep >>= 1) {
+    for (dl = 2; astep > 0; dl += dl, astep >>= 1)
+    {
         l1 = data;
         l2 = data + dl;
-        for (; l2 < end; l1 = l2, l2 = l2 + dl) {
+        for (; l2 < end; l1 = l2, l2 = l2 + dl)
+        {
             ol2 = l2;
-            for (angle = 0; l1 < ol2; l1 += 2, l2 += 2) {
+            for (angle = 0; l1 < ol2; l1 += 2, l2 += 2)
+            {
                 wr = cos_ang[angle];
                 wi = sin_ang[angle];
                 xr = *l1;
@@ -129,8 +139,10 @@ static void inverse_dit_butterfly(float *data, long size, float *cos_ang, float 
                 yi = *(l2+1);
                 dr = yr*wr - yi*wi;
                 di = yr*wi + yi*wr;
-                *(l1) = xr + dr; *(l1+1) = xi + di;
-                *(l2) = xr - dr; *(l2+1) = xi - di;
+                *(l1) = xr + dr;
+                *(l1+1) = xi + di;
+                *(l2) = xr - dr;
+                *(l2+1) = xi - di;
                 angle += astep;
             }
         }
@@ -158,12 +170,15 @@ void fa_fft(uintptr_t handle, float *data)
 
     dif_butterfly(data, size, cos_ang, sin_ang);
 
-    for (i = 0 ; i < size ; i++) {
+    for (i = 0 ; i < size ; i++)
+    {
         bit = bit_rvs[i];
-        temp[i+i] = data[bit+bit]; temp[i+i+1] = data[bit+bit+1];
+        temp[i+i] = data[bit+bit];
+        temp[i+i+1] = data[bit+bit+1];
     }
 
-    for (i = 0; i < size ; i++) {
+    for (i = 0; i < size ; i++)
+    {
         data[i+i] = temp[i+i];
         data[i+i+1] = temp[i+i+1];
     }
@@ -188,12 +203,15 @@ void fa_ifft(uintptr_t handle, float* data)
     float *cos_ang  = f->cos_ang;
     float *sin_ang  = f->sin_ang;
 
-    for (i = 0 ; i < size ; i++) {
+    for (i = 0 ; i < size ; i++)
+    {
         bit = bit_rvs[i];
-        temp[i+i] = data[bit+bit]; temp[i+i+1] = data[bit+bit+1];
+        temp[i+i] = data[bit+bit];
+        temp[i+i+1] = data[bit+bit+1];
     }
 
-    for (i = 0; i < size ; i++) {
+    for (i = 0; i < size ; i++)
+    {
         data[i+i] = temp[i+i]/size;
         data[i+i+1] = temp[i+i+1]/size;
     }
@@ -224,7 +242,8 @@ uintptr_t fa_fft_init(int size)
 
     bit_reverse(f->bit_rvs,size);
 
-    for (i = 0 ; i < size ; i++){
+    for (i = 0 ; i < size ; i++)
+    {
         ang = (float)(2*M_PI*i)/size;
         f->cos_ang[i] = (float)cos(ang);
         f->sin_ang[i] = (float)sin(ang);

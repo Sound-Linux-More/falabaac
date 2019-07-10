@@ -37,7 +37,8 @@ void  fa_autocorr(float *x, int n, int p, float *r)
 {
     int i, j, k;
 
-    for (k = 0; k <= p; k++) {
+    for (k = 0; k <= p; k++)
+    {
         r[k] = 0.0;
         for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * x[j];
@@ -57,7 +58,8 @@ void  fa_autocorr_hp(double *x, int n, int p, double *r)
 {
     int i, j, k;
 
-    for (k = 0; k <= p; k++) {
+    for (k = 0; k <= p; k++)
+    {
         r[k] = 0.0;
         for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * x[j];
@@ -68,7 +70,8 @@ void  fa_crosscorr(float *x, float *y, int n, int p, float *r)
 {
     int i, j, k;
 
-    for (k = 0; k <= p; k++) {
+    for (k = 0; k <= p; k++)
+    {
         r[k] = 0.0;
         for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * y[j];
@@ -80,7 +83,8 @@ void  fa_crosscorr_hp(double *x, double *y, int n, int p, double *r)
 {
     int i, j, k;
 
-    for (k = 0; k <= p; k++) {
+    for (k = 0; k <= p; k++)
+    {
         r[k] = 0.0;
         for (i = 0,j = k; j < n; i++,j++)
             r[k] += x[i] * y[j];
@@ -96,7 +100,8 @@ float fa_corr_cof(float *a, float *b, int len)
 
     ta = tb = tc = 0;
 
-    for (k = 0 ; k < len ; k++) {
+    for (k = 0 ; k < len ; k++)
+    {
         ta += a[k] * b[k];
         tb += a[k] * a[k];
         tc += b[k] * b[k];

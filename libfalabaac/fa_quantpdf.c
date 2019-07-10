@@ -45,7 +45,8 @@ void  fa_protect_db_rom_init()
     int i;
 
     /*48k long*/
-    for (i = 0; i < 49; i++) {
+    for (i = 0; i < 49; i++)
+    {
         if (i < 3)
             fa_protect_db_48k_long[i] = 9;
         else if (i < 27)
@@ -59,7 +60,8 @@ void  fa_protect_db_rom_init()
     }
 
     /*48k short*/
-    for (i = 0; i < 14; i++) {
+    for (i = 0; i < 14; i++)
+    {
         if (i < 1)
             fa_protect_db_48k_short[i] = 8;
         else if (i < 2)
@@ -73,7 +75,8 @@ void  fa_protect_db_rom_init()
     /*44k long*/
 #if 1
 
-    for (i = 0; i < 49; i++) {
+    for (i = 0; i < 49; i++)
+    {
         if (i < 3)
             fa_protect_db_44k_long[i] = 9;
         else if (i < 27)
@@ -88,7 +91,8 @@ void  fa_protect_db_rom_init()
 
 #else
 
-    for (i = 0; i < 49; i++) {
+    for (i = 0; i < 49; i++)
+    {
         if (i < 3)
             fa_protect_db_44k_long[i] = 9;
         else if (i < 27)
@@ -105,7 +109,8 @@ void  fa_protect_db_rom_init()
 
     /*44k short*/
 #if  1
-    for (i = 0; i < 14; i++) {
+    for (i = 0; i < 14; i++)
+    {
         if (i < 1)
             fa_protect_db_44k_short[i] = 8;//7;
         else if (i < 2)
@@ -117,7 +122,8 @@ void  fa_protect_db_rom_init()
     }
 
 #else
-    for (i = 0; i < 14; i++) {
+    for (i = 0; i < 14; i++)
+    {
         if (i < 1)
             fa_protect_db_44k_short[i] = 8;
         else if (i < 2)
@@ -131,7 +137,8 @@ void  fa_protect_db_rom_init()
 #endif
 
     /*32k long*/
-    for (i = 0; i < 51; i++) {
+    for (i = 0; i < 51; i++)
+    {
         if (i < 3)
             fa_protect_db_32k_long[i] = 10;
         else if (i < 27)
@@ -145,7 +152,8 @@ void  fa_protect_db_rom_init()
     }
 
     /*32k short*/
-    for (i = 0; i < 14; i++) {
+    for (i = 0; i < 14; i++)
+    {
         if (i < 1)
             fa_protect_db_32k_short[i] = 9;
         else if (i < 2)
@@ -188,7 +196,8 @@ float fa_get_subband_sqrtpower(float *X, int kmin, int kmax)
     float Px;
 
     Px = 0.0;
-    for (k = kmin; k <= kmax; k++) {
+    for (k = kmin; k <= kmax; k++)
+    {
         tmp = FA_ABS(X[k]);
         Px += FA_SQRTF(tmp);
     }
@@ -204,7 +213,8 @@ void fa_get_subband_abssqrtpower(float *X, int kmin, int kmax, float *Px1, float
 
     tPx1 = 0.0;
     tPx2 = 0.0;
-    for (k = kmin; k <= kmax; k++) {
+    for (k = kmin; k <= kmax; k++)
+    {
         tmp = FA_ABS(X[k]);
         tPx1 += tmp;
         tPx2 += FA_SQRTF(tmp);
@@ -223,7 +233,8 @@ void fa_get_subband_abssqrtpower_improve(float *X, int kmin, int kmax, float *Px
     tPx1 = 0.0;
     tPx2 = 0.0;
     tPx3 = 0.0;
-    for (k = kmin; k <= kmax; k++) {
+    for (k = kmin; k <= kmax; k++)
+    {
         tmp = FA_ABS(X[k]);
         tPx1 += tmp;
         tPx2 += FA_SQRTF(tmp);
@@ -244,9 +255,12 @@ int fa_mpeg_round(float x)
 {
     int rx;
 
-    if (x > 0) {
+    if (x > 0)
+    {
         rx = (int)(x + 0.4054);
-    } else {
+    }
+    else
+    {
         /*rx = -1 * (int)(-x + 0.4054);*/
         rx = -1 * (int)(-x - 0.4054);
     }
@@ -288,14 +302,17 @@ int   fa_estimate_sf(float T, int K, float beta,
 
     diff = a4*miu - a2*a2*miuhalf*miuhalf;
     /*if (diff < 0)*/
-        /*printf("diff=%f\n", diff);*/
+    /*printf("diff=%f\n", diff);*/
     /*assert(diff >= 0);*/
 
     t = K*a2*miuhalf + beta*FA_SQRTF(2*K*diff);
-    if (t > 0) {
+    if (t > 0)
+    {
         ratio = T/t;
         sf = fa_mpeg_round((8./3.) * FA_LOG2(ratio));
-    } else {
+    }
+    else
+    {
         sf = 0;
     }
 
@@ -307,16 +324,19 @@ int   fa_estimate_sf_fast(float T, float t)
     float ratio;
     int sf;
 
-    if (t > 0) {
+    if (t > 0)
+    {
         ratio = T/t;
         sf = fa_mpeg_round((8./3.) * FA_LOG2(ratio));
-    } else {
+    }
+    else
+    {
         sf = 0;
     }
-/*
-    if (sf < 0)
-        sf = 0;
-*/
+    /*
+        if (sf < 0)
+            sf = 0;
+    */
     return sf;
 }
 
@@ -325,16 +345,19 @@ int   fa_estimate_sf_fast_improve(float T, float t, float miu2)
     float ratio;
     int sf;
 
-    if (t > 0) {
+    if (t > 0)
+    {
         ratio = T/(t*sqrt(miu2*sqrt(miu2)));
         sf = fa_mpeg_round((8./3.) * FA_LOG2(ratio) + 2 * FA_LOG2(miu2));
-    } else {
+    }
+    else
+    {
         sf = 0;
     }
-/*
-    if (sf < 0)
-        sf = 0;
-*/
+    /*
+        if (sf < 0)
+            sf = 0;
+    */
     return sf;
 }
 
@@ -361,7 +384,8 @@ void fa_adjust_thr(int subband_num,
     r2 = 0.25;
 
     mi = 10000000;
-    for (s = 0; s < subband_num; s++) {
+    for (s = 0; s < subband_num; s++)
+    {
         if (Ti1[s] < mi)
             mi = Ti1[s];
     }
@@ -370,22 +394,31 @@ void fa_adjust_thr(int subband_num,
 
 #if  1
 
-    for (s = 0; s < subband_num; s++) {
-        if (Px[s] <= Tm[s]) {                           //masked by thr
+    for (s = 0; s < subband_num; s++)
+    {
+        if (Px[s] <= Tm[s])                             //masked by thr
+        {
             Ti[s] = Px[s];
-        } else {                                        //unmasked
+        }
+        else                                            //unmasked
+        {
             /*if ((Ti[s] - Tm[s]) < 6.0) {                //high SNR, use constant NMR adjust*/
-            if ((Ti[s] - Tm[s]) < 15.0) {                //high SNR, use constant NMR adjust
+            if ((Ti[s] - Tm[s]) < 15.0)                  //high SNR, use constant NMR adjust
+            {
                 /*assert(Ti[s] >= Tm[s]);*/
                 Ti1_tmp = Ti[s] + r1;
                 Ti[s]   = FA_MIN(Ti1_tmp, G[s]);
                 Ti[s]   = FA_MAX(Ti[s], Tm[s]);
                 Ti1[s]  = Ti1_tmp;
-            } else if (Ti[s] < G[s]) {                  //low SNR, use water-filling adjust
+            }
+            else if (Ti[s] < G[s])                      //low SNR, use water-filling adjust
+            {
                 Ti1_tmp = FA_MAX(Ti1[s], mi+r1);
                 Ti[s]   = FA_MIN(Ti1_tmp, G[s]);
                 /*printf("-----------tt1\n");*/
-            } else {                                    //very low SNR, small constant adjust
+            }
+            else                                        //very low SNR, small constant adjust
+            {
                 Ti[s] += r2;
                 /*printf("-----------tt2\n");*/
             }
@@ -393,23 +426,32 @@ void fa_adjust_thr(int subband_num,
     }
 #else
 
-    for (s = 0; s < subband_num; s++) {
-        if (Px[s] <= Tm[s]) {                           //masked by thr
+    for (s = 0; s < subband_num; s++)
+    {
+        if (Px[s] <= Tm[s])                             //masked by thr
+        {
             Ti[s] = Px[s];
             /*printf("-----------ttx\n");*/
-        } else {                                        //unmasked
-            if ((Ti[s] - Tm[s]) < 15.0) {                //high SNR, use constant NMR adjust
+        }
+        else                                            //unmasked
+        {
+            if ((Ti[s] - Tm[s]) < 15.0)                  //high SNR, use constant NMR adjust
+            {
                 /*assert(Ti[s] >= Tm[s]);*/
                 Ti1_tmp = Ti[s] + 1;//r1;
                 Ti[s]   = FA_MIN(Ti1_tmp, G[s]);
                 Ti[s]   = FA_MAX(Ti[s], Tm[s]);
                 Ti1[s]  = Ti1_tmp;
                 /*printf("-----------tt0\n");*/
-            } else if (Ti[s] < G[s]) {                  //low SNR, use water-filling adjust
+            }
+            else if (Ti[s] < G[s])                      //low SNR, use water-filling adjust
+            {
                 Ti1_tmp = FA_MAX(Ti1[s], mi+r1);
                 Ti[s]   = FA_MIN(Ti1_tmp, G[s]);
                 /*printf("-----------tt1\n");*/
-            } else {                                    //very low SNR, small constant adjust
+            }
+            else                                        //very low SNR, small constant adjust
+            {
                 Ti[s] += r2;
                 /*printf("-----------tt2\n");*/
             }

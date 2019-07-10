@@ -31,14 +31,15 @@
 #include "fa_bitbuffer.h"
 #include "fa_bitstream.h"
 
-typedef struct _fa_bitstream_t {
+typedef struct _fa_bitstream_t
+{
 
     fa_bitbuffer_t bitbuf;
 
     unsigned char *data;
     int           num_bytes;
 
-}fa_bitstream_t;
+} fa_bitstream_t;
 
 /*initial bitstream buffer, size is num_bytes*/
 uintptr_t fa_bitstream_init(int num_bytes)
@@ -61,10 +62,12 @@ void      fa_bitstream_uninit(uintptr_t handle)
 {
     fa_bitstream_t *f = (fa_bitstream_t *)handle;
 
-    if (f) {
+    if (f)
+    {
         fa_bitbuffer_uninit(&f->bitbuf);
 
-        if (f->data) {
+        if (f->data)
+        {
             free(f->data);
             f->data = NULL;
         }

@@ -26,7 +26,6 @@
 
 */
 
-
 #ifndef _FA_WAVFMT_H
 #define _FA_WAVFMT_H
 
@@ -37,23 +36,15 @@ extern "C"
 {
 #endif
 
-
 typedef struct _fa_wavfmt_t
 {
     unsigned short  format;
-
     unsigned short  channels;
-
     unsigned long   samplerate;
-
     unsigned short  bytes_per_sample;
-
     unsigned short  block_align;
-
     unsigned long   data_size;
-
 }fa_wavfmt_t;
-
 
 fa_wavfmt_t  fa_wavfmt_readheader (FILE *fp);
 void         fa_wavfmt_writeheader(fa_wavfmt_t fmt, FILE *fp);

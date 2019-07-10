@@ -34,20 +34,20 @@ extern "C"
 
 #define FA_LEVINSON_ORDER_MAX   64
 
-void fa_levinson(float *r,    int p,
-                 float *acof, float *kcof, float *err);
-void fa_levinson1(float *r, int p,
-                  float *acof, float *kcof, float *err);
-void fa_levinson_hp(double *r,    int p,
-                    double *acof, double *kcof, double *err);
-void fa_levinson1_hp(double *r, int p,
-                     double *acof, double *kcof, double *err);
+    void fa_levinson(float *r,    int p,
+                     float *acof, float *kcof, float *err);
+    void fa_levinson1(float *r, int p,
+                      float *acof, float *kcof, float *err);
+    void fa_levinson_hp(double *r,    int p,
+                        double *acof, double *kcof, double *err);
+    void fa_levinson1_hp(double *r, int p,
+                         double *acof, double *kcof, double *err);
 
 
-int  fa_atlvs(float *r, int n, float *b,
-              float *x, float *kcof, float *err);
-int  fa_atlvs_hp(double *r, int n, double *b,
-                 double *x, double *kcof, double *err);
+    int  fa_atlvs(float *r, int n, float *b,
+                  float *x, float *kcof, float *err);
+    int  fa_atlvs_hp(double *r, int n, double *b,
+                     double *x, double *kcof, double *err);
 
 #ifdef __cplusplus
 }

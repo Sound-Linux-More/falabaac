@@ -33,10 +33,10 @@ extern "C"
 {
 #endif
 
-/*
-WARN: if you want to plant this coder into embed system, you can enable FA_USE_FASTMATH and do fix point.
-      OTHERWISE, use the default math library (it will be good quality and fast)
-*/
+    /*
+    WARN: if you want to plant this coder into embed system, you can enable FA_USE_FASTMATH and do fix point.
+          OTHERWISE, use the default math library (it will be good quality and fast)
+    */
 //#define FA_USE_FASTMATH
 
 #ifdef  FA_USE_FASTMATH
@@ -46,10 +46,10 @@ WARN: if you want to plant this coder into embed system, you can enable FA_USE_F
 #endif
 
 //No1.   log() log10() fast function
-typedef float ieee754_float32_t;
+    typedef float ieee754_float32_t;
 
-void fa_logtab_init();
-ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
+    void fa_logtab_init();
+    ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
 
 #ifndef     M_PI
 #define     M_PI        3.14159265358979323846
@@ -95,9 +95,9 @@ ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
 #endif
 
 //No2.    angle fast function
-float fa_fast_sin(float angle);
-float fa_fast_cos(float angle);
-float fa_fast_atan2(float y, float x);
+    float fa_fast_sin(float angle);
+    float fa_fast_cos(float angle);
+    float fa_fast_atan2(float y, float x);
 
 #ifdef FA_USE_FASTANGLE
 #define        FA_SIN(x)         (fa_fast_sin(x))
@@ -109,11 +109,11 @@ float fa_fast_atan2(float y, float x);
 #define        FA_ATAN2(y,x)     (atan2(y,x))
 #endif
 
-float fa_fast_invsqrtf(float x);
-float fa_fast_sqrtf(float x);
-float fa_cbrtf(float x);
-float fa_sqrf(float x);
-float fa_quadf(float x);
+    float fa_fast_invsqrtf(float x);
+    float fa_fast_sqrtf(float x);
+    float fa_cbrtf(float x);
+    float fa_sqrf(float x);
+    float fa_quadf(float x);
 
 #ifdef FA_USE_FASTSQRTF
 #define        FA_SQRTF(x)       (fa_fast_sqrtf(x))

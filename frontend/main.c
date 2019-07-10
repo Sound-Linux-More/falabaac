@@ -99,11 +99,13 @@ int main(int argc, char *argv[])
     if(ret) return -1;
 
     /*open the dest and src file*/
-    if ((destfile = fopen(opt_outputfile, "w+b")) == NULL) {
+    if ((destfile = fopen(opt_outputfile, "w+b")) == NULL)
+    {
         printf("output file can not be opened\n");
         return 0;
     }
-    if ((sourcefile = fopen(opt_inputfile, "rb")) == NULL) {
+    if ((sourcefile = fopen(opt_inputfile, "rb")) == NULL)
+    {
         printf("input file can not be opened;\n");
         return 0;
     }
@@ -114,32 +116,34 @@ int main(int argc, char *argv[])
     sample_rate = fmt.samplerate;
     chn_num     = fmt.channels;
 
-/*#define TEST_MEMLEAK */
+    /*#define TEST_MEMLEAK */
 
 #ifdef TEST_MEMLEAK
-    while (1) {
+    while (1)
+    {
         static int testcnt = 0;
 #endif
 
-    /*initial aac encoder, return the handle for the encoder*/
-    h_aacenc = fa_aacenc_init(sample_rate, opt_bitrate, chn_num, opt_quality, opt_vbrflag,
-                              FA_AACENC_MPEG_VER_DEF , FA_AACENC_OBJ_TYPE_DEF, opt_lfeenable,
-                              opt_bandwidth,
-                              opt_speedlevel, opt_time_resolution_first);
-    if (!h_aacenc) {
-        printf("initial failed, maybe configuration is not proper!\n");
-        return -1;
-    }
+        /*initial aac encoder, return the handle for the encoder*/
+        h_aacenc = fa_aacenc_init(sample_rate, opt_bitrate, chn_num, opt_quality, opt_vbrflag,
+                                  FA_AACENC_MPEG_VER_DEF , FA_AACENC_OBJ_TYPE_DEF, opt_lfeenable,
+                                  opt_bandwidth,
+                                  opt_speedlevel, opt_time_resolution_first);
+        if (!h_aacenc)
+        {
+            printf("initial failed, maybe configuration is not proper!\n");
+            return -1;
+        }
 
 #ifdef TEST_MEMLEAK
-    if (h_aacenc)
-        fa_aacenc_uninit(h_aacenc);
+        if (h_aacenc)
+            fa_aacenc_uninit(h_aacenc);
 
-    #ifdef WIN32
+#ifdef WIN32
         Sleep(50);
-    #else
+#else
         usleep(50*1000);
-    #endif
+#endif
         testcnt++;
         printf("testcnt=%d\n", testcnt);
 

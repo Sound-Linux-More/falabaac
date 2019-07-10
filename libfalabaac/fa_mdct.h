@@ -35,32 +35,34 @@ extern "C"
 
 #include "fa_inttypes.h"
 
-typedef int mdct_win_t;
+    typedef int mdct_win_t;
 
-/*
-    origin: the naive mdct using the original formular, this mdct is leading to you learning mdct
-    fft   : normally called fast mdct, use fft transform to compute mdct
-    fft4  : the wildly used, N/4 point FFT to compute mdct
-*/
-enum{
-    MDCT_ORIGIN = 0,
-    MDCT_FFT,
-    MDCT_FFT4,
-};
+    /*
+        origin: the naive mdct using the original formular, this mdct is leading to you learning mdct
+        fft   : normally called fast mdct, use fft transform to compute mdct
+        fft4  : the wildly used, N/4 point FFT to compute mdct
+    */
+    enum
+    {
+        MDCT_ORIGIN = 0,
+        MDCT_FFT,
+        MDCT_FFT4,
+    };
 
-enum{
-    MDCT_SINE = 0,
-    MDCT_KBD,
-};
+    enum
+    {
+        MDCT_SINE = 0,
+        MDCT_KBD,
+    };
 
-uintptr_t fa_mdct_init(int type, int len);
-void      fa_mdct_uninit(uintptr_t handle);
+    uintptr_t fa_mdct_init(int type, int len);
+    void      fa_mdct_uninit(uintptr_t handle);
 
-void fa_mdct(uintptr_t handle, float *x, float *X);
-void fa_imdct(uintptr_t handle, float *X, float *x);
+    void fa_mdct(uintptr_t handle, float *x, float *X);
+    void fa_imdct(uintptr_t handle, float *X, float *x);
 
-int fa_mdct_sine(float *w, int N);
-int fa_mdct_kbd(float *w, int N, float alpha);
+    int fa_mdct_sine(float *w, int N);
+    int fa_mdct_kbd(float *w, int N, float alpha);
 
 #ifdef __cplusplus
 }

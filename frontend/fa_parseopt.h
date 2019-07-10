@@ -57,7 +57,6 @@ extern int   opt_speedlevel;
 extern float opt_bandwidth;
 extern int   opt_lfeenable;
 extern int   opt_time_resolution_first;
-
 extern int   opt_vbr_enable;
 
 int fa_parseopt(int argc, char *argv[]);

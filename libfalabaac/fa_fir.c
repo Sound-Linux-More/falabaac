@@ -34,7 +34,8 @@
 #undef  EPS
 #define EPS     1E-16
 
-typedef struct _fa_fir_filter_t {
+typedef struct _fa_fir_filter_t
+{
     float   fc;           //normalized, for lowpass and highpass
     float   fc1,fc2;      //normalized, for bandpass and bandstop
 
@@ -44,7 +45,7 @@ typedef struct _fa_fir_filter_t {
 
     float   *h;
     float   *buf;
-}fa_fir_filter_t;
+} fa_fir_filter_t;
 
 /*
  * Calculate the sin(pi*x)/(pi*x)
@@ -57,7 +58,8 @@ static float sinc (float x)
     /* Calculate sin(x)/x, taking care at multiples of pi */
     if (x == 0.0)
         val = 1.0;
-    else {
+    else
+    {
         val = FA_SIN (M_PI * xm) / (M_PI * x);
 
         xm = fmod (x, 2.0);
@@ -75,7 +77,8 @@ int fa_hamming(float *w,const int N)
 {
     int i,j;
 
-    for (i = 0 , j = N-1; i <= j ; i++, j--) {
+    for (i = 0 , j = N-1; i <= j ; i++, j--)
+    {
         w[i] = (float)(0.54-0.46*cos(2*M_PI*i/(N-1)));
         w[j] = w[i];
     }
@@ -87,7 +90,8 @@ int fa_blackman(float *w,const int N)
 {
     int i,j;
 
-    for (i = 0 , j = N-1; i <= j ; i++, j--) {
+    for (i = 0 , j = N-1; i <= j ; i++, j--)
+    {
         w[i] = (float)(0.42 - 0.5*cos(2*M_PI*i/(N-1))  + 0.08*cos(4*M_PI*i/(N-1)));
         w[j] = w[i];
     }
@@ -105,7 +109,8 @@ static float bessel(float x)
     pow = 1.0;
     k   = 0;
     ds  = 1.0;
-    while (ds > sum * EPS) {
+    while (ds > sum * EPS)
+    {
         ++k;
         pow = pow * (xh / k);
         ds = pow * pow;
@@ -135,7 +140,8 @@ int fa_kaiser(float *w, const int N)
     float Ia,Ib;
     float beta = 8.96;
 
-    for (i = 0 ; i < N ; i++){
+    for (i = 0 ; i < N ; i++)
+    {
         float x;
 
         Ib = bessel(beta);
@@ -154,7 +160,8 @@ int fa_kaiser_beta(float *w, const int N, const float beta)
     int i;
     float Ia,Ib;
 
-    for (i = 0 ; i < N ; i++){
+    for (i = 0 ; i < N ; i++)
+    {
         float x;
 
         Ib = bessel(beta);
@@ -216,7 +223,8 @@ static int fir_lowpass(float *h, float *w, int N, float fc)
 
     delay = (float)(N - 1)/2;
 
-    for (i = 0, j = N-1; i <= delay; i++,j--) {
+    for (i = 0, j = N-1; i <= delay; i++,j--)
+    {
         h[i] = (float)fc*sinc(fc*(i-delay))* w[i];
         h[j] = h[i];
     }
@@ -232,7 +240,8 @@ static int fir_highpass(float *h, float *w, int N, float fc)
     assert(N&1);
     delay = (N - 1)/2;
 
-    for (i = 0, j = N-1; i <= delay; i++,j--) {
+    for (i = 0, j = N-1; i <= delay; i++,j--)
+    {
         h[i] = -(float)fc*sinc(fc*(i-delay))* w[i];
         h[j] = h[i];
     }
@@ -249,7 +258,8 @@ static int fir_bandpass(float *h, float *w, int N, float fc1, float fc2)
     assert(N&1);
     delay = (N - 1)/2;
 
-    for (i = 0, j = N-1; i <= delay; i++,j--) {
+    for (i = 0, j = N-1; i <= delay; i++,j--)
+    {
         h[i] = ((float)fc2*sinc(fc2*(i-delay))-(float)fc1*sinc(fc1*(i-delay)))* w[i];
         h[j] = h[i];
     }
@@ -266,7 +276,8 @@ static int fir_bandstop(float *h, float *w, int N, float fc1, float fc2)
     assert(N&1);
     delay = (N - 1)/2;
 
-    for (i = 0, j = N-1; i <= delay; i++,j--) {
+    for (i = 0, j = N-1; i <= delay; i++,j--)
+    {
         h[i] = -((float)fc2*sinc(fc2*(i-delay))-(float)fc1*sinc(fc1*(i-delay)))* w[i];
         h[j] = h[i];
     }
@@ -282,16 +293,17 @@ int fa_fir_lpf_cof(float **h, int N, float fc, win_t win_type)
 
 
     w = (float *)malloc(sizeof(float)*N);
-    switch (win_type) {
-        case HAMMING:
-            fa_hamming(w, N);
-            break;
-        case BLACKMAN:
-            fa_blackman(w, N);
-            break;
-        case KAISER:
-            fa_kaiser(w, N);
-            break;
+    switch (win_type)
+    {
+    case HAMMING:
+        fa_hamming(w, N);
+        break;
+    case BLACKMAN:
+        fa_blackman(w, N);
+        break;
+    case KAISER:
+        fa_kaiser(w, N);
+        break;
     }
     *h = (float *)malloc(sizeof(float)*N);
     hcof = *h;
@@ -314,16 +326,17 @@ int fa_fir_hpf_cof(float **h, int N, float fc, win_t win_type)
         N = N+1;
 
     w = (float *)malloc(sizeof(float)*N);
-    switch (win_type) {
-        case HAMMING:
-            fa_hamming(w, N);
-            break;
-        case BLACKMAN:
-            fa_blackman(w, N);
-            break;
-        case KAISER:
-            fa_kaiser(w, N);
-            break;
+    switch (win_type)
+    {
+    case HAMMING:
+        fa_hamming(w, N);
+        break;
+    case BLACKMAN:
+        fa_blackman(w, N);
+        break;
+    case KAISER:
+        fa_kaiser(w, N);
+        break;
     }
     *h = (float *)malloc(sizeof(float)*N);
     hcof = *h;
@@ -346,16 +359,17 @@ int fa_fir_bandpass_cof(float **h, int N, float fc1, float fc2, win_t win_type)
         N = N+1;
 
     w = (float *)malloc(sizeof(float)*N);
-    switch (win_type) {
-        case HAMMING:
-            fa_hamming(w, N);
-            break;
-        case BLACKMAN:
-            fa_blackman(w, N);
-            break;
-        case KAISER:
-            fa_kaiser(w, N);
-            break;
+    switch (win_type)
+    {
+    case HAMMING:
+        fa_hamming(w, N);
+        break;
+    case BLACKMAN:
+        fa_blackman(w, N);
+        break;
+    case KAISER:
+        fa_kaiser(w, N);
+        break;
     }
     *h = (float *)malloc(sizeof(float)*N);
     hcof = *h;
@@ -378,16 +392,17 @@ int fa_fir_bandstop_cof(float **h, int N, float fc1, float fc2, win_t win_type)
         N = N+1;
 
     w = (float *)malloc(sizeof(float)*N);
-    switch (win_type) {
-        case HAMMING:
-            fa_hamming(w, N);
-            break;
-        case BLACKMAN:
-            fa_blackman(w, N);
-            break;
-        case KAISER:
-            fa_kaiser(w, N);
-            break;
+    switch (win_type)
+    {
+    case HAMMING:
+        fa_hamming(w, N);
+        break;
+    case BLACKMAN:
+        fa_blackman(w, N);
+        break;
+    case KAISER:
+        fa_kaiser(w, N);
+        break;
     }
     *h = (float *)malloc(sizeof(float)*N);
     hcof = *h;
@@ -571,7 +586,8 @@ int fa_fir_filter(uintptr_t handle, float *buf_in, float *buf_out, int frame_len
 
     /*set the xp point to the first sample*/
     xp = &(buf[flt_len -1]);
-    for (i = 0 ; i < frame_len ; ++i){
+    for (i = 0 ; i < frame_len ; ++i)
+    {
         /*
          *  x[0] x[1] x[2] ... x[n-1] x[n]
          *                 ... z(-1)  z(0)  z-transform
@@ -612,7 +628,8 @@ int fa_fir_filter_flush(uintptr_t handle, float *buf_out)
         buf[flt_len-1+i] = 0;
 
     xp = &(buf[flt_len -1]);
-    for (i = 0 ; i < flt_len-1 ; ++i){
+    for (i = 0 ; i < flt_len-1 ; ++i)
+    {
         /*
          *  x[0] x[1] x[2] ... x[n-1] x[n]
          *                 ... z(-1)  z(0)  z-transform

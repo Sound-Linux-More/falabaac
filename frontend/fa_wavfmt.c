@@ -109,22 +109,26 @@ fa_wavfmt_t fa_wavfmt_readheader(FILE *fp)
 
     fread(temp, sizeof(*temp), SIZE_ID, fp);
 
-    if (memcmp(temp, "RIFF", (size_t)SIZE_ID)!=0) {
+    if (memcmp(temp, "RIFF", (size_t)SIZE_ID)!=0)
+    {
         fprintf(stderr, "file is not WAVE format!\n");
         exit(0);
     }
     fread(temp, sizeof(*temp), SIZE_LONG, fp);
 
     fread(temp, sizeof(*temp), SIZE_ID, fp);
-    if (memcmp(temp, "WAVE", (size_t)SIZE_ID)!=0) {
+    if (memcmp(temp, "WAVE", (size_t)SIZE_ID)!=0)
+    {
         fprintf(stderr, "file is not WAVE format!\n");
         exit(0);
     }
     fread(temp, sizeof(*temp), SIZE_ID, fp);
     /* skip chunks except for "fmt " or "data" */
-    while (memcmp(temp, "fmt ", (size_t)SIZE_ID)!=0) {
+    while (memcmp(temp, "fmt ", (size_t)SIZE_ID)!=0)
+    {
         nskip = fa_read_u32(fp);
-        if (nskip!=0) {
+        if (nskip!=0)
+        {
             fseek(fp, nskip, SEEK_CUR);
         }
     }
@@ -132,7 +136,8 @@ fa_wavfmt_t fa_wavfmt_readheader(FILE *fp)
     x_size = fa_read_u32(fp);
     format = fa_read_u16(fp);
     x_size -= SIZE_SHORT;
-    if (WAVE_FORMAT_PCM != format) {
+    if (WAVE_FORMAT_PCM != format)
+    {
         fprintf(stderr, "error! unsupported WAVE file format.\n");
         exit(0);
     }
@@ -150,13 +155,15 @@ fa_wavfmt_t fa_wavfmt_readheader(FILE *fp)
     block_align     = bytes_per_sample * channels;
 
     x_size -= SIZE_LONG + SIZE_SHORT + SIZE_SHORT;              /* skip additional part of "fmt " header */
-    if (x_size!=0) {
+    if (x_size!=0)
+    {
         fseek(fp, x_size, SEEK_CUR);
     }
 
     /* skip chunks except for "data" */
     fread(temp, sizeof(*temp), SIZE_ID, fp);
-    while (memcmp(temp, "data", SIZE_ID)!=0) {
+    while (memcmp(temp, "data", SIZE_ID)!=0)
+    {
         nskip = fa_read_u32(fp);                                /* read chunk size */
         fseek(fp, nskip, SEEK_CUR);
         fread(temp, sizeof(*temp), SIZE_ID, fp);

@@ -34,11 +34,11 @@ extern "C"
 {
 #endif
 
-uintptr_t fa_fft_init(int size);
-void fa_fft_uninit(uintptr_t handle);
+    uintptr_t fa_fft_init(int size);
+    void fa_fft_uninit(uintptr_t handle);
 
-void fa_fft(uintptr_t handle, float *data);
-void fa_ifft(uintptr_t handle, float* data);
+    void fa_fft(uintptr_t handle, float *data);
+    void fa_ifft(uintptr_t handle, float* data);
 
 #ifdef __cplusplus
 }

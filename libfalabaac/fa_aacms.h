@@ -34,7 +34,7 @@ extern "C"
 
 #include "fa_aacenc.h"
 
-void fa_aacmsenc(fa_aacenc_ctx_t *f);
+    void fa_aacmsenc(fa_aacenc_ctx_t *f);
 
 #ifdef __cplusplus
 }

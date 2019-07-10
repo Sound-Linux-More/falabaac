@@ -31,7 +31,8 @@
 #include "fa_levinson.h"
 #include "fa_corr.h"
 
-typedef struct _fa_lpc_t {
+typedef struct _fa_lpc_t
+{
     int p;      //order
 
 #ifdef USE_LPC_HP
@@ -85,7 +86,8 @@ void      fa_lpc_uninit(uintptr_t handle)
 {
     fa_lpc_t *f = (fa_lpc_t *)handle;
 
-    if (f) {
+    if (f)
+    {
         free(f->r);
         f->r = NULL;
 
@@ -114,7 +116,8 @@ double fa_lpc(uintptr_t handle, double *x, int x_len, double *lpc_cof, double *k
     fa_levinson_hp(f->r, f->p, f->acof, f->kcof, &(f->err));
 
     *err = f->err / x_len;
-    for (k = 0; k <= f->p; k++) {
+    for (k = 0; k <= f->p; k++)
+    {
         lpc_cof[k] = f->acof[k];
         kcof[k]    = f->kcof[k];
     }
@@ -143,7 +146,8 @@ float fa_lpc(uintptr_t handle, float *x, int x_len, float *lpc_cof, float *kcof,
     fa_levinson(f->r, f->p, f->acof, f->kcof, &(f->err));
 
     *err = f->err / x_len;
-    for (k = 0; k <= f->p; k++) {
+    for (k = 0; k <= f->p; k++)
+    {
         lpc_cof[k] = f->acof[k];
         kcof[k]    = f->kcof[k];
     }

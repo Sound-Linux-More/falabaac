@@ -53,10 +53,10 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
         cur_coding_block_type = SHORT_CODING_BLOCK;
     else
         cur_coding_block_type = LONG_CODING_BLOCK;
-/*
-    if (cur_coding_block_type != prev_coding_block_type)
-        reset_psy_previnfo(h_aacpsy);
-*/
+    /*
+        if (cur_coding_block_type != prev_coding_block_type)
+            reset_psy_previnfo(h_aacpsy);
+    */
 
     if (cur_coding_block_type == LONG_CODING_BLOCK && prev_coding_block_type == SHORT_CODING_BLOCK)
         update_psy_short2long_previnfo(h_aacpsy);
@@ -65,12 +65,15 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
 
     /*use prev coding block type and current coding block type to decide current block type*/
 #if 1
-    if (cur_coding_block_type == SHORT_CODING_BLOCK) {
+    if (cur_coding_block_type == SHORT_CODING_BLOCK)
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             *cur_block_type = LONG_START_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             *cur_block_type = ONLY_SHORT_BLOCK;
-    } else {
+    }
+    else
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             *cur_block_type = ONLY_LONG_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
@@ -78,12 +81,15 @@ static void blockswitch_pe(float pe, int prev_block_type, int *cur_block_type, u
     }
 #else
 
-    if (cur_coding_block_type == SHORT_CODING_BLOCK) {
+    if (cur_coding_block_type == SHORT_CODING_BLOCK)
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             *cur_block_type = LONG_START_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             *cur_block_type = ONLY_SHORT_BLOCK;
-    } else {
+    }
+    else
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             *cur_block_type = ONLY_LONG_BLOCK;
         if (prev_block_type == LONG_START_BLOCK) // || prev_block_type == ONLY_SHORT_BLOCK)
@@ -109,11 +115,14 @@ static int aac_blockswitch_psy(int block_type, float pe, uintptr_t h_aacpsy)
 
 int fa_blockswitch_psy(aacenc_ctx_t *s)
 {
-    if (s->psy_enable) {
+    if (s->psy_enable)
+    {
         s->block_type = aac_blockswitch_psy(s->block_type, s->pe, s->h_aacpsy);
         s->bits_alloc = calculate_bit_allocation(s->pe, s->block_type);
         s->bits_more  = s->bits_alloc + 10;//100;
-    } else {
+    }
+    else
+    {
         s->block_type = ONLY_LONG_BLOCK;
         s->bits_alloc = s->bits_average;
         s->bits_more  = s->bits_alloc;// - 10;//100;
@@ -142,13 +151,15 @@ static float frame_var_max(float *x, int len)
     hop = len >> level;
     var_max = 0.;
 
-    for (k = 0; k < bands; k++) {
+    for (k = 0; k < bands; k++)
+    {
         xp  =  x + k*hop;
         sum =  0.;
         avg =  0.;
         var =  0.;
 
-        for (i = 0; i < hop; i++) {
+        for (i = 0; i < hop; i++)
+        {
             float tmp;
             /*tmp = fabs(xp[i]/32768.);*/
             tmp = FA_ABS(xp[i]/32768.);
@@ -156,7 +167,8 @@ static float frame_var_max(float *x, int len)
         }
         avg = sum / hop;
 
-        for (i = 0; i < hop; i++) {
+        for (i = 0; i < hop; i++)
+        {
             float tmp;
             /*tmp  = fabs(xp[i]/32768.);*/
             tmp  = FA_ABS(xp[i]/32768.);
@@ -204,13 +216,17 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
 
     if (cur_var_max < SWITCH_E1)
         cur_coding_block_type = LONG_CODING_BLOCK;
-    else {
-        if (prev_coding_block_type == LONG_CODING_BLOCK) {
+    else
+    {
+        if (prev_coding_block_type == LONG_CODING_BLOCK)
+        {
             if (var_diff > SWITCH_E)
                 cur_coding_block_type = SHORT_CODING_BLOCK;
             else
                 cur_coding_block_type = LONG_CODING_BLOCK;
-        } else {
+        }
+        else
+        {
             if (var_diff > SWITCH_E2)
                 cur_coding_block_type = SHORT_CODING_BLOCK;
             else
@@ -230,26 +246,32 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
     if (prev_block_type == LONG_STOP_BLOCK)
         cur_block_type = ONLY_LONG_BLOCK;
 #else
-    #if 0
-    if (cur_coding_block_type == SHORT_CODING_BLOCK) {
+#if 0
+    if (cur_coding_block_type == SHORT_CODING_BLOCK)
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = LONG_START_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             cur_block_type = ONLY_SHORT_BLOCK;
-    } else {
+    }
+    else
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = ONLY_LONG_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             cur_block_type = LONG_STOP_BLOCK;
     }
-    #else
+#else
 
-    if (cur_coding_block_type == SHORT_CODING_BLOCK) {
+    if (cur_coding_block_type == SHORT_CODING_BLOCK)
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = LONG_START_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             cur_block_type = ONLY_SHORT_BLOCK;
-    } else {
+    }
+    else
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = ONLY_LONG_BLOCK;
         if (prev_block_type == LONG_START_BLOCK) // || prev_block_type == ONLY_SHORT_BLOCK)
@@ -259,16 +281,19 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
     }
 
 
-    #endif
+#endif
 #endif
 
     s->block_type = cur_block_type;
 
-    if (s->psy_enable) {
+    if (s->psy_enable)
+    {
         s->bits_alloc = calculate_bit_allocation(s->pe, s->block_type);
         /*s->bits_alloc = s->bits_average;*/
         s->bits_more  = s->bits_alloc+10;// - 10;//100;
-    } else {
+    }
+    else
+    {
         s->bits_alloc = s->bits_average;
         s->bits_more  = s->bits_alloc;// - 10;//100;
     }
@@ -279,7 +304,8 @@ int fa_blockswitch_var(aacenc_ctx_t *s)
 #define WINCNT  4
 /*#define WINCNT  8 */
 
-typedef struct _fa_blockctrl_t {
+typedef struct _fa_blockctrl_t
+{
     uintptr_t  h_flt_fir;
 
     int block_len;  // analysis block length
@@ -322,18 +348,22 @@ void fa_blockswitch_uninit(uintptr_t handle)
 {
     fa_blockctrl_t *f = (fa_blockctrl_t *)handle;
 
-    if (f) {
-        if (f->h_flt_fir) {
+    if (f)
+    {
+        if (f->h_flt_fir)
+        {
             fa_fir_filter_uninit(f->h_flt_fir);
             f->h_flt_fir = 0; //NULL;
         }
 
-        if (f->x) {
+        if (f->x)
+        {
             free(f->x);
             f->x = NULL;
         }
 
-        if (f->x_flt) {
+        if (f->x_flt)
+        {
             free(f->x_flt);
             f->x_flt = NULL;
         }
@@ -357,11 +387,13 @@ static void calculate_win_enrg(fa_blockctrl_t *f)
 
     fa_fir_filter(f->h_flt_fir   , f->x, f->x_flt   , f->block_len);
 
-    for (win = 0; win < WINCNT; win++) {
+    for (win = 0; win < WINCNT; win++)
+    {
         win_enrg_tmp   = 0.0;
         win_hfenrg_tmp = 0.0;
 
-        for (i = 0; i < win_len; i++) {
+        for (i = 0; i < win_len; i++)
+        {
             x_tmp     = f->x    [win*win_len + i];
             x_flt_tmp = f->x_flt[win*win_len + i];
 
@@ -374,24 +406,24 @@ static void calculate_win_enrg(fa_blockctrl_t *f)
     }
 }
 
-                            //lastattack-attack-blocktype
+//lastattack-attack-blocktype
 static const int win_sequence[2][2][4] =
 {
-   /*  ONLY_LONG_BLOCK    LONG_START_BLOCK   ONLY_SHORT_BLOCK   LONG_STOP_BLOCK   */
-   /*last no attack*/
-   {
-       /*no attack*/
-       {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  LONG_STOP_BLOCK,   ONLY_LONG_BLOCK,  },
-       /*attack*/
-       {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
-   },
-   /*last attack*/
-   {
-       /*no attack*/
-       {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_LONG_BLOCK,  },
-       /*attack*/
-       {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
-   }
+    /*  ONLY_LONG_BLOCK    LONG_START_BLOCK   ONLY_SHORT_BLOCK   LONG_STOP_BLOCK   */
+    /*last no attack*/
+    {
+        /*no attack*/
+        {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  LONG_STOP_BLOCK,   ONLY_LONG_BLOCK,  },
+        /*attack*/
+        {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
+    },
+    /*last attack*/
+    {
+        /*no attack*/
+        {ONLY_LONG_BLOCK,   ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_LONG_BLOCK,  },
+        /*attack*/
+        {LONG_START_BLOCK,  ONLY_SHORT_BLOCK,  ONLY_SHORT_BLOCK,  LONG_START_BLOCK, }
+    }
 };
 
 static int select_block(int prev_block_type, int attack_flag)
@@ -412,12 +444,15 @@ static int select_block(int prev_block_type, int attack_flag)
         prev_coding_block_type = LONG_CODING_BLOCK;
 
 #if 0
-    if (cur_coding_block_type == SHORT_CODING_BLOCK) {
+    if (cur_coding_block_type == SHORT_CODING_BLOCK)
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = LONG_START_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             cur_block_type = ONLY_SHORT_BLOCK;
-    } else {
+    }
+    else
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = ONLY_LONG_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
@@ -426,12 +461,15 @@ static int select_block(int prev_block_type, int attack_flag)
 
 #else
 
-    if (cur_coding_block_type == SHORT_CODING_BLOCK) {
+    if (cur_coding_block_type == SHORT_CODING_BLOCK)
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = LONG_START_BLOCK;
         if (prev_block_type == LONG_START_BLOCK || prev_block_type == ONLY_SHORT_BLOCK)
             cur_block_type = ONLY_SHORT_BLOCK;
-    } else {
+    }
+    else
+    {
         if (prev_block_type == ONLY_LONG_BLOCK || prev_block_type == LONG_STOP_BLOCK)
             cur_block_type = ONLY_LONG_BLOCK;
         if (prev_block_type == LONG_START_BLOCK) // || prev_block_type == ONLY_SHORT_BLOCK)
@@ -464,17 +502,20 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
     f->lastattack_index = f->attack_index;
 
     /*save current analysis win energy to last analysis win energy*/
-    for (i = 0; i < WINCNT; i++) {
+    for (i = 0; i < WINCNT; i++)
+    {
         f->win_enrg[0][i]   = f->win_enrg[1][i];
         f->win_hfenrg[0][i] = f->win_hfenrg[1][i];
     }
 
 #if 0
-    for (i = 0; i < 1024; i++) {
+    for (i = 0; i < 1024; i++)
+    {
         f->x[i] = sample_buf[i];
     }
 #else
-    for (i = 0; i < 1024; i++) {
+    for (i = 0; i < 1024; i++)
+    {
         f->x[i]      = fb->x_buf[i+1024];
         f->x[i+1024] = sample_buf[i];
     }
@@ -499,17 +540,20 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
 
     max_attack = 0.;
     cur_attack = 0.;
-    for (i = 0; i < WINCNT; i++) {
+    for (i = 0; i < WINCNT; i++)
+    {
         /*the accenrg is the smooth energy threshold*/
         f->win_accenrg = (1-frac)*f->win_accenrg + frac*win_enrg_prev;
 
-        if ((f->win_hfenrg[1][i]*ratio) > f->win_accenrg) {
+        if ((f->win_hfenrg[1][i]*ratio) > f->win_accenrg)
+        {
             f->attack_flag  = 1;
             cur_attack = f->win_hfenrg[1][i]*ratio;
 
             f->attack_index = i;
 
-            if (cur_attack > max_attack) {
+            if (cur_attack > max_attack)
+            {
                 f->attack_index = i;
                 max_attack = cur_attack;
             }
@@ -520,10 +564,12 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
     }
 
     /*check if last prev attack spread to this frame*/
-    if (f->lastattack_flag && !f->attack_flag) {
+    if (f->lastattack_flag && !f->attack_flag)
+    {
         if  (((f->win_hfenrg[0][WINCNT-1] > f->win_hfenrg[1][0]) &&
-             (f->lastattack_index == WINCNT-1))
-            )  {
+                (f->lastattack_index == WINCNT-1))
+            )
+        {
             f->attack_flag  = 1;
             f->attack_index = 0;
         }
@@ -542,11 +588,11 @@ int fa_blockswitch_robust(aacenc_ctx_t *s, float *sample_buf)
 
 static const int block_sync_tab[4][4] =
 {
-  /*                      ONLY_LONG_BLOCK   LONG_START_BLOCK  ONLY_SHORT_BLOCK  LONG_STOP_BLOCK   */
-  /* ONLY_LONG_BLOCK  */ {ONLY_LONG_BLOCK,  LONG_START_BLOCK, ONLY_SHORT_BLOCK, LONG_STOP_BLOCK  },
-  /* LONG_START_BLOCK */ {LONG_START_BLOCK, LONG_START_BLOCK, ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK },
-  /* ONLY_SHORT_BLOCK */ {ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK },
-  /* LONG_STOP_BLOCK  */ {LONG_STOP_BLOCK,  ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK, LONG_STOP_BLOCK  },
+    /*                      ONLY_LONG_BLOCK   LONG_START_BLOCK  ONLY_SHORT_BLOCK  LONG_STOP_BLOCK   */
+    /* ONLY_LONG_BLOCK  */ {ONLY_LONG_BLOCK,  LONG_START_BLOCK, ONLY_SHORT_BLOCK, LONG_STOP_BLOCK  },
+    /* LONG_START_BLOCK */ {LONG_START_BLOCK, LONG_START_BLOCK, ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK },
+    /* ONLY_SHORT_BLOCK */ {ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK },
+    /* LONG_STOP_BLOCK  */ {LONG_STOP_BLOCK,  ONLY_SHORT_BLOCK, ONLY_SHORT_BLOCK, LONG_STOP_BLOCK  },
 };
 
 #define MAX_GROUP_CNT  3
@@ -554,73 +600,73 @@ static const int block_sync_tab[4][4] =
 /*#define MAX_GROUP_CNT 5*/
 static const int group_tab[WINCNT][MAX_GROUP_CNT] =
 {
-     /*{1,  3,  3,  1},*/
-     /*{1,  1,  3,  3},*/
-     /*{2,  1,  3,  2},*/
-     /*{3,  1,  3,  1},*/
-     /*{3,  1,  1,  3},*/
-     /*{3,  2,  1,  2},*/
-     /*{3,  3,  1,  1},*/
-     /*{3,  3,  1,  1}*/
+    /*{1,  3,  3,  1},*/
+    /*{1,  1,  3,  3},*/
+    /*{2,  1,  3,  2},*/
+    /*{3,  1,  3,  1},*/
+    /*{3,  1,  1,  3},*/
+    /*{3,  2,  1,  2},*/
+    /*{3,  3,  1,  1},*/
+    /*{3,  3,  1,  1}*/
 
-     /*{1,  2,  2,  3},*/
-     /*{1,  1,  3,  3},*/
-     /*{2,  1,  2,  3},*/
-     /*{2,  2,  1,  3},*/
-     /*{2,  3,  1,  2},*/
-     /*{3,  2,  1,  2},*/
-     /*{3,  3,  1,  1},*/
-     /*{3,  2,  2,  1}*/
+    /*{1,  2,  2,  3},*/
+    /*{1,  1,  3,  3},*/
+    /*{2,  1,  2,  3},*/
+    /*{2,  2,  1,  3},*/
+    /*{2,  3,  1,  2},*/
+    /*{3,  2,  1,  2},*/
+    /*{3,  3,  1,  1},*/
+    /*{3,  2,  2,  1}*/
 
-     /*{1,  3,  4},*/
-     /*{2,  3,  3},*/
-     /*{2,  1,  5},*/
-     /*{3,  2,  3},*/
-     /*{3,  2,  3},*/
-     /*{3,  3,  2},*/
-     /*{3,  3,  2},*/
-     /*{4,  3,  1}*/
+    /*{1,  3,  4},*/
+    /*{2,  3,  3},*/
+    /*{2,  1,  5},*/
+    /*{3,  2,  3},*/
+    /*{3,  2,  3},*/
+    /*{3,  3,  2},*/
+    /*{3,  3,  2},*/
+    /*{4,  3,  1}*/
 
-     /*{2,  3,  3},*/
-     /*{2,  3,  3},*/
-     /*{2,  2,  4},*/
-     /*{3,  2,  3},*/
-     /*{3,  2,  3},*/
-     /*{4,  2,  2},*/
-     /*{3,  3,  2},*/
-     /*{3,  3,  2}*/
+    /*{2,  3,  3},*/
+    /*{2,  3,  3},*/
+    /*{2,  2,  4},*/
+    /*{3,  2,  3},*/
+    /*{3,  2,  3},*/
+    /*{4,  2,  2},*/
+    /*{3,  3,  2},*/
+    /*{3,  3,  2}*/
 
-     {2,  3,  3},
-     {2,  2,  4},
-     {4,  2,  2},
-     {3,  3,  2},
+    {2,  3,  3},
+    {2,  2,  4},
+    {4,  2,  2},
+    {3,  3,  2},
 
-     /*{1,  1,  2,  3,  1},*/
-     /*{1,  1,  1,  2,  3},*/
-     /*{2,  1,  1,  2,  2},*/
-     /*{3,  1,  1,  1,  2},*/
-     /*{2,  1,  1,  1,  3},*/
-     /*{2,  2,  1,  1,  2},*/
-     /*{3,  2,  1,  1,  1},*/
-     /*{1,  3,  2,  1,  1}*/
+    /*{1,  1,  2,  3,  1},*/
+    /*{1,  1,  1,  2,  3},*/
+    /*{2,  1,  1,  2,  2},*/
+    /*{3,  1,  1,  1,  2},*/
+    /*{2,  1,  1,  1,  3},*/
+    /*{2,  2,  1,  1,  2},*/
+    /*{3,  2,  1,  1,  1},*/
+    /*{1,  3,  2,  1,  1}*/
 
-     /*{1,  1,  2,  2,  2},*/
-     /*{1,  1,  2,  2,  2},*/
-     /*{2,  2,  2,  1,  1},*/
-     /*{1,  2,  2,  2,  1},*/
-     /*{1,  2,  2,  2,  1},*/
-     /*{1,  1,  2,  2,  2},*/
-     /*{2,  2,  2,  1,  1},*/
-     /*{2,  2,  2,  1,  1}*/
+    /*{1,  1,  2,  2,  2},*/
+    /*{1,  1,  2,  2,  2},*/
+    /*{2,  2,  2,  1,  1},*/
+    /*{1,  2,  2,  2,  1},*/
+    /*{1,  2,  2,  2,  1},*/
+    /*{1,  1,  2,  2,  2},*/
+    /*{2,  2,  2,  1,  1},*/
+    /*{2,  2,  2,  1,  1}*/
 
-     /*{1,  1,  1,  2,  3},*/
-     /*{1,  1,  1,  2,  3},*/
-     /*{1,  1,  1,  3,  2},*/
-     /*{1,  1,  1,  3,  2},*/
-     /*{2,  3,  1,  1,  1},*/
-     /*{2,  3,  1,  1,  1},*/
-     /*{3,  2,  1,  1,  1},*/
-     /*{3,  2,  1,  1,  1}*/
+    /*{1,  1,  1,  2,  3},*/
+    /*{1,  1,  1,  2,  3},*/
+    /*{1,  1,  1,  3,  2},*/
+    /*{1,  1,  1,  3,  2},*/
+    /*{2,  3,  1,  1,  1},*/
+    /*{2,  3,  1,  1,  1},*/
+    /*{3,  2,  1,  1,  1},*/
+    /*{3,  2,  1,  1,  1}*/
 };
 
 int fa_blocksync(fa_aacenc_ctx_t *f)
@@ -637,11 +683,13 @@ int fa_blocksync(fa_aacenc_ctx_t *f)
     i = 0;
     chn = 1;
 
-    while (i < chn_num) {
+    while (i < chn_num)
+    {
         block_type = ONLY_LONG_BLOCK;
         s = &(f->ctx[i]);
 
-        if (s->chn_info.cpe == 1) {
+        if (s->chn_info.cpe == 1)
+        {
             int last_block_type;
 
             chn = 2;
@@ -663,7 +711,8 @@ int fa_blocksync(fa_aacenc_ctx_t *f)
                 printf("i=%d, block_type=%d\n", i+1, s->block_type);
 #endif
 
-            if (block_type == ONLY_SHORT_BLOCK) {
+            if (block_type == ONLY_SHORT_BLOCK)
+            {
                 sl->num_window_groups = MAX_GROUP_CNT;
                 sr->num_window_groups = MAX_GROUP_CNT;
 #if  1
@@ -704,30 +753,37 @@ int fa_blocksync(fa_aacenc_ctx_t *f)
 #endif
 
                 /*printf("lwe=%f, rwe=%f\n", bcl->max_win_enrg, bcr->max_win_enrg);*/
-                if (bcl->max_win_enrg > bcr->max_win_enrg) {
+                if (bcl->max_win_enrg > bcr->max_win_enrg)
+                {
                     for (k = 0; k < MAX_GROUP_CNT; k++)
                         sr->window_group_length[k] = sl->window_group_length[k];
-                } else {
+                }
+                else
+                {
                     for (k = 0; k < MAX_GROUP_CNT; k++)
                         sl->window_group_length[k] = sr->window_group_length[k];
                 }
-            } else {
+            }
+            else
+            {
                 sl->num_window_groups = 1;
                 sl->window_group_length[0] = 1;
                 sr->num_window_groups = 1;
                 sr->window_group_length[0] = 1;
             }
-/*
-            {
-                int kk;
-                if (bcl->attack_index != 0 || bcr->attack_index != 0) {
-                    for (kk = 0; kk < sl->num_window_groups; kk++)
-                        printf("-------lattack_index=%d, rattack_index=%d, g[%d]=%d\n",
-                                bcl->attack_index, bcr->attack_index, kk, sl->window_group_length[kk]);
-                }
-            }
-*/
-        } else {
+            /*
+                        {
+                            int kk;
+                            if (bcl->attack_index != 0 || bcr->attack_index != 0) {
+                                for (kk = 0; kk < sl->num_window_groups; kk++)
+                                    printf("-------lattack_index=%d, rattack_index=%d, g[%d]=%d\n",
+                                            bcl->attack_index, bcr->attack_index, kk, sl->window_group_length[kk]);
+                            }
+                        }
+            */
+        }
+        else
+        {
             chn = 1;
             s->num_window_groups = 1;
             s->window_group_length[0] = 1;

@@ -40,31 +40,41 @@ void fa_aacmsenc(fa_aacenc_ctx_t *f)
 
     i = 0;
     chn = 1;
-    while (i < chn_num) {
+    while (i < chn_num)
+    {
         s = &(f->ctx[i]);
 
-        if (s->chn_info.cpe == 1) {
+        if (s->chn_info.cpe == 1)
+        {
             chn = 2;
             sl = s;
             sr = &(f->ctx[i+1]);
             sl->chn_info.ms_info.is_present = 0;
             sr->chn_info.ms_info.is_present = 0;
 
-            if (sl->block_type == sr->block_type) {
+            if (sl->block_type == sr->block_type)
+            {
                 sl->chn_info.common_window = 1;
                 sr->chn_info.common_window = 1;
-                if (sl->block_type == ONLY_SHORT_BLOCK) {
+                if (sl->block_type == ONLY_SHORT_BLOCK)
+                {
                     fa_mdctline_ms_encode(sl->h_mdctq_short, sr->h_mdctq_short, sl->num_window_groups,
                                           &(sl->chn_info.ms_info), &(sr->chn_info.ms_info));
-                } else {
+                }
+                else
+                {
                     fa_mdctline_ms_encode(sl->h_mdctq_long, sr->h_mdctq_long, sl->num_window_groups,
                                           &(sl->chn_info.ms_info), &(sr->chn_info.ms_info));
                 }
-            } else {
+            }
+            else
+            {
                 sl->chn_info.common_window = 0;
                 sr->chn_info.common_window = 0;
             }
-        } else {
+        }
+        else
+        {
             chn = 1;
             s->chn_info.common_window = 0;
         }

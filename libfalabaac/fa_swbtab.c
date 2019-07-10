@@ -26,7 +26,8 @@
 
 #include "fa_swbtab.h"
 
-int  fa_swb_32k_long_offset[FA_SWB_32k_LONG_NUM+1] = {
+int  fa_swb_32k_long_offset[FA_SWB_32k_LONG_NUM+1] =
+{
     0   , 4     , 8     , 12    , 16    , 20    , 24    , 28    , 32    , 36    ,
     40  , 48    , 56    , 64    , 72    , 80    , 88    , 96    , 108   , 120   ,
     132 , 144   , 160   , 176   , 196   , 216   , 240   , 264   , 292   , 320   ,
@@ -35,12 +36,14 @@ int  fa_swb_32k_long_offset[FA_SWB_32k_LONG_NUM+1] = {
     992 , 1024
 };
 
-int  fa_swb_32k_short_offset[FA_SWB_32k_SHORT_NUM+1] = {
+int  fa_swb_32k_short_offset[FA_SWB_32k_SHORT_NUM+1] =
+{
     0   , 4     , 8     , 12    , 16    , 20    , 28    , 36    , 44    , 56    ,
     68  , 80    , 96    , 112   , 128
 };
 
-int  fa_swb_44k_long_offset[FA_SWB_44k_LONG_NUM+1] = {
+int  fa_swb_44k_long_offset[FA_SWB_44k_LONG_NUM+1] =
+{
     0   , 4     , 8     , 12    , 16    , 20    , 24    , 28    , 32    , 36    ,
     40  , 48    , 56    , 64    , 72    , 80    , 88    , 96    , 108   , 120   ,
     132 , 144   , 160   , 176   , 196   , 216   , 240   , 264   , 292   , 320   ,
@@ -48,12 +51,14 @@ int  fa_swb_44k_long_offset[FA_SWB_44k_LONG_NUM+1] = {
     672 , 704   , 736   , 768   , 800   , 832   , 864   , 896   , 928   , 1024
 };
 
-int  fa_swb_44k_short_offset[FA_SWB_44k_SHORT_NUM+1] = {
+int  fa_swb_44k_short_offset[FA_SWB_44k_SHORT_NUM+1] =
+{
     0   , 4     , 8     , 12    , 16    , 20    , 28    , 36    , 44    , 56    ,
     68  , 80    , 96    , 112   , 128
 };
 
-int  fa_swb_48k_long_offset[FA_SWB_48k_LONG_NUM+1] = {
+int  fa_swb_48k_long_offset[FA_SWB_48k_LONG_NUM+1] =
+{
     0   , 4     , 8     , 12    , 16    , 20    , 24    , 28    , 32    , 36    ,
     40  , 48    , 56    , 64    , 72    , 80    , 88    , 96    , 108   , 120   ,
     132 , 144   , 160   , 176   , 196   , 216   , 240   , 264   , 292   , 320   ,
@@ -61,7 +66,8 @@ int  fa_swb_48k_long_offset[FA_SWB_48k_LONG_NUM+1] = {
     672 , 704   , 736   , 768   , 800   , 832   , 864   , 896   , 928   , 1024
 };
 
-int  fa_swb_48k_short_offset[FA_SWB_48k_SHORT_NUM+1] = {
+int  fa_swb_48k_short_offset[FA_SWB_48k_SHORT_NUM+1] =
+{
     0   , 4     , 8     , 12    , 16    , 20    , 28    , 36    , 44    , 56    ,
     68  , 80    , 96    , 112   , 128
 };

@@ -48,19 +48,24 @@ void fa_levinson(float *r,    int p,
     float tmp[FA_LEVINSON_ORDER_MAX+1];
 
     memset(tmp, 0, sizeof(float)*(FA_LEVINSON_ORDER_MAX+1));
-    if (r[0] == 0.0) {
-        for (i = 1; i <= p; i++) {
+    if (r[0] == 0.0)
+    {
+        for (i = 1; i <= p; i++)
+        {
             acof[i] = 0.0;
             kcof[i] = 0.0;
         }
         *err = 0.0;
-    } else {
+    }
+    else
+    {
         /* order 0 */
         acof[0] = (float)1.0;
         *err    = r[0];
 
         /* order >= 1 */
-        for (i = 1; i <= p; ++i) {
+        for (i = 1; i <= p; ++i)
+        {
             acc = r[i];
 
             for ( j = 1; j <= i-1; ++j)
@@ -94,13 +99,18 @@ void fa_levinson1(float *r, int p,
     float errtmp;
 
     memset(am1, 0, sizeof(float)*(FA_LEVINSON_ORDER_MAX+1));
-    if (r[0] == 0.0) {
-        for (i = 1; i <= p; i++) {
+    if (r[0] == 0.0)
+    {
+        for (i = 1; i <= p; i++)
+        {
             kcof[i] = 0.0;
             acof[i] = 0.0;
         }
-    } else {
-        for (k = 0; k <= p; k++) {
+    }
+    else
+    {
+        for (k = 0; k <= p; k++)
+        {
             acof[k] = 0.0;
             am1[k]  = 0.0;
         }
@@ -109,7 +119,8 @@ void fa_levinson1(float *r, int p,
         am1[0]  = 1.0;
         km      = 0.0;
         em1     = r[0];
-        for (m = 1; m <= p; m++) {                    //m=2:N+1
+        for (m = 1; m <= p; m++)                      //m=2:N+1
+        {
             errtmp = 0.0;                             //err = 0;
 
             for (k = 1; k <= m-1; k++)                //for k=2:m-1
@@ -141,19 +152,24 @@ void fa_levinson_hp(double *r,    int p,
     double tmp[FA_LEVINSON_ORDER_MAX+1];
 
     memset(tmp, 0, sizeof(double)*(FA_LEVINSON_ORDER_MAX+1));
-    if (r[0] == 0.0) {
-        for (i = 1; i <= p; i++) {
+    if (r[0] == 0.0)
+    {
+        for (i = 1; i <= p; i++)
+        {
             acof[i] = 0.0;
             kcof[i] = 0.0;
         }
         *err = 0.0;
-    } else {
+    }
+    else
+    {
         /* order 0 */
         acof[0] = (double)1.0;
         *err    = r[0];
 
         /* order >= 1 */
-        for (i = 1; i <= p; ++i) {
+        for (i = 1; i <= p; ++i)
+        {
             acc = r[i];
 
             for ( j = 1; j <= i-1; ++j)
@@ -187,13 +203,18 @@ void fa_levinson1_hp(double *r, int p,
     double errtmp;
 
     memset(am1, 0, sizeof(double)*(FA_LEVINSON_ORDER_MAX+1));
-    if (r[0] == 0.0) {
-        for (i = 1; i <= p; i++) {
+    if (r[0] == 0.0)
+    {
+        for (i = 1; i <= p; i++)
+        {
             kcof[i] = 0.0;
             acof[i] = 0.0;
         }
-    } else {
-        for (k = 0; k <= p; k++) {
+    }
+    else
+    {
+        for (k = 0; k <= p; k++)
+        {
             acof[k] = 0.0;
             am1[k]  = 0.0;
         }
@@ -202,7 +223,8 @@ void fa_levinson1_hp(double *r, int p,
         am1[0]  = 1.0;
         km      = 0.0;
         em1     = r[0];
-        for (m = 1; m <= p; m++) {                    //m=2:N+1
+        for (m = 1; m <= p; m++)                      //m=2:N+1
+        {
             errtmp = 0.0;                             //err = 0;
 
             for (k = 1; k <= m-1; k++)                //for k=2:m-1
@@ -243,11 +265,13 @@ int  fa_atlvs(float *r, int n, float *b,
 
     y[0] = 1.0;
     x[0] = b[0]/a;
-    for (k = 1; k <= n-1; k++) {
+    for (k = 1; k <= n-1; k++)
+    {
         beta = 0.0;
         q    = 0.0;
 
-        for (j = 0; j <= k-1; j++) {
+        for (j = 0; j <= k-1; j++)
+        {
             beta = beta + y[j]*r[j+1];
             q    = q    + x[j]*r[k-j];
         }
@@ -268,7 +292,8 @@ int  fa_atlvs(float *r, int n, float *b,
             return -1;
 
         h = (b[k] - q) / a;
-        for (i = 0; i <= k-1; i++) {
+        for (i = 0; i <= k-1; i++)
+        {
             x[i] = x[i] + h*s[i];
             y[i] = s[i];
         }
@@ -298,11 +323,13 @@ int  fa_atlvs_hp(double *r, int n, double *b,
 
     y[0] = 1.0;
     x[0] = b[0]/a;
-    for (k = 1; k <= n-1; k++) {
+    for (k = 1; k <= n-1; k++)
+    {
         beta = 0.0;
         q    = 0.0;
 
-        for (j = 0; j <= k-1; j++) {
+        for (j = 0; j <= k-1; j++)
+        {
             beta = beta + y[j]*r[j+1];
             q    = q    + x[j]*r[k-j];
         }
@@ -323,7 +350,8 @@ int  fa_atlvs_hp(double *r, int n, double *b,
             return -1;
 
         h = (b[k] - q) / a;
-        for (i = 0; i <= k-1; i++) {
+        for (i = 0; i <= k-1; i++)
+        {
             x[i] = x[i] + h*s[i];
             y[i] = s[i];
         }

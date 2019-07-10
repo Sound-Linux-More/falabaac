@@ -35,17 +35,17 @@ extern "C"
 {
 #endif
 
-int get_aac_bitreservoir_maxsize(int bit_rate, int sample_rate);
+    int get_aac_bitreservoir_maxsize(int bit_rate, int sample_rate);
 
-int get_avaiable_bits(int average_bits, int more_bits, int bitres_bits, int bitres_max_size);
+    int get_avaiable_bits(int average_bits, int more_bits, int bitres_bits, int bitres_max_size);
 
-int fa_bits_sideinfo_est(int chn_num);
+    int fa_bits_sideinfo_est(int chn_num);
 
-int calculate_bit_allocation(float pe, int block_type);
+    int calculate_bit_allocation(float pe, int block_type);
 
-int fa_bits_count(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aacenc_ctx_t *sr);
+    int fa_bits_count(uintptr_t h_bs, aaccfg_t *c, aacenc_ctx_t *s, aacenc_ctx_t *sr);
 
-int fa_write_bitstream(fa_aacenc_ctx_t *f);
+    int fa_write_bitstream(fa_aacenc_ctx_t *f);
 
 #ifdef __cplusplus
 }

@@ -156,7 +156,8 @@ int  fa_putbits(fa_bitbuffer_t * bitbuf, unsigned int wValue, int nbits)
 
     bitbuf->nbits += nbits;
 
-    while (nbits) {
+    while (nbits)
+    {
         short          bits_to_shift;
         unsigned char  tmp, msk;
 
@@ -172,11 +173,13 @@ int  fa_putbits(fa_bitbuffer_t * bitbuf, unsigned int wValue, int nbits)
         bitbuf->wpos_of_byte = bitbuf->wpos_of_byte - bitsToWrite;
         nbits = nbits - bitsToWrite;
 
-        if (bitbuf->wpos_of_byte<0) {
+        if (bitbuf->wpos_of_byte<0)
+        {
             bitbuf->wpos_of_byte = bitbuf->wpos_of_byte + 8;
             bitbuf->pNextWrite++;
 
-            if (bitbuf->pNextWrite > bitbuf->end) {
+            if (bitbuf->pNextWrite > bitbuf->end)
+            {
                 bitbuf->pNextWrite = bitbuf->start;
             }
         }
@@ -199,12 +202,14 @@ int  fa_getbits(fa_bitbuffer_t * bitbuf, short noBitsToRead)
     /* 8-bit aligned read access: *pReadNext */
     returnValue = (unsigned int)*bitbuf->pNextRead;
 
-    while (bitbuf->rpos_of_byte < 0) {
+    while (bitbuf->rpos_of_byte < 0)
+    {
         bitbuf->rpos_of_byte = (bitbuf->rpos_of_byte+ 8) ;
         bitbuf->pNextRead++;
 
 
-        if (bitbuf->pNextRead > bitbuf->end) {
+        if (bitbuf->pNextRead > bitbuf->end)
+        {
             bitbuf->pNextRead = bitbuf->start;
         }
 

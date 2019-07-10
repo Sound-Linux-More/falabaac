@@ -24,8 +24,6 @@
 
 */
 
-
-
 #ifndef _FA_TIMEPROFILE_H
 #define _FA_TIMEPROFILE_H
 

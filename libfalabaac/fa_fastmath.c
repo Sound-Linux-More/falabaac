@@ -48,7 +48,8 @@ void fa_logtab_init()
 ieee754_float32_t fa_fast_log2(ieee754_float32_t x)
 {
     ieee754_float32_t log2val;
-    union {
+    union
+    {
         ieee754_float32_t f;
         int     i;
     } fi;
@@ -73,11 +74,14 @@ float fa_fast_sin(float angle)
     angle = angle + M_PI_MUL2;
     angle = fmod(angle, M_PI_MUL2); //now the angle is in(0,2*M_PI)
 
-    if (angle <= M_PI) {
+    if (angle <= M_PI)
+    {
         real_angle = M_PI - angle;
         angle      = FA_MIN(real_angle, angle);
         sign = 1;
-    } else {
+    }
+    else
+    {
         angle      = angle - M_PI;
         real_angle = M_PI - angle;
         angle      = FA_MIN(real_angle, angle);
@@ -106,12 +110,15 @@ float fa_fast_cos(float angle)
     angle = angle + M_PI_MUL2;
     angle = fmod(angle, M_PI_MUL2); //now the angle is in(0,2*M_PI)
 
-    if (angle <= M_PI){
+    if (angle <= M_PI)
+    {
         real_angle = M_PI - angle;
         /*sign       = (M_PI_DIV2 - angle)/FA_ABS(M_PI_DIV2 - angle);*/
         sign       = ((M_PI_DIV2 - angle) >= 0 ? 1 : -1);
         angle      = FA_MIN(real_angle,angle);
-    }else{
+    }
+    else
+    {
         angle      = angle - M_PI;
         real_angle = M_PI - angle;
         /*sign     = (angle - M_PI_DIV2)/FA_ABS(angle - M_PI_DIV2);*/
@@ -157,13 +164,16 @@ float fa_fast_atan2(float y, float x)
     abs_y = FA_ABS(y);
     abs_x = FA_ABS(x);
 
-    if (abs_y >= abs_x) {
+    if (abs_y >= abs_x)
+    {
         if (y > 0)
             sita = M_PI_DIV2 - fast_atan(x/y);
         else
             sita = M_PI_DIV2 - fast_atan(x/y) - M_PI;
 
-    } else  {
+    }
+    else
+    {
         if (x > 0)
             sita = fast_atan(y/x);
         else
@@ -219,7 +229,7 @@ float fa_cbrtf (float x)
 float fa_sqrf(float x)
 {
     x *= x;
-    
+
     return x;
 }
 
@@ -227,6 +237,6 @@ float fa_quadf(float x)
 {
     x *= x;
     x *= x;
-    
+
     return x;
 }

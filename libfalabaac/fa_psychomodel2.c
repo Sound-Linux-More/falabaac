@@ -34,7 +34,8 @@
 
 #define FA_MAG_MAX     10000000000000000
 
-typedef struct _fa_psychomodel2_t {
+typedef struct _fa_psychomodel2_t
+{
     int   cbands_num;
     int   *w_low;
     float *barkval;
@@ -74,7 +75,7 @@ typedef struct _fa_psychomodel2_t {
     float *npart;
     float *thrbin;
     float *smr;
-}fa_psychomodel2_t;
+} fa_psychomodel2_t;
 
 static float ** matrix_init(int Nrow, int Ncol)
 {
@@ -111,7 +112,8 @@ static int hanning(float *w,const int N)
 {
     int i,j;
 
-    for (i = 0 , j = N-1; i <= j ; i++, j--) {
+    for (i = 0 , j = N-1; i <= j ; i++, j--)
+    {
         /*w[i] = (float)0.5*(1-cos(2*M_PI*i/(N-1)));*/
         w[i] = (float)0.5*(1-cos(2*M_PI*(i+1)/(N-1)));
         w[j] = w[i];
@@ -131,10 +133,13 @@ static float psy2_spread_func(int i, int j)
     else
         tmpx = 1.5 * (j - i);
 
-    if (tmpx > 0.5 && tmpx < 2.5) {
+    if (tmpx > 0.5 && tmpx < 2.5)
+    {
         tmp  = tmpx - 0.5;
         tmpz = 8 * (tmp*tmp - 2*tmp);
-    } else {
+    }
+    else
+    {
         tmpz = 0;
     }
 
@@ -163,7 +168,8 @@ uintptr_t fa_psychomodel2_init(int cbands_num, int *w_low, float *barkval, float
         f->w_low[i] = w_low[i];
     f->barkval    = (float *)malloc(sizeof(float)*cbands_num);
     f->qsthr      = (float *)malloc(sizeof(float)*cbands_num);
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         f->barkval[i] = barkval[i];
         f->qsthr[i]   = qsthr[i];
     }
@@ -241,118 +247,148 @@ void fa_psychomodel2_uninit(uintptr_t handle)
 {
     fa_psychomodel2_t *f = (fa_psychomodel2_t *)handle;
 
-    if (f) {
-        if (f->w_low) {
+    if (f)
+    {
+        if (f->w_low)
+        {
             free(f->w_low);
             f->w_low = NULL;
         }
-        if (f->barkval) {
+        if (f->barkval)
+        {
             free(f->barkval);
             f->barkval = NULL;
         }
-        if (f->qsthr) {
+        if (f->qsthr)
+        {
             free(f->qsthr);
             f->qsthr = NULL;
         }
-        if (f->spread_val) {
+        if (f->spread_val)
+        {
             matrix_uninit(f->spread_val);
         }
-        if (f->swb_offset) {
+        if (f->swb_offset)
+        {
             free(f->swb_offset);
             f->swb_offset = NULL;
         }
-        if (f->h_fft) {
+        if (f->h_fft)
+        {
             fa_fft_uninit(f->h_fft);
         }
-        if (f->fft_buf) {
+        if (f->fft_buf)
+        {
             free(f->fft_buf);
             f->fft_buf = NULL;
         }
-        if (f->hanning_win) {
+        if (f->hanning_win)
+        {
             free(f->hanning_win);
             f->hanning_win = NULL;
         }
-        if (f->re) {
+        if (f->re)
+        {
             free(f->re);
             f->re = NULL;
         }
-        if (f->im) {
+        if (f->im)
+        {
             free(f->im);
             f->im = NULL;
         }
-        if (f->mag) {
+        if (f->mag)
+        {
             free(f->mag);
             f->mag = NULL;
         }
-        if (f->phi) {
+        if (f->phi)
+        {
             free(f->phi);
             f->phi = NULL;
         }
-        if (f->mag_prev1) {
+        if (f->mag_prev1)
+        {
             free(f->mag_prev1);
             f->mag_prev1 = NULL;
         }
-        if (f->mag_prev2) {
+        if (f->mag_prev2)
+        {
             free(f->mag_prev2);
             f->mag_prev2 = NULL;
         }
-        if (f->mag_pred) {
+        if (f->mag_pred)
+        {
             free(f->mag_pred);
             f->mag_pred = NULL;
         }
-        if (f->phi_prev1) {
+        if (f->phi_prev1)
+        {
             free(f->phi_prev1);
             f->phi_prev1 = NULL;
         }
-        if (f->phi_prev2) {
+        if (f->phi_prev2)
+        {
             free(f->phi_prev2);
             f->phi_prev2 = NULL;
         }
-        if (f->phi_pred) {
+        if (f->phi_pred)
+        {
             free(f->phi_pred);
             f->phi_pred = NULL;
         }
-        if (f->c) {
+        if (f->c)
+        {
             free(f->c);
             f->c = NULL;
         }
-        if (f->group_e) {
+        if (f->group_e)
+        {
             free(f->group_e);
             f->group_e = NULL;
         }
-        if (f->group_c) {
+        if (f->group_c)
+        {
             free(f->group_c);
             f->group_c = NULL;
         }
-        if (f->en) {
+        if (f->en)
+        {
             free(f->en);
             f->en = NULL;
         }
-        if (f->cb) {
+        if (f->cb)
+        {
             free(f->cb);
             f->cb = NULL;
         }
-        if (f->nb) {
+        if (f->nb)
+        {
             free(f->nb);
             f->nb = NULL;
         }
-        if (f->nb_prev) {
+        if (f->nb_prev)
+        {
             free(f->nb_prev);
             f->nb_prev = NULL;
         }
-        if (f->epart) {
+        if (f->epart)
+        {
             free(f->epart);
             f->epart = NULL;
         }
-        if (f->npart) {
+        if (f->npart)
+        {
             free(f->npart);
             f->npart = NULL;
         }
-        if (f->thrbin) {
+        if (f->thrbin)
+        {
             free(f->thrbin);
             f->thrbin = NULL;
         }
-        if (f->smr) {
+        if (f->smr)
+        {
             free(f->smr);
             f->smr = NULL;
         }
@@ -408,7 +444,8 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     float *smr       = f->smr;
 
     /*calculate fft frequence line*/
-    for (i = 0; i < fft_len; i++) {
+    for (i = 0; i < fft_len; i++)
+    {
         fft_buf[i+i]   = x[i] * hanning_win[i];
         /*fft_buf[i+i]   = (1./32767) *x[i] * hanning_win[i];*/
         fft_buf[i+i+1] = 0;
@@ -417,7 +454,8 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     fa_fft(f->h_fft, fft_buf);
 
     /*calculate prediction mag and phi*/
-    for (i = 0; i < (fft_len>>1); i++) {
+    for (i = 0; i < (fft_len>>1); i++)
+    {
         float tmp, tmp1, tmp2;
 #if 1
         re[i]  = fft_buf[i+i];
@@ -457,10 +495,12 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     }
 
     /*calculate critical band grouped energy and unpreditable coffients*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         group_e[i] = 0;
         group_c[i] = 0;
-        for (j = w_low[i]; j < w_low[i+1]; j++) {
+        for (j = w_low[i]; j < w_low[i+1]; j++)
+        {
             float etmp;
 
             etmp       = mag[j]*mag[j];
@@ -470,7 +510,8 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     }
 
     /*calculate each critical bands conv with spread function value*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         float ecb, ct;
         float tmp;
         float rnorm;
@@ -480,7 +521,8 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
         tmp   = 0;
         rnorm = 1;
 
-        for (j = 0; j < cbands_num; j++) {
+        for (j = 0; j < cbands_num; j++)
+        {
             ecb = ecb + group_e[j]*f->spread_val[j][i];
             ct  = ct  + group_c[j]*f->spread_val[j][i];
             tmp = tmp + f->spread_val[j][i];
@@ -500,7 +542,8 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     }
 
     /*calculate tone index*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         float tb, snr, bc;
 
 #if 0
@@ -532,45 +575,50 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
 
     /*calculate pe*/
     *pe = 0.;
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         float tmp;
 
 #if 0
         tmp = FA_MIN(0, log10(nb[i]/(group_e[i]+1)));
 #else
-/*
-        if (nb[i] > (group_e[i] + 1)) {
-            printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
-        }
-*/
+        /*
+                if (nb[i] > (group_e[i] + 1)) {
+                    printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
+                }
+        */
         tmp = FA_MIN(0, FA_LOG10(nb[i]/(group_e[i]+1)));
         /*tmp = FA_LOG10(nb[i]/(group_e[i]+1));*/
 #endif
         *pe  = *pe - (w_low[i+1]-1-w_low[i])*tmp;
     }
-/*
-    if (*pe < 0.) {
-        printf("pe < 0, = %f\n", *pe);
-        *pe = 0.;
-    }
-*/
+    /*
+        if (*pe < 0.) {
+            printf("pe < 0, = %f\n", *pe);
+            *pe = 0.;
+        }
+    */
     /*calculate epart*/
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         epart[i] = 0;
         for (j = swb_offset[i]; j < swb_offset[i+1]; j++)
             epart[i] = epart[i] + mag[j]*mag[j];
     }
 
     /*calculate threshold of each frequence line and npart*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         for (j = w_low[i]; j < w_low[i+1]; j++)
             thrbin[j] = nb[i]/(w_low[i+1]-w_low[i]);
     }
 
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         float tmp, tmpmin;
         tmpmin = FA_MAG_MAX;
-        for (j = swb_offset[i]; j < swb_offset[i+1]; j++) {
+        for (j = swb_offset[i]; j < swb_offset[i+1]; j++)
+        {
             tmp = FA_MIN(tmpmin, thrbin[j]);
             if (tmp > 0)
                 tmpmin = tmp;
@@ -579,7 +627,8 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     }
 
     /*calculate smr*/
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         smr[i] = epart[i]/npart[i];
         /*printf("smr%d=%f", i, smr[i]);*/
     }
@@ -588,7 +637,7 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
 }
 
 void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe, int *tns_active,
-                                          float tmn, float nmt, float nb_cof, int do_precho_ctrl)
+        float tmn, float nmt, float nb_cof, int do_precho_ctrl)
 {
     int i,j;
     fa_psychomodel2_t *f = (fa_psychomodel2_t *)handle;
@@ -628,7 +677,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     float *smr       = f->smr;
 
     /*calculate fft frequence line*/
-    for (i = 0; i < fft_len; i++) {
+    for (i = 0; i < fft_len; i++)
+    {
         fft_buf[i+i]   = x[i] * hanning_win[i];
         /*fft_buf[i+i]   = (1./32767) * x[i] * hanning_win[i];*/
         fft_buf[i+i+1] = 0;
@@ -637,7 +687,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     fa_fft(f->h_fft, fft_buf);
 
     /*calculate prediction mag and phi*/
-    for (i = 0; i < (fft_len>>1); i++) {
+    for (i = 0; i < (fft_len>>1); i++)
+    {
         float tmp, tmp1, tmp2;
 #if 1
         re[i]  = fft_buf[i+i];
@@ -677,10 +728,12 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     }
 
     /*calculate critical band grouped energy and unpreditable coffients*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         group_e[i] = 0;
         group_c[i] = 0;
-        for (j = w_low[i]; j < w_low[i+1]; j++) {
+        for (j = w_low[i]; j < w_low[i+1]; j++)
+        {
             float etmp;
 
             etmp       = mag[j]*mag[j];
@@ -690,7 +743,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     }
 
     /*calculate each critical bands conv with spread function value*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         float ecb, ct;
         float tmp;
         float rnorm;
@@ -700,7 +754,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
         tmp   = 0;
         rnorm = 1;
 
-        for (j = 0; j < cbands_num; j++) {
+        for (j = 0; j < cbands_num; j++)
+        {
             ecb = ecb + group_e[j]*f->spread_val[j][i];
             ct  = ct  + group_c[j]*f->spread_val[j][i];
             tmp = tmp + f->spread_val[j][i];
@@ -720,7 +775,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     }
 
     /*calculate tone index*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         float tb, snr, bc;
 
 #if 0
@@ -742,8 +798,10 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
         bc  = pow(10, -snr/10);
         nb[i] = en[i] * bc;
 
-        if (do_precho_ctrl) {
-            if (fft_len < 1024) {
+        if (do_precho_ctrl)
+        {
+            if (fft_len < 1024)
+            {
                 /*nb[i] = FA_MAX((pow(10., qsthr[i]/10.)), FA_MIN(nb[i], 1.4*nb_prev[i]));*/
                 nb[i] = FA_MAX((pow(10., qsthr[i]/10.)), FA_MIN(nb[i], nb_prev[i]));
 
@@ -751,7 +809,9 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
                     *tns_active = 1;
                 else
                     *tns_active = 0;
-            } else {
+            }
+            else
+            {
                 float frac = 2.;
 
                 if (nb[i] > frac*nb_prev[i])
@@ -766,7 +826,9 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
                 else
                     nb[i] = FA_MAX((pow(10., qsthr[i]/10.)), FA_MIN(nb[i], frac*nb_prev[i]));
             }
-        } else {
+        }
+        else
+        {
             if (nb[i] >= nb_prev[i]  || nb_prev[i] >= 10*nb[i])
                 *tns_active = 1;
             else
@@ -782,45 +844,50 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
 
     /*calculate pe*/
     *pe = 0.;
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         float tmp;
 
 #if 0
         tmp = FA_MIN(0, log10(nb[i]/(group_e[i]+1)));
 #else
-/*
-        if (nb[i] > (group_e[i] + 1)) {
-            printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
-        }
-*/
+        /*
+                if (nb[i] > (group_e[i] + 1)) {
+                    printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
+                }
+        */
         tmp = FA_MIN(0, FA_LOG10(nb[i]/(group_e[i]+1)));
         /*tmp = FA_LOG10(nb[i]/(group_e[i]+1));*/
 #endif
         *pe  = *pe - (w_low[i+1]-1-w_low[i])*tmp;
     }
-/*
-    if (*pe < 0.) {
-        printf("pe < 0, = %f\n", *pe);
-        *pe = 0.;
-    }
-*/
+    /*
+        if (*pe < 0.) {
+            printf("pe < 0, = %f\n", *pe);
+            *pe = 0.;
+        }
+    */
     /*calculate epart*/
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         epart[i] = 0;
         for (j = swb_offset[i]; j < swb_offset[i+1]; j++)
             epart[i] = epart[i] + mag[j]*mag[j];
     }
 
     /*calculate threshold of each frequence line and npart*/
-    for (i = 0; i < cbands_num; i++) {
+    for (i = 0; i < cbands_num; i++)
+    {
         for (j = w_low[i]; j < w_low[i+1]; j++)
             thrbin[j] = nb[i]/(w_low[i+1]-w_low[i]);
     }
 
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         float tmp, tmpmin;
         tmpmin = FA_MAG_MAX;
-        for (j = swb_offset[i]; j < swb_offset[i+1]; j++) {
+        for (j = swb_offset[i]; j < swb_offset[i+1]; j++)
+        {
             tmp = FA_MIN(tmpmin, thrbin[j]);
             if (tmp > 0)
                 tmpmin = tmp;
@@ -829,7 +896,8 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     }
 
     /*calculate smr*/
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         smr[i] = epart[i]/npart[i];
         /*printf("smr%d=%f", i, smr[i]);*/
     }
@@ -849,15 +917,19 @@ void fa_psychomodel2_calculate_xmin(uintptr_t handle, float *mdct_line, float *x
 
     frac = qcof;
 
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         codec_e = 0.0;
-        if (smr[i] > 0) {
+        if (smr[i] > 0)
+        {
             codec_e = 0;
             for (j = swb_offset[i]; j < swb_offset[i+1]; j++)
                 codec_e = codec_e + mdct_line[j]*mdct_line[j];
 
             xmin[i] = frac*codec_e/smr[i];
-        } else {
+        }
+        else
+        {
             /*xmin[i] = 0;*/
             xmin[i] = frac*codec_e/20;
         }
@@ -873,9 +945,11 @@ void fa_psychomodel2_calculate_xmin_short(uintptr_t handle, float xmin[8][51])
     int   *swb_offset= f->swb_offset;
 
     float xmin_tmp;
-    for (i = 0; i < swb_num; i++) {
+    for (i = 0; i < swb_num; i++)
+    {
         xmin_tmp = 1000000000000.;
-        for (j = 0; j < 8; j++) {
+        for (j = 0; j < 8; j++)
+        {
             xmin_tmp = FA_MIN(xmin_tmp, xmin[j][i]);
         }
         xmin[j][i] = xmin_tmp;

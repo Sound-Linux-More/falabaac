@@ -63,7 +63,8 @@ void get_aac_chn_info(chn_info_t *chn_info, int nchn, int lfe_enable)
 
 
     /* First element is sce, except for 2 channel case */
-    if (nchn_left != 2) {
+    if (nchn_left != 2)
+    {
         chn_info[nchn-nchn_left].present = 1;
         chn_info[nchn-nchn_left].tag = sce_tag++;
         chn_info[nchn-nchn_left].sce = 1;
@@ -73,7 +74,8 @@ void get_aac_chn_info(chn_info_t *chn_info, int nchn, int lfe_enable)
     }
 
     /* Next elements are cpe's */
-    while (nchn_left > 1) {
+    while (nchn_left > 1)
+    {
         /* Left channel info */
         chn_info[nchn-nchn_left].present = 1;
         chn_info[nchn-nchn_left].tag = cpe_tag++;
@@ -97,14 +99,18 @@ void get_aac_chn_info(chn_info_t *chn_info, int nchn, int lfe_enable)
     }
 
     /* Is there another channel left ? */
-    if (nchn_left) {
-        if (lfe_enable) {
+    if (nchn_left)
+    {
+        if (lfe_enable)
+        {
             chn_info[nchn-nchn_left].present = 1;
             chn_info[nchn-nchn_left].tag = lfe_tag++;
             chn_info[nchn-nchn_left].sce = 0;
             chn_info[nchn-nchn_left].cpe = 0;
             chn_info[nchn-nchn_left].lfe = 1;
-        } else {
+        }
+        else
+        {
             chn_info[nchn-nchn_left].present = 1;
             chn_info[nchn-nchn_left].tag = sce_tag++;
             chn_info[nchn-nchn_left].sce = 1;
