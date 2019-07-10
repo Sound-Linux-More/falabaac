@@ -73,6 +73,10 @@ ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
 #define FA_MAX(a,b)  ((a) > (b) ? (a) : (b))
 #endif
 
+#ifndef FA_TRIM
+#define FA_TRIM(x,a,b) (FA_MIN(FA_MAX(x,a),b))
+#endif
+
 #ifdef FA_USE_FASTLOG
 #define        FA_LOG2_V         (0.69314718055994530942)
 #define        FA_LOG10_V        (2.30258509299404568402)

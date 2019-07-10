@@ -35,6 +35,7 @@
 
 #define BYTE_NUMBIT 8       /* bits in byte (char) */
 #define LONG_NUMBIT 32      /* bits in unsigned long */
+#define AAC_MIN_BITRATE 8000
 #define bit2byte(a) (((a)+BYTE_NUMBIT-1)/BYTE_NUMBIT)
 
 static int write_adtsheader(uintptr_t h_bs, aaccfg_t *c, int used_bytes, int write_flag);
@@ -72,7 +73,7 @@ int get_aac_max_bitrate(long sample_rate)
 /* returns the minimum bitrate per channel*/
 int get_aac_min_bitrate()
 {
-    return 8000;
+    return AAC_MIN_BITRATE;
 }
 
 int get_avaiable_bits(int average_bits, int more_bits, int bitres_bits, int bitres_max_size)

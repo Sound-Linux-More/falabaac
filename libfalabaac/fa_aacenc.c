@@ -45,6 +45,7 @@
 
 #define GAIN_ADJUST   4 //5
 
+#define BW_MIN        5000.
 #define BW_MAX        24000.
 
 /* Returns the sample rate index */
@@ -89,10 +90,7 @@ static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
     bandwidth = FA_SQRTF(tmpbitrate * 64000.0) * 0.25;
     *qcof = (2.0 - FA_SQRTF(tmpbitrate / 64000.0));
 
-    if (bandwidth <= 0.)
-        /*bandwidth = 22000;*/
-        bandwidth = BW_MAX;
-    if (bandwidth > BW_MAX)
+    if ((bandwidth <= 0.) | (bandwidth > BW_MAX))
         bandwidth = BW_MAX;
     /*printf("bandwidth = %d\n", bandwidth);*/
     /*assert(bandwidth > 0 && bandwidth <= 20000);*/
@@ -110,10 +108,7 @@ static float get_bandwidth1(int chn, int sample_rate, float qcof, int *bit_rate)
     *bit_rate = (int)(qcof * qcof * 64000 + 0.5);
     bandwidth = qcof * 64000 * 0.25;
 
-    if (bandwidth <= 0.)
-        /*bandwidth = 22000;*/
-        bandwidth = BW_MAX;
-    if (bandwidth > BW_MAX)
+    if ((bandwidth <= 0.) | (bandwidth > BW_MAX))
         bandwidth = BW_MAX;
     /*printf("bandwidth = %d\n", bandwidth);*/
     /*assert(bandwidth > 0 && bandwidth <= 20000);*/
@@ -274,7 +269,7 @@ uintptr_t aacenc_init(int sample_rate, int bit_rate, int chn_num, float qcof, in
             f->band_width = 10000.;
     }
     /*if (band_width >= 5000 && band_width <= 20000) {*/
-    if (band_width >= 5000. && band_width <= BW_MAX) {
+    if (band_width >= BW_MIN && band_width <= BW_MAX) {
         if (band_width < f->band_width)
             f->band_width = band_width;
     }

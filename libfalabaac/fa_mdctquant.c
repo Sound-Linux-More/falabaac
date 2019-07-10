@@ -30,7 +30,6 @@
 #include "fa_mdctquant.h"
 #include "fa_fastmath.h"
 #include "fa_huffman.h"
-/*#include "fa_timeprofile.h"*/
 
 #define MAX_QUANT             8191
 #define MAGIC_NUMBER          0.4054
@@ -121,15 +120,6 @@ static void xr_pow34_calculate(float *mdct_line, float mdct_line_num,
         if (mdct_line[i] < 0)
             xr_pow[i] = -xr_pow[i];
     }
-}
-
-static int fa_itrim(int value, int thres)
-{
-    thres = (thres < 0) ? -thres : thres;
-    if (value > thres) value = thres;
-    if (value < -thres) value = -thres;
-
-    return value;
 }
 
 float fa_mdctline_getmax(uintptr_t handle)
@@ -227,8 +217,6 @@ void fa_mdctline_quant(uintptr_t handle,
             x_quant[i] = (int)(mdct_scaled[i] * cof_quant + MAGIC_NUMBER);
         else
             x_quant[i] = -1 * (int)(FA_ABS(mdct_scaled[i]) * cof_quant + MAGIC_NUMBER);
-
-//        x_quant[i] = fa_itrim(x_quant[i], MAX_QUANT);
     }
 }
 
@@ -261,8 +249,6 @@ void fa_mdctline_quantdirect(uintptr_t handle,
                 x_quant[i] = (int)(FA_SQRTF(tmp*FA_SQRTF(tmp)));
                 if (mdct_line[i] > 0)
                     x_quant[i] = -x_quant[i];
-
-//                x_quant[i] = fa_itrim(x_quant[i], MAX_QUANT);
             }
         }
     }
@@ -284,8 +270,6 @@ void fa_mdctline_quantdirect(uintptr_t handle,
                 /*if (mdct_line[i] > 0)*/
                 if (mdct_line[i] < 0)
                     x_quant[i] = -x_quant[i];
-
-//                x_quant[i] = fa_itrim(x_quant[i], MAX_QUANT);
             }
         }
     }
@@ -338,7 +322,6 @@ void fa_calculate_quant_noise(uintptr_t handle,
                     inv_cof = rom_inv_cof[common_scalefac - scalefactor[gr][sfb]+255];
                     tmp_xq = FA_ABS(x_quant[mdct_line_offset+i]);
                     /*inv_x_quant = powf(tmp_xq, 4./3.) * inv_cof;*/
-//                    inv_x_quant = (float)(fa_iqtable[tmp_xq] * inv_cof);
                     inv_x_quant = (float)(fa_quadf(FA_CBRTF((float)tmp_xq)) * inv_cof);
 
                     tmp = FA_ABS(mdct_line[mdct_line_offset+i]) - inv_x_quant;
@@ -623,7 +606,6 @@ void fa_balance_energe(uintptr_t handle,
                     inv_cof = rom_inv_cof[common_scalefac - scalefactor[gr][sfb]+255];
                     tmp_xq = FA_ABS(x_quant[mdct_line_offset+i]);
                     /*inv_x_quant = powf(tmp_xq, 4./3.) * inv_cof;*/
-//                    inv_x_quant = (float)(fa_iqtable[tmp_xq] * inv_cof);
                     inv_x_quant = (float)(fa_quadf(FA_CBRTF((float)tmp_xq)) * inv_cof);
 
                     tmp = FA_ABS(mdct_line[mdct_line_offset+i]) - inv_x_quant;
@@ -739,7 +721,6 @@ void fa_balance_energe(uintptr_t handle,
                     inv_cof = rom_inv_cof[common_scalefac - scalefactor[gr][sfb]+255];
                     tmp_xq = FA_ABS(x_quant[index]);
                     /*inv_x_quant = powf(tmp_xq, 4./3.) * inv_cof;*/
-//                    inv_x_quant = (float)(fa_iqtable[tmp_xq] * inv_cof);
                     inv_x_quant = (float)(fa_quadf(FA_CBRTF((float)tmp_xq)) * inv_cof);
 
                     tmp = FA_ABS(mdct_line[index]) - inv_x_quant;
