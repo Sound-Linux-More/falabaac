@@ -90,7 +90,7 @@ static float get_bandwidth(int chn, int sample_rate, int bit_rate, float *qcof)
     bandwidth = FA_SQRTF(tmpbitrate * 64000.0) * 0.25;
     *qcof = (2.0 - FA_SQRTF(tmpbitrate / 64000.0));
 
-    if ((bandwidth <= 0.) | (bandwidth > BW_MAX))
+    if ((bandwidth <= 0.) || (bandwidth > BW_MAX))
         bandwidth = BW_MAX;
     /*printf("bandwidth = %d\n", bandwidth);*/
     /*assert(bandwidth > 0 && bandwidth <= 20000);*/
@@ -108,7 +108,7 @@ static float get_bandwidth1(int chn, int sample_rate, float qcof, int *bit_rate)
     *bit_rate = (int)(qcof * qcof * 64000 + 0.5);
     bandwidth = qcof * 64000 * 0.25;
 
-    if ((bandwidth <= 0.) | (bandwidth > BW_MAX))
+    if ((bandwidth <= 0.) || (bandwidth > BW_MAX))
         bandwidth = BW_MAX;
     /*printf("bandwidth = %d\n", bandwidth);*/
     /*assert(bandwidth > 0 && bandwidth <= 20000);*/
