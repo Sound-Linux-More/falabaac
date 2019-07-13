@@ -245,8 +245,8 @@ uintptr_t fa_fft_init(int size)
     for (i = 0 ; i < size ; i++)
     {
         ang = (float)(2*M_PI*i)/size;
-        f->cos_ang[i] = (float)cos(ang);
-        f->sin_ang[i] = (float)sin(ang);
+        f->cos_ang[i] = (float)FA_COS(ang);
+        f->sin_ang[i] = (float)FA_SIN(ang);
     }
 
     return (uintptr_t)f;

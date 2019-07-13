@@ -39,17 +39,12 @@ extern "C"
     */
 //#define FA_USE_FASTMATH
 
+
 #ifdef  FA_USE_FASTMATH
 #define FA_USE_FASTLOG
 #define FA_USE_FASTANGLE
 #define FA_USE_FASTSQRTF
 #endif
-
-//No1.   log() log10() fast function
-    typedef float ieee754_float32_t;
-
-    void fa_logtab_init();
-    ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
 
 #ifndef     M_PI
 #define     M_PI        3.14159265358979323846
@@ -76,6 +71,14 @@ extern "C"
 #ifndef FA_TRIM
 #define FA_TRIM(x,a,b) (FA_MIN(FA_MAX(x,a),b))
 #endif
+
+#define FA_LOG2_SIZE       (512)  //(1024)
+#define FA_LOG2_SIZE_L2    (9)    //(10)
+
+//No1.   log() log10() fast function
+    typedef float ieee754_float32_t;
+    void fa_logtab_init();
+    ieee754_float32_t fa_fast_log2(ieee754_float32_t x);
 
 #ifdef FA_USE_FASTLOG
 #define        FA_LOG2_V         (0.69314718055994530942)

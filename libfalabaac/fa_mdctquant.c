@@ -116,11 +116,7 @@ static void xr_pow34_calculate(float *mdct_line, float mdct_line_num,
     for (i = 0; i < mdct_line_num; i++)
     {
         tmp = FA_ABS(mdct_line[i]);
-#if 0
-        xr_pow[i] = sqrtf(tmp*sqrtf(tmp));
-#else
         xr_pow[i] = FA_SQRTF(tmp*FA_SQRTF(tmp));
-#endif
 
         if (mdct_line[i] < 0)
             xr_pow[i] = -xr_pow[i];
@@ -156,11 +152,7 @@ int fa_get_start_common_scalefac(float max_mdct_line)
     if (max_mdct_line == 0.)
         return 0;
 
-#if 0
-    tmp = ceil(16./3 * (log2f((powf(max_mdct_line, 0.75))/MAX_QUANT)));
-#else
     tmp = ceil(16./3 * (FA_LOG2((FA_SQRTF(max_mdct_line*FA_SQRTF(max_mdct_line)))/MAX_QUANT)));
-#endif
     start_common_scalefac = (int)tmp;
 
     start_common_scalefac = FA_MIN(start_common_scalefac, 255);
@@ -586,7 +578,7 @@ int fa_mdctline_iquantize(uintptr_t handle,
                 {
                     /*inv_cof = powf(2, 0.25*(common_scalefac - scalefactor[gr][sfb]));*/
                     inv_cof = pow(2, 0.25*(scalefactor[gr][sfb] - SF_OFFSET));
-                    tmp_xq = (float)fabs(x_quant[mdct_line_offset+i]);
+                    tmp_xq = (float)FA_ABS(x_quant[mdct_line_offset+i]);
                     inv_x_quant = pow(tmp_xq, 4./3.) * inv_cof;
                     mdct_line[mdct_line_offset+i] = inv_x_quant;
                 }
@@ -669,12 +661,9 @@ void fa_balance_energe(uintptr_t handle,
             if ((enq == 0.0) || (en0 == 0.0))
                 continue;
             /*shift = (int)(log2(sqrt(enq / en0)) * logstep_1 + 1000.5);*/
-#if 1
             shift = (int)(FA_LOG2(FA_SQRTF(enq / en0)) * qstep + 1000.5);
             shift -= 1000;
-#else
-            shift = (int)(FA_LOG2(FA_SQRTF(enq / en0)) * qstep);
-#endif
+
             /*
                         if (shift > 4)
                             shift = 4;
@@ -692,7 +681,7 @@ void fa_balance_energe(uintptr_t handle,
 
         }
 #if  0
-        shift = (int)(log2(sqrt(enqt / en0t)) * qstep + 1000.5);
+        shift = (int)(FA_LOG2(FA_SQRTF(enqt / en0t)) * qstep + 1000.5);
         shift -= 1000;
         /*
                 if (shift > 1)
@@ -790,12 +779,9 @@ void fa_balance_energe(uintptr_t handle,
             if ((enq == 0.0) || (en0 == 0.0))
                 continue;
             /*shift = (int)(log2(sqrt(enq / en0)) * logstep_1 + 1000.5);*/
-#if 1
             shift = (int)(FA_LOG2(FA_SQRTF(enq / en0)) * qstep + 1000.5);
             shift -= 1000;
-#else
-            shift = (int)(FA_LOG2(FA_SQRTF(enq / en0)) * qstep);
-#endif
+
             /*
                         if (shift > 4)
                             shift = 4;
@@ -813,7 +799,7 @@ void fa_balance_energe(uintptr_t handle,
 
         }
 #if  0
-        shift = (int)(log2(sqrt(enqt / en0t)) * qstep + 1000.5);
+        shift = (int)(FA_LOG2(FA_SQRTF(enqt / en0t)) * qstep + 1000.5);
         shift -= 1000;
         /*
                 if (shift > 1)

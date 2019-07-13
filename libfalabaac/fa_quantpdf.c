@@ -347,7 +347,7 @@ int   fa_estimate_sf_fast_improve(float T, float t, float miu2)
 
     if (t > 0)
     {
-        ratio = T/(t*sqrt(miu2*sqrt(miu2)));
+        ratio = T/(t*FA_SQRTF(miu2*FA_SQRTF(miu2)));
         sf = fa_mpeg_round((8./3.) * FA_LOG2(ratio) + 2 * FA_LOG2(miu2));
     }
     else

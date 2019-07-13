@@ -29,9 +29,6 @@
 #include <assert.h>
 #include "fa_fastmath.h"
 
-#define FA_LOG2_SIZE       (512)  //(1024)
-#define FA_LOG2_SIZE_L2    (9)    //(10)
-
 static ieee754_float32_t log_table[FA_LOG2_SIZE+1];
 
 void fa_logtab_init()

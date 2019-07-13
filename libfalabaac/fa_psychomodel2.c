@@ -115,7 +115,7 @@ static int hanning(float *w,const int N)
     for (i = 0 , j = N-1; i <= j ; i++, j--)
     {
         /*w[i] = (float)0.5*(1-cos(2*M_PI*i/(N-1)));*/
-        w[i] = (float)0.5*(1-cos(2*M_PI*(i+1)/(N-1)));
+        w[i] = (float)0.5*(1-FA_COS(2*M_PI*(i+1)/(N-1)));
         w[j] = w[i];
     }
 
@@ -143,7 +143,7 @@ static float psy2_spread_func(int i, int j)
         tmpz = 0;
     }
 
-    tmpy = 15.811389 + 7.5*(tmpx+0.474) - 17.5*sqrt(1.0+(tmpx+0.474)*(tmpx+0.474));
+    tmpy = 15.811389 + 7.5*(tmpx+0.474) - 17.5*FA_SQRTF(1.0+(tmpx+0.474)*(tmpx+0.474));
 
     if (tmpy < -100)
         spread_val = 0;
@@ -466,27 +466,16 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
         im[i]  = fft_buf[i+i+1]/fft_len;
 #endif
 
-#if 1
-        mag[i] = sqrt(re[i]*re[i] + im[i]*im[i]);
-        phi[i] = atan2(im[i], re[i]);
-#else
         mag[i] = FA_SQRTF(re[i]*re[i] + im[i]*im[i]);
         phi[i] = FA_ATAN2(im[i], re[i]);
-#endif
 
         mag_pred[i] = 2*mag_prev1[i] - mag_prev2[i];
         phi_pred[i] = 2*phi_prev1[i] - phi_prev2[i];
-#if 1
-        tmp1   = re[i] - mag_pred[i] * cos(phi_pred[i]);
-        tmp2   = im[i] - mag_pred[i] * sin(phi_pred[i]);
-        tmp    = sqrt(tmp1*tmp1+tmp2*tmp2);
-        c[i]   = tmp/(mag[i] + fabs(mag_pred[i]));
-#else
+
         tmp1   = re[i] - mag_pred[i] * FA_COS(phi_pred[i]);
         tmp2   = im[i] - mag_pred[i] * FA_SIN(phi_pred[i]);
         tmp    = FA_SQRTF(tmp1*tmp1+tmp2*tmp2);
         c[i]   = tmp/(mag[i] + FA_ABS(mag_pred[i]));
-#endif
 
         mag_prev2[i] = mag_prev1[i];
         mag_prev1[i] = mag[i];
@@ -546,14 +535,11 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     {
         float tb, snr, bc;
 
-#if 0
-        tb = -0.299 - 0.43*log(cb[i]);
-#else
         if (cb[i] > 0)
             tb = -0.299 - 0.43*FA_LOG(cb[i]);
         else
             tb = 1;
-#endif
+
         if (tb < 0)
             tb = 0;
 
@@ -579,17 +565,14 @@ void fa_psychomodel2_calculate_pe(uintptr_t handle, float *x, float *pe)
     {
         float tmp;
 
-#if 0
-        tmp = FA_MIN(0, log10(nb[i]/(group_e[i]+1)));
-#else
         /*
                 if (nb[i] > (group_e[i] + 1)) {
-                    printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
+                    printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], FA_LOG10(nb[i]/(group_e[i]+1)));
                 }
         */
         tmp = FA_MIN(0, FA_LOG10(nb[i]/(group_e[i]+1)));
         /*tmp = FA_LOG10(nb[i]/(group_e[i]+1));*/
-#endif
+
         *pe  = *pe - (w_low[i+1]-1-w_low[i])*tmp;
     }
     /*
@@ -699,27 +682,16 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
         im[i]  = fft_buf[i+i+1]/fft_len;
 #endif
 
-#if 1
-        mag[i] = sqrt(re[i]*re[i] + im[i]*im[i]);
-        phi[i] = atan2(im[i], re[i]);
-#else
         mag[i] = FA_SQRTF(re[i]*re[i] + im[i]*im[i]);
         phi[i] = FA_ATAN2(im[i], re[i]);
-#endif
 
         mag_pred[i] = 2*mag_prev1[i] - mag_prev2[i];
         phi_pred[i] = 2*phi_prev1[i] - phi_prev2[i];
-#if 1
-        tmp1   = re[i] - mag_pred[i] * cos(phi_pred[i]);
-        tmp2   = im[i] - mag_pred[i] * sin(phi_pred[i]);
-        tmp    = sqrt(tmp1*tmp1+tmp2*tmp2);
-        c[i]   = tmp/(mag[i] + fabs(mag_pred[i]));
-#else
+
         tmp1   = re[i] - mag_pred[i] * FA_COS(phi_pred[i]);
         tmp2   = im[i] - mag_pred[i] * FA_SIN(phi_pred[i]);
         tmp    = FA_SQRTF(tmp1*tmp1+tmp2*tmp2);
         c[i]   = tmp/(mag[i] + FA_ABS(mag_pred[i]));
-#endif
 
         mag_prev2[i] = mag_prev1[i];
         mag_prev1[i] = mag[i];
@@ -779,14 +751,11 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     {
         float tb, snr, bc;
 
-#if 0
-        tb = -0.299 - 0.43*log(cb[i]);
-#else
         if (cb[i] > 0)
             tb = -0.299 - 0.43*FA_LOG(cb[i]);
         else
             tb = 1;
-#endif
+
         if (tb < 0)
             tb = 0;
 
@@ -848,17 +817,14 @@ void fa_psychomodel2_calculate_pe_improve(uintptr_t handle, float *x, float *pe,
     {
         float tmp;
 
-#if 0
-        tmp = FA_MIN(0, log10(nb[i]/(group_e[i]+1)));
-#else
         /*
                 if (nb[i] > (group_e[i] + 1)) {
-                    printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], log10(nb[i]/(group_e[i]+1)));
+                    printf("nb=%f, group_e=%f, ratio=%f\n", nb[i], group_e[i], FA_LOG10(nb[i]/(group_e[i]+1)));
                 }
         */
         tmp = FA_MIN(0, FA_LOG10(nb[i]/(group_e[i]+1)));
         /*tmp = FA_LOG10(nb[i]/(group_e[i]+1));*/
-#endif
+
         *pe  = *pe - (w_low[i+1]-1-w_low[i])*tmp;
     }
     /*

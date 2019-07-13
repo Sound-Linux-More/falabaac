@@ -158,7 +158,7 @@ static void quant_reflection_cof(int order, int cof_res, float *kcof, int *index
         else
             index[i] = tmp_int;
 #endif
-        kcof[i]  = sin((float)index[i]/((index[i]>=0)?iqfac:iqfac_m));
+        kcof[i]  = FA_SIN((float)index[i]/((index[i]>=0)?iqfac:iqfac_m));
     }
 }
 

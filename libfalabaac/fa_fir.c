@@ -79,7 +79,7 @@ int fa_hamming(float *w,const int N)
 
     for (i = 0 , j = N-1; i <= j ; i++, j--)
     {
-        w[i] = (float)(0.54-0.46*cos(2*M_PI*i/(N-1)));
+        w[i] = (float)(0.54-0.46*FA_COS(2*M_PI*i/(N-1)));
         w[j] = w[i];
     }
 
@@ -92,7 +92,7 @@ int fa_blackman(float *w,const int N)
 
     for (i = 0 , j = N-1; i <= j ; i++, j--)
     {
-        w[i] = (float)(0.42 - 0.5*cos(2*M_PI*i/(N-1))  + 0.08*cos(4*M_PI*i/(N-1)));
+        w[i] = (float)(0.42 - 0.5*FA_COS(2*M_PI*i/(N-1))  + 0.08*FA_COS(4*M_PI*i/(N-1)));
         w[j] = w[i];
     }
 
