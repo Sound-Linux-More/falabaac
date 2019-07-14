@@ -17,14 +17,13 @@
 
 
   filename: fa_getopt.h
-  version : v1.0.0
-  time    : 2012/07/08 01:01
+  version : 2.1.0.229
+  time    : 2019/07/14
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
-  code URL: http://code.google.com/p/falab/
+  code URL: https://github.com/Sound-Linux-More/falabaac
 
   comment : this file is the simple template which will be used in falab,
             it will be changed according to the project.
-
 */
 
 #ifndef _FA_GETOPT_H

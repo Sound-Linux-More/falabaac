@@ -17,13 +17,12 @@
 
 
   filename: fa_wavfmt.c
-  version : v1.0.0
-  time    : 2012/07/08 18:33
+  version : 2.1.0.229
+  time    : 2019/07/14
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
-  code URL: http://code.google.com/p/falab/
+  code URL: https://github.com/Sound-Linux-More/falabaac
 
   comment : only support pcm data now
-
 */
 
 #include <stdio.h>

@@ -1,5 +1,12 @@
 # falabaac
 
+2.1.0.229 (2019-07-14) <zvezdochiot>
+
+    * cppcheck
+    * small fix
+    * astyle --style=allman
+    * clean code
+
 2.1.0.228 (2019-07-09) <zvezdochiot>
 
     * Uniq math functions

@@ -17,13 +17,11 @@
 
 
   filename: fa_psytab.h
-  version : v1.0.0
-  time    : 2012/08/22 - 2012/10/05
+  version : 2.1.0.229
+  time    : 2019/07/14
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
-  code URL: http://code.google.com/p/falab/
-
+  code URL: https://github.com/Sound-Linux-More/falabaac
 */
-
 
 #ifndef _FA_PSYTAB_H
 #define _FA_PSYTAB_H

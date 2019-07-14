@@ -17,11 +17,10 @@
 
 
   filename: fa_levinson.c
-  version : v1.0.0
-  time    : 2012/11/17 15:19
+  version : 2.1.0.229
+  time    : 2019/07/14
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
-  code URL: http://code.google.com/p/falab/
-
+  code URL: https://github.com/Sound-Linux-More/falabaac
 */
 
 #include <stdio.h>
