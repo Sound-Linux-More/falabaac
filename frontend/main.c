@@ -107,6 +107,7 @@ int main(int argc, char *argv[])
     if ((sourcefile = fopen(opt_inputfile, "rb")) == NULL)
     {
         printf("input file can not be opened;\n");
+        fclose(destfile);
         return 0;
     }
 

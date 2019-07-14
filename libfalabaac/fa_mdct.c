@@ -597,10 +597,10 @@ void fa_mdct_uninit(uintptr_t handle)
     int type;
 
     fa_mdct_ctx_t *f = (fa_mdct_ctx_t *)handle;
-    type = f->type;
 
     if (f)
     {
+        type = f->type;
         switch (type)
         {
         case MDCT_ORIGIN:

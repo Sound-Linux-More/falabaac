@@ -462,9 +462,9 @@ void fa_aacenc_uninit(uintptr_t handle)
     int chn_num;
     fa_aacenc_ctx_t *f = (fa_aacenc_ctx_t *)handle;
 
-    chn_num = f->cfg.chn_num;
     if (f)
     {
+        chn_num = f->cfg.chn_num;
         if (f->sample)
         {
             free(f->sample);

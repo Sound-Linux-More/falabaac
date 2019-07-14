@@ -115,21 +115,22 @@ void fa_bitbuffer_init(fa_bitbuffer_t *bitbuf, unsigned char *start, int sizeofb
 {
     assert(sizeofbyte*8 <= 32768);
 
-    bitbuf->buf_size = sizeofbyte * 8;
-
     if (bitbuf)
+    {
         bitbuf->is_valid = 1;
+        bitbuf->buf_size = sizeofbyte * 8;
 
-    bitbuf->start =  start;
-    bitbuf->end = start + sizeofbyte - 1;
+        bitbuf->start =  start;
+        bitbuf->end = start + sizeofbyte - 1;
 
-    bitbuf->pNextRead = start;
-    bitbuf->pNextWrite = start;
+        bitbuf->pNextRead = start;
+        bitbuf->pNextWrite = start;
 
-    bitbuf->rpos_of_byte = 7;
-    bitbuf->wpos_of_byte = 7;
+        bitbuf->rpos_of_byte = 7;
+        bitbuf->wpos_of_byte = 7;
 
-    bitbuf->nbits = 0;
+        bitbuf->nbits = 0;
+    }
 }
 
 void fa_bitbuffer_uninit(fa_bitbuffer_t * bitbuf)

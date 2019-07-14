@@ -78,7 +78,7 @@ int get_aac_min_bitrate()
 
 int get_avaiable_bits(int average_bits, int more_bits, int bitres_bits, int bitres_max_size)
 {
-    int available_bits;
+    int available_bits = 0;
 
     if (more_bits >= 0)
     {
