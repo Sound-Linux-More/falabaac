@@ -1,5 +1,9 @@
 # falabaac
 
+2.1.0.230 (2019-07-17) <zvezdochiot>
+
+    * splint main.c
+
 2.1.0.229 (2019-07-14) <zvezdochiot>
 
     * cppcheck

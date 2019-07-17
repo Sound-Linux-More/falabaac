@@ -17,8 +17,8 @@
 
 
   filename: main.c
-  version : 2.1.0.229
-  time    : 2019/07/14
+  version : 2.1.0.230
+  time    : 2019/07/17
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: https://github.com/Sound-Linux-More/falabaac
 */
@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
     printf("************************************************************\n");
     printf("*                                                          *\n");
-    printf("*              falabaac encoder v2.1.0.229                 *\n");
+    printf("*              falabaac encoder v2.1.0.230                 *\n");
     printf("*                                                          *\n");
     printf("*   Copyright (C) 2012 luolongzhi ÂÞÁúÖÇ (Chengdu China)   *\n");
     printf("*                    Free Software                         *\n");
@@ -127,11 +127,12 @@ int main(int argc, char *argv[])
         /*initial aac encoder, return the handle for the encoder*/
         h_aacenc = fa_aacenc_init(sample_rate, opt_bitrate, chn_num, opt_quality, opt_vbrflag,
                                   FA_AACENC_MPEG_VER_DEF , FA_AACENC_OBJ_TYPE_DEF, opt_lfeenable,
-                                  opt_bandwidth,
-                                  opt_speedlevel, opt_time_resolution_first);
+                                  opt_bandwidth, opt_speedlevel, opt_time_resolution_first);
         if (!h_aacenc)
         {
             printf("initial failed, maybe configuration is not proper!\n");
+            fclose(sourcefile);
+            fclose(destfile);
             return -1;
         }
 

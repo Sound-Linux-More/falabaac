@@ -17,8 +17,8 @@
 
 
   filename: fa_getopt.c
-  version : 2.1.0.229
-  time    : 2019/07/14
+  version : 2.1.0.230
+  time    : 2019/07/17
   author  : luolongzhi ( falab2012@gmail.com luolongzhi@gmail.com )
   code URL: https://github.com/Sound-Linux-More/falabaac
 
@@ -491,7 +491,7 @@ int fa_parseopt(int argc, char *argv[])
     if(die_msg)
     {
         FA_PRINT("%s\n", die_msg);
-        goto fail;
+        return -1;
     }
 
     /*check the input validity*/
@@ -500,7 +500,7 @@ int fa_parseopt(int argc, char *argv[])
     {
         die_msg = usage;
         FA_PRINT("%s\n", die_msg);
-        goto fail;
+        return -1;
     }
 
     if (opt_vbr_enable == 0)
@@ -509,6 +509,4 @@ int fa_parseopt(int argc, char *argv[])
     fa_printopt();
 
     return 0;
-fail:
-    return -1;
 }
