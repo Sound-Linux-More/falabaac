@@ -152,6 +152,11 @@ static float fast_atan (float value)
     return result;
 }
 
+float fa_fast_atan (float value)
+{
+    return fast_atan (value);
+}
+
 float fa_fast_atan2(float y, float x)
 {
     float sita;

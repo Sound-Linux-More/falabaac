@@ -99,15 +99,18 @@ extern "C"
 //No2.    angle fast function
     float fa_fast_sin(float angle);
     float fa_fast_cos(float angle);
+    float fa_fast_atan (float value);
     float fa_fast_atan2(float y, float x);
 
 #ifdef FA_USE_FASTANGLE
 #define        FA_SIN(x)         (fa_fast_sin(x))
 #define        FA_COS(x)         (fa_fast_cos(x))
+#define        FA_ATAN(x)        (fa_fast_atan(x))
 #define        FA_ATAN2(y,x)     (fa_fast_atan2(y,x))
 #else
 #define        FA_SIN(x)         (sin(x))
 #define        FA_COS(x)         (cos(x))
+#define        FA_ATAN(x)        (atan(x))
 #define        FA_ATAN2(y,x)     (atan2(y,x))
 #endif
 

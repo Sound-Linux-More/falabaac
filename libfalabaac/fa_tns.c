@@ -126,7 +126,7 @@ static int truncate_cof(int order, float threshold, float * kcof)
     for (i = order; i >= 0; i--)
     {
         /*printf("kcof[%d]=%f\n", i, kcof[i]);*/
-        kcof[i] = (fabs(kcof[i])>threshold) ? kcof[i] : 0.0;
+        kcof[i] = (FA_ABS(kcof[i])>threshold) ? kcof[i] : 0.0;
         if (kcof[i]!=0.0) return i;
     }
 

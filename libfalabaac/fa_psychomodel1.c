@@ -120,10 +120,8 @@ static float db_inv(float db)
 {
 #ifdef TEST_MAXMINDB
     /*printf("db=%f\n", db);*/
-    if (db > dbmax)
-        dbmax = db;
-    if (db < dbmin)
-        dbmin = db;
+    dbmax = FA_MAX(db, dbmax);
+    dbmin = FA_MIN(db, dbmin);
 #endif
 
 #ifdef DB_FAST
@@ -171,7 +169,7 @@ static float freq2bark(float freq)
     if (freq < 0)
         freq = 0;
     freq = freq * 0.001;
-    return 13.0 * atan(.76 * freq) + 3.5 * atan(freq * freq / (7.5 * 7.5));
+    return 13.0 * FA_ATAN(.76 * freq) + 3.5 * FA_ATAN(freq * freq / (7.5 * 7.5));
 }
 
 /*cover f(Hz) to SPL(dB)*/
