@@ -46,7 +46,7 @@ endif
 
 CC = $(CROSS)gcc
 
-CFLAGS = -I.
+CFLAGS = -I. -std=c99
 
 ifeq ($(ARCH), ARM)
 	CFLAGS += -D__ARM__ -mcpu=arm9tdmi
@@ -58,8 +58,12 @@ ifeq ($(DEBUG), Y)
 	STRIP = file
 else
 	CFLAGS += -O3
-	#CFLAGS += -Wall
+	CFLAGS += -Wall
 	STRIP = strip
+endif
+
+ifeq ($(shell uname --machine), x86_64)
+	CFLAGS += -fPIC
 endif
 
 AR = $(CROSS)ar
