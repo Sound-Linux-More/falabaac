@@ -25,67 +25,100 @@
 #            it will be changed according to the project
 #
 
-include Makefile.include
+PNAME = falabaac
+VERSION_MAJOR = 2
+VERSION_MINOR = 1
+VERSION_RELEASE = 0
+PREFIX = /usr/local
 
-INCLUDEDIR = ./include
+ARCH =
+DEBUG =
+CROSS =
+STRIP =
 
+ifeq ($(ARCH), ARM)
+	CROSS = arm-linux-
+endif
+
+CC = $(CROSS)gcc
+CFLAGS = -I. -std=c99
+
+ifeq ($(ARCH), ARM)
+	CFLAGS += -D__ARM__ -mcpu=arm9tdmi
+endif
+
+CFLAGS += -Wall -O3
+STRIP = strip
+
+ifneq ($(shell uname -m), i386)
+	CFLAGS += -fPIC
+endif
+
+AR = $(CROSS)ar
+ARFLAG = rcs
+RANLIB = $(CROSS)ranlib
+
+.PHONY : all install clean
+
+INCLUDEDIR = ./src/include
+
+CFLAGS      += -I./src -I$(INCLUDEDIR)
+TARGET       = $(PNAME)
+TLIBA        = lib$(PNAME).a
+TLIBSO       = lib$(PNAME).so.$(VERSION_MAJOR)
+CSRCFILES    = $(shell ls ./src/frontend/*.c)
+CSRCLIBFILES = $(shell ls ./src/lib$(PNAME)/*.c)
+COBJFILES    = $(patsubst %.c,%.o,$(CSRCFILES))
+COBJLIBFILES = $(patsubst %.c,%.o,$(CSRCLIBFILES))
+RM           = rm -f
+INSTALL      = install
+
+LDFLAGS += -lm -lpthread -lrt -L. -l$(PNAME)
 ifeq ($(ARCH),ARCH_ARM)
-LDFLAGS += -L./$(PLIB) -static -l$(PNAME) -lm -lpthread -lrt
+	LDFLAGS += -static
 else
-ifeq ($(DEBUG), Y)
-LDFLAGS += -lm -lpthread -lrt 
+ifeq ($(SHARED), Y)
+	TLIB = $(TLIBSO)
 else
-ifeq ($(SOLIB), Y)
-LDFLAGS += $(PLIB).so.$(VERSION_MAJOR) -lm -lpthread -lrt
-else
-LDFLAGS += -L./$(PLIB) -static -l$(PNAME) -lm -lpthread -lrt
-endif
+	LDFLAGS += -static
+	TLIB = $(TLIBA)
 endif
 endif
 
-ifeq ($(DEBUG), Y)
-TARGET      =  $(PNAME)_g
-CSRCFILES =  $(shell ls ./frontend/*.c)
-CSRCFILES += $(shell ls ./$(PLIB)/*.c)
-COBJFILES =  $(patsubst %.c,%.o,$(CSRCFILES))
-else 
-TARGET      =  $(PNAME)
-CSRCFILES   =  $(shell ls ./frontend/*.c)
-COBJFILES   =  $(patsubst %.c,%.o,$(CSRCFILES))
-endif
+all: $(TLIBA) $(TLIBSO) $(TARGET)
 
+$(TLIBA) : $(COBJLIBFILES)
+	$(AR) $(ARFLAG) $@ $^
 
-SRCFILES    =  $(CSRCFILES)
-OBJFILES    =  $(COBJFILES)
+$(TLIBSO) : $(COBJLIBFILES)
+	$(CC) -shared -Wl,-soname,$@ -o $@ $^
 
-CFLAGS      += -I.  -I$(INCLUDEDIR)
+$(TARGET) : $(COBJFILES) $(TLIB)
+	$(CC) $(CFLAGS) -o $@ $^ $(LDFLAGS)
 
-all: clean preaction $(OBJFILES)
-	@rm $(TARGET) -f
-	$(CC) $(CFLAGS) -o $(TARGET) $(OBJFILES) $(LDFLAGS)
-
-preaction:
-ifeq ($(DEBUG), Y)
-	cd ./$(PLIB)
-	@rm *.o -f
-else 
-	cd ./$(PLIB) && $(MAKE) 
-endif
-	cd ..
+%.o: %.c
+	$(CC) $(CFLAGS) $(INCLUDE) -o $@ -c $<
 
 clean : 
-	@rm ./$(PLIB)/*.o -f
-	@rm ./$(PLIB)/$(PLIB).* -f
-	@rm ./frontend/*.o -f
-	@rm *.out -f	
-	@rm $(PLIB).* -f	
-	@rm $(PNAME) -f	
-	@rm $(PNAME)_g -f	
+	$(RM) $(COBJFILES)
+	$(RM) $(COBJLIBFILES)
+	$(RM) $(TLIBA)
+	$(RM) $(TLIBSO)
+	$(RM) $(TARGET)
 
 install :
-	sudo cp ./$(PLIB)/$(PLIB).a $(PREFIX)/lib/
-	sudo cp ./$(PLIB)/$(PLIB).so.$(VERSION_MAJOR) $(PREFIX)/lib/
-	sudo cp ./include/fa_aacapi.h $(PREFIX)/include/
-	sudo cp ./include/fa_inttypes.h $(PREFIX)/include/
-	sudo cp ./$(PNAME) $(PREFIX)/bin/
+	$(INSTALL) -d $(PREFIX)/lib
+	$(INSTALL) -m 0644 $(TLIBA) $(PREFIX)/lib/
+	$(INSTALL) -m 0644 $(TLIBSO) $(PREFIX)/lib/
+	$(INSTALL) -d $(PREFIX)/bin
+	$(INSTALL) -m 0755 $(TARGET) $(PREFIX)/bin/
+	$(INSTALL) -d $(PREFIX)/include
+	$(INSTALL) -m 0644 ./src/include/fa_aacapi.h $(PREFIX)/include/
+	$(INSTALL) -m 0644 ./src/include/fa_inttypes.h $(PREFIX)/include/
 
+uninstall :
+	$(RM) $(PREFIX)/lib/$(TLIBA)
+	$(RM) $(PREFIX)/lib/$(TLIBSO)
+	$(RM) $(PREFIX)/bin/$(TARGET)
+	$(RM) $(PREFIX)/include/fa_aacapi.h
+	$(RM) $(PREFIX)/include/fa_inttypes.h
