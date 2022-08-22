@@ -107,8 +107,13 @@ extern "C"
 #define UINT64_MAX 0xffffffffffffffffui64 /* 18446744073709551615ULL */
 #endif
 
+#ifdef WIN32
     typedef int intptr_t;
-    typedef unsigned uintptr_t;
+    typedef unsigned int uintptr_t;
+#else
+    typedef long long int intptr_t;
+    typedef unsigned long long int uintptr_t;
+#endif
 
 #ifndef INT64_C
 #   if defined(__GNUC__)

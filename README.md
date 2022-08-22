@@ -6,9 +6,6 @@
 
 # falabaac
 
-### Version
-v2.1.0.230 (2019-07-17)
-
 ### Author
 luolongzhi (Chengdu China)
 
@@ -33,5 +30,5 @@ Besides, falabaac is one part of the falab software. falab is the software
 which give different modules or project to study and develop signal process.
 
 ---
-2019
+2022
 zvezdochiot

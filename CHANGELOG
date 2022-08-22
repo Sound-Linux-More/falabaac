@@ -1,5 +1,9 @@
 # falabaac
 
+2.1.1 (2022-08-22) <zvezdochiot> && <danadam>
+
+    * fix #1: uintptr_t
+
 2.1.0.230 (2019-07-17) <zvezdochiot>
 
     * splint main.c
@@ -30,5 +34,5 @@
     * First version
 
 ---
-2019
+2022
 zvezdochiot

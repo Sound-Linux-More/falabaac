@@ -84,7 +84,7 @@ int main(int argc, char *argv[])
 
     printf("************************************************************\n");
     printf("*                                                          *\n");
-    printf("*              falabaac encoder v2.1.0.230                 *\n");
+    printf("*              falabaac encoder v2.1.1                     *\n");
     printf("*                                                          *\n");
     printf("*   Copyright (C) 2012 luolongzhi ÂÞÁúÖÇ (Chengdu China)   *\n");
     printf("*                    Free Software                         *\n");

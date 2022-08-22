@@ -32,7 +32,11 @@ extern "C"
 #endif
 
 
-    typedef unsigned uintptr_t;
+#ifdef WIN32
+    typedef unsigned int uintptr_t;
+#else
+    typedef unsigned long long int uintptr_t;
+#endif
 
 #define CBANDS_NUM        25
 
