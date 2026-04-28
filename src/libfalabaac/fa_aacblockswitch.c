@@ -27,6 +27,7 @@
 #include <stdlib.h>
 #include <memory.h>
 #include "fa_fastmath.h"
+#include "fa_aacpsy.h"
 #include "fa_aacblockswitch.h"
 #include "fa_aacfilterbank.h"
 #include "fa_aacstream.h"
